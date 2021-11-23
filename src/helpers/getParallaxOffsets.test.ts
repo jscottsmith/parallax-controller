@@ -1,5 +1,5 @@
 import { getParallaxOffsets } from './getParallaxOffsets';
-import { ParallaxStartEndOffsets } from '../types';
+import { ParallaxStartEndOffsets } from '../index';
 import { parseValueAndUnit } from '../utils/parseValueAndUnit';
 import { scaleBetween } from '../utils/scaleBetween';
 

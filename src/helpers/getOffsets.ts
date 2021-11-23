@@ -2,7 +2,7 @@ import {
   OffsetShape,
   ParallaxElementProperties,
   ParallaxStartEndOffsets,
-} from '../types';
+} from '../index';
 import { parseValueAndUnit } from '../utils/parseValueAndUnit';
 
 /**

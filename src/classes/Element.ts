@@ -6,7 +6,7 @@ import {
   ParallaxElementProperties,
   ParallaxStartEndOffsets,
   ValidScrollAxis,
-} from '../types';
+} from '../index';
 import { getOffsets } from '../helpers/getOffsets';
 import { isElementInView } from '../helpers/isElementInView';
 import { percentMoved } from '../helpers/percentMoved';

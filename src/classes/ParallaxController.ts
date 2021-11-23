@@ -10,7 +10,7 @@ import {
   ParallaxElementProperties,
   ValidScrollAxis,
   ViewElement,
-} from '../types';
+} from '../index';
 
 /**
  * -------------------------------------------------------

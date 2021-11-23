@@ -1,4 +1,4 @@
-import { OffsetShape, ParallaxStartEndOffsets } from '../types';
+import { OffsetShape, ParallaxStartEndOffsets } from '../index';
 import { scaleBetween } from '../utils/scaleBetween';
 
 /**
