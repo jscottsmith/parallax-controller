@@ -52,7 +52,9 @@ describe('Expect the ParallaxController', () => {
   });
 
   it('to create an element and return it', () => {
-    const controller = ParallaxController.init({ scrollAxis: VERTICAL });
+    const controller = ParallaxController.init({
+      scrollAxis: ScrollAxis.vertical,
+    });
     const element = controller.createElement(OPTIONS);
     expect(element).toBeInstanceOf(Element);
 
@@ -93,7 +95,9 @@ describe('Expect the ParallaxController', () => {
   });
 
   it('to add created elements into the controller', () => {
-    const controller = ParallaxController.init({ scrollAxis: VERTICAL });
+    const controller = ParallaxController.init({
+      scrollAxis: ScrollAxis.vertical,
+    });
     const element = controller.createElement(OPTIONS);
     const elements = controller.getElements();
 
@@ -102,7 +106,9 @@ describe('Expect the ParallaxController', () => {
   });
 
   it('to remove elements from the controller', () => {
-    const controller = ParallaxController.init({ scrollAxis: VERTICAL });
+    const controller = ParallaxController.init({
+      scrollAxis: ScrollAxis.vertical,
+    });
     const element = controller.createElement(OPTIONS);
     expect(controller.getElements()[0]).toEqual(element);
 
@@ -113,7 +119,9 @@ describe('Expect the ParallaxController', () => {
 
   it("to throw if matching units aren't provided", () => {
     window.removeEventListener = jest.fn();
-    const controller = ParallaxController.init({ scrollAxis: VERTICAL });
+    const controller = ParallaxController.init({
+      scrollAxis: ScrollAxis.vertical,
+    });
 
     const incorrectOffsets = {
       elInner: document.createElement('div'),
@@ -134,7 +142,9 @@ describe('Expect the ParallaxController', () => {
 
   it('to remove listeners when destroyed', () => {
     window.removeEventListener = jest.fn();
-    const controller = ParallaxController.init({ scrollAxis: VERTICAL });
+    const controller = ParallaxController.init({
+      scrollAxis: ScrollAxis.vertical,
+    });
     // @ts-ignore
     expect(window.removeEventListener.mock.calls[0]).toEqual(
       expect.arrayContaining(['test', null, expect.any(Object)])
