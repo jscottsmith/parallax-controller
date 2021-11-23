@@ -4,9 +4,13 @@ import { Scroll } from './Scroll';
 import { Element } from './Element';
 import { VERTICAL } from '../constants';
 import { testForPassiveScroll } from '../utils/testForPassiveScroll';
-import { ValidScrollAxis } from '../types';
-
-export type ViewElement = HTMLElement | Window;
+import {
+  CreateElementOptions,
+  ParallaxControllerOptions,
+  ParallaxElementProperties,
+  ValidScrollAxis,
+  ViewElement,
+} from '../types';
 
 /**
  * -------------------------------------------------------
@@ -20,23 +24,6 @@ export type ViewElement = HTMLElement | Window;
  * based on x/y offsets and current scroll position.
  *
  */
-
-export type ParallaxControllerOptions = {
-  scrollAxis?: ValidScrollAxis;
-  scrollContainer?: HTMLElement;
-};
-
-export type ParallaxElementProperties = {
-  disabled?: boolean;
-  translateX: string[] | number[];
-  translateY: string[] | number[];
-};
-
-export type CreateElementOptions = {
-  elInner?: HTMLElement;
-  elOuter?: HTMLElement;
-  props: ParallaxElementProperties;
-};
 
 export class ParallaxController {
   elements: Element[];
@@ -183,7 +170,7 @@ export class ParallaxController {
    */
   private _updateAllElements({ updateCache }: { updateCache?: boolean } = {}) {
     if (this.elements) {
-      this.elements.forEach((element) => {
+      this.elements.forEach(element => {
         this._updateElementPosition(element);
         if (updateCache) {
           element.setCachedAttributes(this.view, this.scroll);
@@ -259,7 +246,7 @@ export class ParallaxController {
    */
   removeElementById(id: number) {
     if (!this.elements) return;
-    this.elements = this.elements.filter((el) => el.id !== id);
+    this.elements = this.elements.filter(el => el.id !== id);
   }
 
   /**
@@ -269,7 +256,7 @@ export class ParallaxController {
    */
   updateElementPropsById(id: number, props: ParallaxElementProperties): void {
     if (this.elements) {
-      this.elements = this.elements.map((el) => {
+      this.elements = this.elements.map(el => {
         if (el.id === id) {
           return el.updateProps(props);
         }
@@ -314,7 +301,7 @@ export class ParallaxController {
   destroy() {
     this._removeListeners(this.viewEl);
     if (this.elements) {
-      this.elements.forEach((element) => resetStyles(element));
+      this.elements.forEach(element => resetStyles(element));
     }
     // @ts-expect-error
     this.elements = undefined;

@@ -23,3 +23,21 @@ export type OffsetShape = {
   value: number;
   unit: ValidUnits;
 };
+
+export type ViewElement = HTMLElement | Window;
+export type ParallaxControllerOptions = {
+  scrollAxis?: ValidScrollAxis;
+  scrollContainer?: HTMLElement;
+};
+
+export type ParallaxElementProperties = {
+  disabled?: boolean;
+  translateX: string[] | number[];
+  translateY: string[] | number[];
+};
+
+export type CreateElementOptions = {
+  elInner?: HTMLElement;
+  elOuter?: HTMLElement;
+  props: ParallaxElementProperties;
+};

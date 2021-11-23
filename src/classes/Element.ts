@@ -1,16 +1,17 @@
 import { VERTICAL } from '../constants';
 import { Bounds } from './Bounds';
 import { Rect } from './Rect';
-import { ParallaxStartEndOffsets, ValidScrollAxis } from '../types';
+import {
+  CreateElementOptions,
+  ParallaxElementProperties,
+  ParallaxStartEndOffsets,
+  ValidScrollAxis,
+} from '../types';
 import { getOffsets } from '../helpers/getOffsets';
 import { isElementInView } from '../helpers/isElementInView';
 import { percentMoved } from '../helpers/percentMoved';
 import { setParallaxStyles } from '../helpers/elementStyles';
 import { createId } from '../utils/createId';
-import {
-  CreateElementOptions,
-  ParallaxElementProperties,
-} from './ParallaxController';
 import { View } from './View';
 import { Scroll } from './Scroll';
 

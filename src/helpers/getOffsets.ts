@@ -1,5 +1,8 @@
-import { ParallaxElementProperties } from '../classes/ParallaxController';
-import { OffsetShape, ParallaxStartEndOffsets } from '../types';
+import {
+  OffsetShape,
+  ParallaxElementProperties,
+  ParallaxStartEndOffsets,
+} from '../types';
 import { parseValueAndUnit } from '../utils/parseValueAndUnit';
 
 /**
