@@ -1,4 +1,4 @@
-import { OffsetShape } from '../index';
+import { OffsetShape } from '../types';
 
 /**
  * Determines the unit of a string and parses the value

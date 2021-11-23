@@ -1,12 +1,12 @@
-import { VERTICAL } from '../constants';
 import { Bounds } from './Bounds';
 import { Rect } from './Rect';
 import {
   CreateElementOptions,
   ParallaxElementProperties,
   ParallaxStartEndOffsets,
+  ScrollAxis,
   ValidScrollAxis,
-} from '../index';
+} from '../types';
 import { getOffsets } from '../helpers/getOffsets';
 import { isElementInView } from '../helpers/isElementInView';
 import { percentMoved } from '../helpers/percentMoved';
@@ -43,7 +43,7 @@ export class Element {
     this.percent = 0;
 
     this.updatePosition =
-      options.scrollAxis === VERTICAL
+      options.scrollAxis === ScrollAxis.vertical
         ? this._updatePositionVertical
         : this._updatePositionHorizontal;
   }

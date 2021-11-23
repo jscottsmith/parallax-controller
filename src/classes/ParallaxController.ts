@@ -2,15 +2,15 @@ import { resetStyles } from '../helpers/elementStyles';
 import { View } from './View';
 import { Scroll } from './Scroll';
 import { Element } from './Element';
-import { VERTICAL } from '../constants';
 import { testForPassiveScroll } from '../utils/testForPassiveScroll';
 import {
   CreateElementOptions,
   ParallaxControllerOptions,
   ParallaxElementProperties,
+  ScrollAxis,
   ValidScrollAxis,
   ViewElement,
-} from '../index';
+} from '../types';
 
 /**
  * -------------------------------------------------------
@@ -52,7 +52,7 @@ export class ParallaxController {
   }
 
   constructor({
-    scrollAxis = VERTICAL,
+    scrollAxis = ScrollAxis.vertical,
     scrollContainer,
   }: ParallaxControllerOptions) {
     this.scrollAxis = scrollAxis;

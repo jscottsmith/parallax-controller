@@ -1,5 +1,5 @@
 import { Element } from '../classes/Element';
-import { ParallaxStartEndOffsets } from '../index';
+import { ParallaxStartEndOffsets } from '../types';
 import { getParallaxOffsets } from './getParallaxOffsets';
 
 /**

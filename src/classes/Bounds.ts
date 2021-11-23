@@ -1,4 +1,4 @@
-import { ParallaxStartEndOffsets } from '../index';
+import { ParallaxStartEndOffsets } from '../types';
 import { Rect } from './Rect';
 import { View } from './View';
 

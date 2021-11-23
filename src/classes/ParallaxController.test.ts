@@ -2,7 +2,7 @@ import { ParallaxController } from './ParallaxController';
 import { Element } from './Element';
 import { Rect } from './Rect';
 import { Bounds } from './Bounds';
-import { VERTICAL } from '../constants';
+import { ScrollAxis } from '..';
 
 const addEventListener = window.addEventListener;
 const removeEventListener = window.removeEventListener;
@@ -24,14 +24,18 @@ describe('Expect the ParallaxController', () => {
   });
 
   it('to return an instance on init', () => {
-    const controller = ParallaxController.init({ scrollAxis: VERTICAL });
+    const controller = ParallaxController.init({
+      scrollAxis: ScrollAxis.vertical,
+    });
     expect(controller).toBeInstanceOf(ParallaxController);
     controller.destroy();
   });
 
   it('to add listeners when init', () => {
     window.addEventListener = jest.fn();
-    const controller = ParallaxController.init({ scrollAxis: VERTICAL });
+    const controller = ParallaxController.init({
+      scrollAxis: ScrollAxis.vertical,
+    });
     // @ts-ignore
     expect(window.addEventListener.mock.calls[0]).toEqual(
       expect.arrayContaining(['test', null, expect.any(Object)])

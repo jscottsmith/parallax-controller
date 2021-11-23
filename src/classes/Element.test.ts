@@ -2,7 +2,7 @@ import { Element } from './Element';
 import { View } from './View';
 import { Scroll } from './Scroll';
 import { createElementMock } from '../testUtils/createElementMock';
-import { ScrollAxis } from '../index';
+import { ScrollAxis } from '../types';
 
 const DEFAULT_OPTIONS = {
   elInner: document.createElement('div'),
