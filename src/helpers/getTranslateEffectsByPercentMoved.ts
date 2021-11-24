@@ -7,15 +7,15 @@ import { scaleBetween } from '../utils/scaleBetween';
  * and the min/max offsets
  */
 
-type ParallaxOffset = {
-  x: OffsetShape;
-  y: OffsetShape;
+type TranslateEffectShape = {
+  translateX: OffsetShape;
+  translateY: OffsetShape;
 };
 
-export function getParallaxOffsets(
+export function getTranslateEffectsByPercentMoved(
   offsets: ParallaxStartEndOffsets,
   percentMoved: number
-): ParallaxOffset {
+): TranslateEffectShape {
   const { translateY, translateX, yUnit, xUnit } = offsets;
 
   const x = scaleBetween(
@@ -34,11 +34,11 @@ export function getParallaxOffsets(
   );
 
   return {
-    x: {
+    translateX: {
       value: x,
       unit: xUnit,
     },
-    y: {
+    translateY: {
       value: y,
       unit: yUnit,
     },

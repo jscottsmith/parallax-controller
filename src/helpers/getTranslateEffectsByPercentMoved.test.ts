@@ -1,4 +1,4 @@
-import { getParallaxOffsets } from './getParallaxOffsets';
+import { getTranslateEffectsByPercentMoved } from './getTranslateEffectsByPercentMoved';
 import { ParallaxStartEndOffsets } from '../types';
 import { parseValueAndUnit } from '../utils/parseValueAndUnit';
 import { scaleBetween } from '../utils/scaleBetween';
@@ -13,8 +13,8 @@ const offset: ParallaxStartEndOffsets = {
 const percentMoved = 44;
 
 test('Gets offsets based on percent in view', () => {
-  expect(getParallaxOffsets(offset, percentMoved)).toEqual({
-    x: {
+  expect(getTranslateEffectsByPercentMoved(offset, percentMoved)).toEqual({
+    translateX: {
       value: scaleBetween(
         percentMoved,
         offset.translateX[0].value,
@@ -24,7 +24,7 @@ test('Gets offsets based on percent in view', () => {
       ),
       unit: offset.xUnit,
     },
-    y: {
+    translateY: {
       value: scaleBetween(
         percentMoved,
         offset.translateY[0].value,
