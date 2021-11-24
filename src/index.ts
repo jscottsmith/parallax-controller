@@ -7,7 +7,7 @@ import { View } from './classes/View';
 
 import { setParallaxStyles, resetStyles } from './helpers/elementStyles';
 import { parseElementTransitionEffects } from './helpers/parseElementTransitionEffects';
-import { getTranslateEffectsByPercentMoved } from './helpers/getTranslateEffectsByPercentMoved';
+import { scaleEffectByPercentMoved } from './helpers/scaleEffectByPercentMoved';
 import { isElementInView } from './helpers/isElementInView';
 import { percentMoved } from './helpers/percentMoved';
 
@@ -28,7 +28,7 @@ export {
   setParallaxStyles,
   resetStyles,
   parseElementTransitionEffects,
-  getTranslateEffectsByPercentMoved,
+  scaleEffectByPercentMoved,
   isElementInView,
   percentMoved,
   createId,

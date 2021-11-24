@@ -1,6 +1,6 @@
 import { Element } from '../classes/Element';
 import { ParallaxStartEndEffects } from '../types';
-import { getTranslateEffectsByPercentMoved } from './getTranslateEffectsByPercentMoved';
+import { scaleEffectByPercentMoved } from './scaleEffectByPercentMoved';
 
 /**
  * Takes a parallax element and set the styles based on the
@@ -11,14 +11,16 @@ export function setParallaxStyles(
   effects: ParallaxStartEndEffects,
   percentMoved: number
 ) {
-  // Get the parallax X and Y offsets
-  const {
-    translateX: { value: xv, unit: xu },
-    translateY: { value: yv, unit: yu },
-  } = getTranslateEffectsByPercentMoved(effects, percentMoved);
+  const translateX =
+    effects.translateX &&
+    scaleEffectByPercentMoved(effects.translateX, percentMoved);
+
+  const translateY =
+    effects.translateY &&
+    scaleEffectByPercentMoved(effects.translateY, percentMoved);
 
   // Apply styles
-  elInner.style.transform = `translate3d(${xv}${xu}, ${yv}${yu}, 0)`;
+  elInner.style.transform = `translate3d(${translateX?.value}${translateX?.unit}, ${translateY?.value}${translateY?.unit}, 0)`;
 }
 
 /**
