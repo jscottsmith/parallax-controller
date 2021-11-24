@@ -1,7 +1,7 @@
-import { getOffsets } from './getOffsets';
+import { parseElementTransitionEffects } from './parseElementTransitionEffects';
 import { parseValueAndUnit } from '../utils/parseValueAndUnit';
 
-describe('getOffsets', () => {
+describe('parseElementTransitionEffects', () => {
   it('returns the offset properties to an element with defaults', () => {
     const props: {
       translateY: string[] | number[];
@@ -10,7 +10,7 @@ describe('getOffsets', () => {
       translateY: [0, 0],
       translateX: [0, 0],
     };
-    expect(getOffsets(props)).toEqual({
+    expect(parseElementTransitionEffects(props)).toEqual({
       xUnit: '%',
       yUnit: '%',
       translateY: [
@@ -32,7 +32,7 @@ describe('getOffsets', () => {
       translateY: ['100px', '-50px'],
       translateX: ['100%', '300%'],
     };
-    expect(getOffsets(props)).toEqual({
+    expect(parseElementTransitionEffects(props)).toEqual({
       xUnit: '%',
       yUnit: 'px',
       translateY: [
@@ -51,6 +51,6 @@ describe('getOffsets', () => {
       translateY: string[] | number[];
       translateX: string[] | number[];
     } = { translateY: ['100px', '-50%'], translateX: ['100px', '300%'] };
-    expect(() => getOffsets(props)).toThrow();
+    expect(() => parseElementTransitionEffects(props)).toThrow();
   });
 });

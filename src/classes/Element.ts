@@ -7,7 +7,7 @@ import {
   ScrollAxis,
   ValidScrollAxis,
 } from '../types';
-import { getOffsets } from '../helpers/getOffsets';
+import { parseElementTransitionEffects } from '../helpers/parseElementTransitionEffects';
 import { isElementInView } from '../helpers/isElementInView';
 import { percentMoved } from '../helpers/percentMoved';
 import { setParallaxStyles } from '../helpers/elementStyles';
@@ -25,7 +25,7 @@ export class Element {
   props: ParallaxElementProperties;
   scrollAxis: ValidScrollAxis;
   id: number;
-  offsets: ParallaxStartEndOffsets;
+  effects: ParallaxStartEndOffsets;
   isInView: boolean | null;
   percent: number;
   rect?: Rect;
@@ -38,7 +38,7 @@ export class Element {
     this.props = options.props;
     this.scrollAxis = options.scrollAxis;
     this.id = createId();
-    this.offsets = getOffsets(this.props);
+    this.effects = parseElementTransitionEffects(this.props);
     this.isInView = null;
     this.percent = 0;
 
@@ -50,7 +50,7 @@ export class Element {
 
   updateProps(nextProps: ParallaxElementProperties) {
     this.props = { ...this.props, ...nextProps };
-    this.offsets = getOffsets(nextProps);
+    this.effects = parseElementTransitionEffects(nextProps);
     return this;
   }
 
@@ -58,7 +58,10 @@ export class Element {
     if (!this.elOuter) return this;
 
     this.rect = new Rect(this.elOuter, view, scroll);
-    this.bounds = new Bounds(this.rect, this.offsets, view);
+    this.bounds = new Bounds(this.rect, view, {
+      translateX: this.effects.translateX,
+      translateY: this.effects.translateY,
+    });
     return this;
   }
 
@@ -81,7 +84,7 @@ export class Element {
       scroll.x
     );
 
-    setParallaxStyles(this.elInner, this.offsets, this.percent);
+    setParallaxStyles(this.elInner, this.effects, this.percent);
 
     return this;
   }
@@ -105,7 +108,7 @@ export class Element {
       scroll.y
     );
 
-    setParallaxStyles(this.elInner, this.offsets, this.percent);
+    setParallaxStyles(this.elInner, this.effects, this.percent);
 
     return this;
   }

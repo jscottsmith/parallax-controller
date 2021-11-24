@@ -6,10 +6,9 @@ import {
 import { parseValueAndUnit } from '../utils/parseValueAndUnit';
 
 /**
- * Takes a parallax element and parses the offset props to get the value
- * and unit. Sets these values as offset object accessible on the element.
+ * Takes a parallax element effects and parses the properties to get the start and end values and units.
  */
-export function getOffsets(
+export function parseElementTransitionEffects(
   props: ParallaxElementProperties
 ): ParallaxStartEndOffsets {
   const translateY: [OffsetShape, OffsetShape] = [

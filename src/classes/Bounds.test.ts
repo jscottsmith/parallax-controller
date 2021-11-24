@@ -12,6 +12,7 @@ describe.each([
       originTotalDistY: 300,
       originTotalDistX: 1700,
     },
+    { width: 1000, height: 100 },
     {
       translateY: [
         { value: 0, unit: 'px' },
@@ -22,7 +23,6 @@ describe.each([
         { value: 0, unit: 'px' },
       ],
     },
-    { width: 1000, height: 100 },
     {
       totalDistX: 1700,
       totalDistY: 300,
@@ -43,6 +43,7 @@ describe.each([
       originTotalDistY: 700,
       originTotalDistX: 700,
     },
+    { width: 500, height: 500 },
     {
       translateY: [
         { value: -10, unit: '%' },
@@ -53,7 +54,6 @@ describe.each([
         { value: -10, unit: '%' },
       ],
     },
-    { width: 500, height: 500 },
     {
       totalDistX: 740,
       totalDistY: 740,
@@ -74,9 +74,8 @@ describe.each([
       originTotalDistY: 875,
       originTotalDistX: 1005,
     },
+    { width: 805, height: 675 },
     {
-      xUnit: '%',
-      yUnit: '%',
       translateY: [
         { value: 50, unit: '%' },
         { value: -50, unit: '%' },
@@ -86,7 +85,6 @@ describe.each([
         { value: 0, unit: '%' },
       ],
     },
-    { width: 805, height: 675 },
     {
       totalDistX: 1005,
       totalDistY: 1075,
@@ -107,9 +105,8 @@ describe.each([
       originTotalDistY: 875,
       originTotalDistX: 1224,
     },
+    { width: 1024, height: 675 },
     {
-      xUnit: '%',
-      yUnit: '%',
       translateY: [
         { value: 50, unit: '%' },
         { value: -50, unit: '%' },
@@ -119,7 +116,6 @@ describe.each([
         { value: 0, unit: '%' },
       ],
     },
-    { width: 1024, height: 675 },
     {
       totalDistX: 1224,
       totalDistY: 1075,
@@ -140,9 +136,8 @@ describe.each([
       originTotalDistY: 875,
       originTotalDistX: 1224,
     },
+    { width: 1024, height: 675 },
     {
-      xUnit: '%',
-      yUnit: '%',
       translateY: [
         { value: 0, unit: '%' },
         { value: 0, unit: '%' },
@@ -152,7 +147,6 @@ describe.each([
         { value: 50, unit: '%' },
       ],
     },
-    { width: 1024, height: 675 },
     {
       totalDistX: 1424,
       totalDistY: 875,
@@ -173,9 +167,8 @@ describe.each([
       originTotalDistY: 915,
       originTotalDistX: 1127,
     },
+    { width: 1024, height: 813 },
     {
-      xUnit: '%',
-      yUnit: '%',
       translateY: [
         { value: 50, unit: '%' },
         { value: -50, unit: '%' },
@@ -185,7 +178,6 @@ describe.each([
         { value: -50, unit: '%' },
       ],
     },
-    { width: 1024, height: 813 },
     {
       totalDistX: 1230,
       totalDistY: 1017,
@@ -206,9 +198,8 @@ describe.each([
       originTotalDistY: 915,
       originTotalDistX: 1126,
     },
+    { width: 1024, height: 813 },
     {
-      xUnit: '%',
-      yUnit: '%',
       translateY: [
         { value: -50, unit: '%' },
         { value: 50, unit: '%' },
@@ -218,7 +209,6 @@ describe.each([
         { value: 50, unit: '%' },
       ],
     },
-    { width: 1024, height: 813 },
     {
       totalDistX: 1228,
       totalDistY: 1017,
@@ -239,9 +229,8 @@ describe.each([
       originTotalDistY: 915,
       originTotalDistX: 1127,
     },
+    { width: 1024, height: 813 },
     {
-      xUnit: '%',
-      yUnit: '%',
       translateY: [
         { value: 50, unit: '%' },
         { value: -50, unit: '%' },
@@ -251,7 +240,6 @@ describe.each([
         { value: -50, unit: '%' },
       ],
     },
-    { width: 1024, height: 813 },
     {
       totalDistX: 1230,
       totalDistY: 1017,
@@ -272,6 +260,7 @@ describe.each([
       originTotalDistY: 843,
       originTotalDistX: 1179,
     },
+    { width: 979, height: 643 },
     {
       xUnit: '%',
       yUnit: 'px',
@@ -284,7 +273,6 @@ describe.each([
         { value: 0, unit: '%' },
       ],
     },
-    { width: 979, height: 643 },
     {
       totalDistX: 1179,
       totalDistY: 1013,
@@ -305,6 +293,7 @@ describe.each([
       originTotalDistY: 718,
       originTotalDistX: 966,
     },
+    { width: 891, height: 643 },
     {
       xUnit: '%',
       yUnit: 'px',
@@ -317,7 +306,6 @@ describe.each([
         { value: 0, unit: '%' },
       ],
     },
-    { width: 891, height: 643 },
     {
       totalDistX: 966,
       totalDistY: 1043,

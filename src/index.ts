@@ -6,7 +6,7 @@ import { Scroll } from './classes/Scroll';
 import { View } from './classes/View';
 
 import { setParallaxStyles, resetStyles } from './helpers/elementStyles';
-import { getOffsets } from './helpers/getOffsets';
+import { parseElementTransitionEffects } from './helpers/parseElementTransitionEffects';
 import { getParallaxOffsets } from './helpers/getParallaxOffsets';
 import { isElementInView } from './helpers/isElementInView';
 import { percentMoved } from './helpers/percentMoved';
@@ -27,7 +27,7 @@ export {
   View,
   setParallaxStyles,
   resetStyles,
-  getOffsets,
+  parseElementTransitionEffects,
   getParallaxOffsets,
   isElementInView,
   percentMoved,

@@ -1,11 +1,11 @@
 import createNodeMock from '../testUtils/createNodeMock';
 import { setParallaxStyles } from './elementStyles';
-import { getOffsets } from './getOffsets';
+import { parseElementTransitionEffects } from './parseElementTransitionEffects';
 
 type Offset = string | number;
 
 function createOffsets(x0: Offset, x1: Offset, y0: Offset, y1: Offset) {
-  return getOffsets({
+  return parseElementTransitionEffects({
     // @ts-expect-error
     translateX: [x0, x1],
     // @ts-expect-error

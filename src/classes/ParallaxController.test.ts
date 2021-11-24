@@ -69,7 +69,7 @@ describe('Expect the ParallaxController', () => {
       elOuter: document.createElement('div'),
       percent: 100,
       updatePosition: expect.any(Function),
-      offsets: {
+      effects: {
         translateY: [
           { unit: '%', value: 0 },
           { unit: '%', value: 0 },
@@ -88,6 +88,7 @@ describe('Expect the ParallaxController', () => {
       },
     };
     expect(element).toMatchObject(expectedElement);
+    expect(element).toBeInstanceOf(Element);
     expect(element.bounds).toBeInstanceOf(Bounds);
     expect(element.rect).toBeInstanceOf(Rect);
 

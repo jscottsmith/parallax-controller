@@ -1,4 +1,4 @@
-import { ParallaxStartEndOffsets } from '../types';
+import { OffsetShape } from '..';
 import { Rect } from './Rect';
 import { View } from './View';
 
@@ -10,11 +10,16 @@ export class Bounds {
   left: number;
   right: number;
 
-  constructor(rect: Rect, offsets: ParallaxStartEndOffsets, view: View) {
-    const {
-      translateY: [y0, y1],
-      translateX: [x0, x1],
-    } = offsets;
+  constructor(
+    rect: Rect,
+    view: View,
+    translate: {
+      translateY: OffsetShape[];
+      translateX: OffsetShape[];
+    }
+  ) {
+    const [x0, x1] = translate.translateX;
+    const [y0, y1] = translate.translateY;
 
     // Y offsets
     const yPercent = y1.unit === '%' && y0.unit === '%';
