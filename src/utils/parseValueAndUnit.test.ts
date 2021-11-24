@@ -1,6 +1,7 @@
 import { parseValueAndUnit } from './parseValueAndUnit';
 
 test('Parse a string to get the value and unit in either pixels or percent', () => {
+  expect(parseValueAndUnit()).toEqual({ unit: 'px', value: 0 });
   expect(parseValueAndUnit('5px')).toEqual({ unit: 'px', value: 5 });
   expect(parseValueAndUnit('52%')).toEqual({ unit: '%', value: 52 });
   expect(parseValueAndUnit(13.333)).toEqual({ unit: '%', value: 13.333 });

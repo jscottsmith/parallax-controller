@@ -4,10 +4,11 @@ import { OffsetShape } from '../types';
  * Determines the unit of a string and parses the value
  */
 
-export function parseValueAndUnit(
-  str: string | number,
-  out: OffsetShape = { value: 0, unit: 'px' }
-): OffsetShape {
+export function parseValueAndUnit(str?: string | number): OffsetShape {
+  let out: OffsetShape = { value: 0, unit: 'px' };
+
+  if (typeof str === 'undefined') return out;
+
   const isValid = typeof str === 'number' || typeof str === 'string';
 
   if (!isValid) {
