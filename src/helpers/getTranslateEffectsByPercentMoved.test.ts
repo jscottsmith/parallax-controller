@@ -1,11 +1,9 @@
 import { getTranslateEffectsByPercentMoved } from './getTranslateEffectsByPercentMoved';
-import { ParallaxStartEndEffects } from '../types';
 import { parseValueAndUnit } from '../utils/parseValueAndUnit';
 import { scaleBetween } from '../utils/scaleBetween';
+import { OffsetShape } from '..';
 
-const offset: ParallaxStartEndEffects = {
-  xUnit: 'px',
-  yUnit: '%',
+const offset: { translateX: OffsetShape[]; translateY: OffsetShape[] } = {
   translateX: [parseValueAndUnit('-100px'), parseValueAndUnit('40px')],
   translateY: [parseValueAndUnit('-80%'), parseValueAndUnit('50%')],
 };
@@ -22,7 +20,7 @@ test('Gets offsets based on percent in view', () => {
         0,
         100
       ),
-      unit: offset.xUnit,
+      unit: 'px',
     },
     translateY: {
       value: scaleBetween(
@@ -32,7 +30,7 @@ test('Gets offsets based on percent in view', () => {
         0,
         100
       ),
-      unit: offset.yUnit,
+      unit: '%',
     },
   });
 });

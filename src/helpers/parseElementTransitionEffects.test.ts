@@ -1,4 +1,7 @@
-import { parseElementTransitionEffects } from './parseElementTransitionEffects';
+import {
+  PARALLAX_EFFECTS,
+  parseElementTransitionEffects,
+} from './parseElementTransitionEffects';
 import { parseValueAndUnit } from '../utils/parseValueAndUnit';
 
 describe('parseElementTransitionEffects', () => {
@@ -11,8 +14,6 @@ describe('parseElementTransitionEffects', () => {
       translateX: [0, 0],
     };
     expect(parseElementTransitionEffects(props)).toEqual({
-      xUnit: '%',
-      yUnit: '%',
       translateY: [
         parseValueAndUnit(props.translateY[0]),
         parseValueAndUnit(props.translateY[1]),
@@ -33,8 +34,6 @@ describe('parseElementTransitionEffects', () => {
       translateX: ['100%', '300%'],
     };
     expect(parseElementTransitionEffects(props)).toEqual({
-      xUnit: '%',
-      yUnit: 'px',
       translateY: [
         parseValueAndUnit(props.translateY[0]),
         parseValueAndUnit(props.translateY[1]),
@@ -44,6 +43,32 @@ describe('parseElementTransitionEffects', () => {
         parseValueAndUnit(props.translateX[1]),
       ],
     });
+  });
+
+  it('parses and returns all parallax effects', () => {
+    const effects = PARALLAX_EFFECTS.reduce((acc: any, effect, i) => {
+      acc[effect] = [`${i * 1}px`, `${i * -1}px`];
+      return acc;
+    }, {});
+
+    const expectedParsedEffects = PARALLAX_EFFECTS.reduce(
+      (acc: any, effect, i) => {
+        acc[effect] = [
+          parseValueAndUnit(`${i * 1}px`),
+          parseValueAndUnit(`${i * -1}px`),
+        ];
+        return acc;
+      },
+      {}
+    );
+
+    expect(parseElementTransitionEffects(effects)).toEqual(
+      expectedParsedEffects
+    );
+  });
+
+  it('ignores and omits effects if no values are provided', () => {
+    expect(parseElementTransitionEffects({})).toEqual({});
   });
 
   it("to throw if matching units aren't provided", () => {

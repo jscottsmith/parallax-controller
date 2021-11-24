@@ -2,7 +2,7 @@ import { Bounds } from './Bounds';
 import { Rect } from './Rect';
 import {
   CreateElementOptions,
-  ParallaxElementProperties,
+  ParallaxElementEffectProperties,
   ParallaxStartEndEffects,
   ScrollAxis,
   ValidScrollAxis,
@@ -22,7 +22,7 @@ type ElementConstructorOptions = CreateElementOptions & {
 export class Element {
   elInner?: HTMLElement;
   elOuter?: HTMLElement;
-  props: ParallaxElementProperties;
+  props: ParallaxElementEffectProperties;
   scrollAxis: ValidScrollAxis;
   id: number;
   effects: ParallaxStartEndEffects;
@@ -48,7 +48,7 @@ export class Element {
         : this._updatePositionHorizontal;
   }
 
-  updateProps(nextProps: ParallaxElementProperties) {
+  updateProps(nextProps: ParallaxElementEffectProperties) {
     this.props = { ...this.props, ...nextProps };
     this.effects = parseElementTransitionEffects(nextProps);
     return this;
@@ -58,10 +58,12 @@ export class Element {
     if (!this.elOuter) return this;
 
     this.rect = new Rect(this.elOuter, view, scroll);
-    this.bounds = new Bounds(this.rect, view, {
+
+    const translate = {
       translateX: this.effects.translateX,
       translateY: this.effects.translateY,
-    });
+    };
+    this.bounds = new Bounds(this.rect, view, translate);
     return this;
   }
 

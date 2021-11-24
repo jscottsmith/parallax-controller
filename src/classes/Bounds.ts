@@ -2,9 +2,14 @@ import { OffsetShape } from '..';
 import { Rect } from './Rect';
 import { View } from './View';
 
+const DEFAULT_VALUE = [
+  { value: 0, unit: '' },
+  { value: 0, unit: '' },
+];
+
 export type TranslateEffectsShape = {
-  translateY: OffsetShape[];
-  translateX: OffsetShape[];
+  translateY: OffsetShape[] | undefined;
+  translateX: OffsetShape[] | undefined;
 };
 export class Bounds {
   totalDistY: number;
@@ -15,8 +20,31 @@ export class Bounds {
   right: number;
 
   constructor(rect: Rect, view: View, translate: TranslateEffectsShape) {
-    const [x0, x1] = translate.translateX;
-    const [y0, y1] = translate.translateY;
+    // basic bounds
+    this.totalDistY = view.height + rect.height;
+    this.totalDistX = view.width + rect.width;
+    this.top = rect.top;
+    this.bottom = rect.bottom;
+    this.left = rect.left;
+    this.right = rect.right;
+
+    if (translate.translateX || translate.translateY) {
+      this.setBoundsWithTranslations(rect, view, translate);
+    }
+  }
+  /**
+   * Sets the bounds based on X/Y
+   */
+  setBoundsWithTranslations(
+    rect: Rect,
+    view: View,
+    translate: {
+      translateY: OffsetShape[] | undefined;
+      translateX: OffsetShape[] | undefined;
+    }
+  ) {
+    const [x0, x1] = translate.translateX || DEFAULT_VALUE;
+    const [y0, y1] = translate.translateY || DEFAULT_VALUE;
 
     // Y offsets
     const yPercent = y1.unit === '%' && y0.unit === '%';

@@ -78,8 +78,6 @@ describe('Expect the ParallaxController', () => {
           { unit: '%', value: 0 },
           { unit: '%', value: 0 },
         ],
-        xUnit: '%',
-        yUnit: '%',
       },
       props: {
         disabled: false,

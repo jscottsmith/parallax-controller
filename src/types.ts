@@ -1,8 +1,12 @@
 export type ParallaxStartEndEffects = {
-  xUnit: ValidUnits;
-  yUnit: ValidUnits;
-  translateX: OffsetShape[];
-  translateY: OffsetShape[];
+  translateX?: OffsetShape[];
+  translateY?: OffsetShape[];
+  rotate?: OffsetShape[];
+  rotateX?: OffsetShape[];
+  rotateY?: OffsetShape[];
+  rotateZ?: OffsetShape[];
+  scale?: OffsetShape[];
+  opacity?: OffsetShape[];
 };
 
 export enum Units {
@@ -30,14 +34,20 @@ export type ParallaxControllerOptions = {
   scrollContainer?: HTMLElement;
 };
 
-export type ParallaxElementProperties = {
+export type ParallaxElementEffectProperties = {
   disabled?: boolean;
-  translateX: string[] | number[];
-  translateY: string[] | number[];
+  translateX?: string[] | number[];
+  translateY?: string[] | number[];
+  rotate?: string[] | number[];
+  rotateX?: string[] | number[];
+  rotateY?: string[] | number[];
+  rotateZ?: string[] | number[];
+  scale?: string[] | number[];
+  opacity?: number[];
 };
 
 export type CreateElementOptions = {
   elInner?: HTMLElement;
   elOuter?: HTMLElement;
-  props: ParallaxElementProperties;
+  props: ParallaxElementEffectProperties;
 };

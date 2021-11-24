@@ -1,41 +1,49 @@
 import {
   OffsetShape,
-  ParallaxElementProperties,
+  ParallaxElementEffectProperties,
   ParallaxStartEndEffects,
 } from '../types';
 import { parseValueAndUnit } from '../utils/parseValueAndUnit';
 
+export const PARALLAX_EFFECTS = [
+  'translateX',
+  'translateY',
+  'rotate',
+  'rotateX',
+  'rotateY',
+  'rotateZ',
+  'scale',
+  'opacity',
+];
 /**
  * Takes a parallax element effects and parses the properties to get the start and end values and units.
  */
 export function parseElementTransitionEffects(
-  props: ParallaxElementProperties
+  props: ParallaxElementEffectProperties
 ): ParallaxStartEndEffects {
-  const translateY: [OffsetShape, OffsetShape] = [
-    parseValueAndUnit(props.translateY[0]),
-    parseValueAndUnit(props.translateY[1]),
-  ];
-  const translateX: [OffsetShape, OffsetShape] = [
-    parseValueAndUnit(props.translateX[0]),
-    parseValueAndUnit(props.translateX[1]),
-  ];
+  const parsedEffects: { [key: string]: OffsetShape[] } = {};
 
-  if (
-    translateX[0].unit !== translateX[1].unit ||
-    translateY[0].unit !== translateY[1].unit
-  ) {
-    throw new Error(
-      'Must provide matching units for the min and max offset values of each axis.'
-    );
-  }
+  PARALLAX_EFFECTS.forEach((key: string) => {
+    if (
+      // @ts-ignore
+      typeof props?.[key]?.[0] !== 'undefined' &&
+      // @ts-ignore
+      typeof props?.[key]?.[1] !== 'undefined'
+    ) {
+      parsedEffects[key] = [
+        // @ts-ignore
+        parseValueAndUnit(props?.[key]?.[0]),
+        // @ts-ignore
+        parseValueAndUnit(props?.[key]?.[1]),
+      ];
 
-  const xUnit = translateX[0].unit || '%';
-  const yUnit = translateY[0].unit || '%';
+      if (parsedEffects[key][0].unit !== parsedEffects[key][1].unit) {
+        throw new Error(
+          'Must provide matching units for the min and max offset values of each axis.'
+        );
+      }
+    }
+  });
 
-  return {
-    xUnit,
-    yUnit,
-    translateY,
-    translateX,
-  };
+  return parsedEffects;
 }

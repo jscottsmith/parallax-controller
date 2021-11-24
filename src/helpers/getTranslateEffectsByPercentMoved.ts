@@ -16,19 +16,19 @@ export function getTranslateEffectsByPercentMoved(
   offsets: ParallaxStartEndEffects,
   percentMoved: number
 ): TranslateEffectShape {
-  const { translateY, translateX, yUnit, xUnit } = offsets;
+  const { translateY, translateX } = offsets;
 
   const x = scaleBetween(
     percentMoved,
-    translateX[0].value,
-    translateX[1].value,
+    translateX?.[0]?.value || 0,
+    translateX?.[1]?.value || 0,
     0,
     100
   );
   const y = scaleBetween(
     percentMoved,
-    translateY[0].value,
-    translateY[1].value,
+    translateY?.[0]?.value || 0,
+    translateY?.[1]?.value || 0,
     0,
     100
   );
@@ -36,11 +36,11 @@ export function getTranslateEffectsByPercentMoved(
   return {
     translateX: {
       value: x,
-      unit: xUnit,
+      unit: translateX?.[0]?.unit || 'px',
     },
     translateY: {
       value: y,
-      unit: yUnit,
+      unit: translateY?.[0]?.unit || 'px',
     },
   };
 }
