@@ -2,6 +2,10 @@ import { OffsetShape } from '..';
 import { Rect } from './Rect';
 import { View } from './View';
 
+export type TranslateEffectsShape = {
+  translateY: OffsetShape[];
+  translateX: OffsetShape[];
+};
 export class Bounds {
   totalDistY: number;
   totalDistX: number;
@@ -10,14 +14,7 @@ export class Bounds {
   left: number;
   right: number;
 
-  constructor(
-    rect: Rect,
-    view: View,
-    translate: {
-      translateY: OffsetShape[];
-      translateX: OffsetShape[];
-    }
-  ) {
+  constructor(rect: Rect, view: View, translate: TranslateEffectsShape) {
     const [x0, x1] = translate.translateX;
     const [y0, y1] = translate.translateY;
 

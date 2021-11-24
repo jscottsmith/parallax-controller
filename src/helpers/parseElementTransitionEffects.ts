@@ -1,7 +1,7 @@
 import {
   OffsetShape,
   ParallaxElementProperties,
-  ParallaxStartEndOffsets,
+  ParallaxStartEndEffects,
 } from '../types';
 import { parseValueAndUnit } from '../utils/parseValueAndUnit';
 
@@ -10,7 +10,7 @@ import { parseValueAndUnit } from '../utils/parseValueAndUnit';
  */
 export function parseElementTransitionEffects(
   props: ParallaxElementProperties
-): ParallaxStartEndOffsets {
+): ParallaxStartEndEffects {
   const translateY: [OffsetShape, OffsetShape] = [
     parseValueAndUnit(props.translateY[0]),
     parseValueAndUnit(props.translateY[1]),

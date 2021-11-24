@@ -262,8 +262,6 @@ describe.each([
     },
     { width: 979, height: 643 },
     {
-      xUnit: '%',
-      yUnit: 'px',
       translateY: [
         { value: 85, unit: 'px' },
         { value: -85, unit: 'px' },
@@ -295,8 +293,6 @@ describe.each([
     },
     { width: 891, height: 643 },
     {
-      xUnit: '%',
-      yUnit: 'px',
       translateY: [
         { value: -200, unit: 'px' },
         { value: 125, unit: 'px' },
@@ -315,9 +311,9 @@ describe.each([
       right: 887.8125,
     },
   ],
-])('Bounds()', (rect: any, offsets: any, view: any, expected) => {
+])('Bounds()', (rect: any, view: any, translate: any, expected) => {
   test(`returns expected bounds based on rect, offsets, and view`, () => {
-    expect(new Bounds(rect, offsets, view)).toEqual(
+    expect(new Bounds(rect, view, translate)).toEqual(
       expect.objectContaining(expected)
     );
   });

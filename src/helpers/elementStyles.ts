@@ -1,5 +1,5 @@
 import { Element } from '../classes/Element';
-import { ParallaxStartEndOffsets } from '../types';
+import { ParallaxStartEndEffects } from '../types';
 import { getTranslateEffectsByPercentMoved } from './getTranslateEffectsByPercentMoved';
 
 /**
@@ -8,14 +8,14 @@ import { getTranslateEffectsByPercentMoved } from './getTranslateEffectsByPercen
  */
 export function setParallaxStyles(
   elInner: HTMLElement,
-  offsets: ParallaxStartEndOffsets,
+  effects: ParallaxStartEndEffects,
   percentMoved: number
 ) {
   // Get the parallax X and Y offsets
   const {
     translateX: { value: xv, unit: xu },
     translateY: { value: yv, unit: yu },
-  } = getTranslateEffectsByPercentMoved(offsets, percentMoved);
+  } = getTranslateEffectsByPercentMoved(effects, percentMoved);
 
   // Apply styles
   elInner.style.transform = `translate3d(${xv}${xu}, ${yv}${yu}, 0)`;

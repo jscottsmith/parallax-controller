@@ -3,7 +3,7 @@ import { Rect } from './Rect';
 import {
   CreateElementOptions,
   ParallaxElementProperties,
-  ParallaxStartEndOffsets,
+  ParallaxStartEndEffects,
   ScrollAxis,
   ValidScrollAxis,
 } from '../types';
@@ -25,7 +25,7 @@ export class Element {
   props: ParallaxElementProperties;
   scrollAxis: ValidScrollAxis;
   id: number;
-  effects: ParallaxStartEndOffsets;
+  effects: ParallaxStartEndEffects;
   isInView: boolean | null;
   percent: number;
   rect?: Rect;

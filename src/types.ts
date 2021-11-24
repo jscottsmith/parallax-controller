@@ -1,4 +1,4 @@
-export type ParallaxStartEndOffsets = {
+export type ParallaxStartEndEffects = {
   xUnit: ValidUnits;
   yUnit: ValidUnits;
   translateX: OffsetShape[];

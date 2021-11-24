@@ -1,4 +1,4 @@
-import { OffsetShape, ParallaxStartEndOffsets } from '../types';
+import { OffsetShape, ParallaxStartEndEffects } from '../types';
 import { scaleBetween } from '../utils/scaleBetween';
 
 /**
@@ -13,7 +13,7 @@ type TranslateEffectShape = {
 };
 
 export function getTranslateEffectsByPercentMoved(
-  offsets: ParallaxStartEndOffsets,
+  offsets: ParallaxStartEndEffects,
   percentMoved: number
 ): TranslateEffectShape {
   const { translateY, translateX, yUnit, xUnit } = offsets;

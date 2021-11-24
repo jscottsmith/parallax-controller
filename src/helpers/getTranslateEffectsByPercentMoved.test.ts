@@ -1,9 +1,9 @@
 import { getTranslateEffectsByPercentMoved } from './getTranslateEffectsByPercentMoved';
-import { ParallaxStartEndOffsets } from '../types';
+import { ParallaxStartEndEffects } from '../types';
 import { parseValueAndUnit } from '../utils/parseValueAndUnit';
 import { scaleBetween } from '../utils/scaleBetween';
 
-const offset: ParallaxStartEndOffsets = {
+const offset: ParallaxStartEndEffects = {
   xUnit: 'px',
   yUnit: '%',
   translateX: [parseValueAndUnit('-100px'), parseValueAndUnit('40px')],
