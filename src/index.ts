@@ -5,7 +5,7 @@ import { Rect } from './classes/Rect';
 import { Scroll } from './classes/Scroll';
 import { View } from './classes/View';
 
-import { setParallaxStyles, resetStyles } from './helpers/elementStyles';
+import { setElementStyles, resetStyles } from './helpers/elementStyles';
 import { parseElementTransitionEffects } from './helpers/parseElementTransitionEffects';
 import { scaleEffectByPercentMoved } from './helpers/scaleEffectByPercentMoved';
 import { isElementInView } from './helpers/isElementInView';
@@ -25,7 +25,7 @@ export {
   Rect,
   Scroll,
   View,
-  setParallaxStyles,
+  setElementStyles,
   resetStyles,
   parseElementTransitionEffects,
   scaleEffectByPercentMoved,

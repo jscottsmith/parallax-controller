@@ -1,4 +1,4 @@
-import { OffsetShape } from '../types';
+import { OffsetShape, RotationUnits, Units } from '../types';
 
 /**
  * Determines the unit of a string and parses the value
@@ -22,11 +22,13 @@ export function parseValueAndUnit(str?: string | number): OffsetShape {
   // @ts-ignore
   out.unit = str.match(/[\d.\-\+]*\s*(.*)/)[1] || '%'; // default to percent
 
-  const validUnits = ['px', '%'];
+  const validUnits = [Units.px, Units['%'], RotationUnits.deg];
   const isValidUnit = validUnits.find(unit => unit === out.unit);
 
   if (!isValidUnit) {
-    throw new Error('Invalid unit provided. Must provide a unit of px in or %');
+    throw new Error(
+      'Invalid unit provided. Must provide a unit of px, %, or deg'
+    );
   }
 
   return out;

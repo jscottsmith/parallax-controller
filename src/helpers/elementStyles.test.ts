@@ -1,10 +1,15 @@
 import createNodeMock from '../testUtils/createNodeMock';
-import { setParallaxStyles } from './elementStyles';
+import { setElementStyles } from './elementStyles';
 import { parseElementTransitionEffects } from './parseElementTransitionEffects';
 
 type Offset = string | number;
 
-function createOffsets(x0: Offset, x1: Offset, y0: Offset, y1: Offset) {
+function createTranslateEffects(
+  x0: Offset,
+  x1: Offset,
+  y0: Offset,
+  y1: Offset
+) {
   return parseElementTransitionEffects({
     // @ts-expect-error
     translateX: [x0, x1],
@@ -13,79 +18,128 @@ function createOffsets(x0: Offset, x1: Offset, y0: Offset, y1: Offset) {
   });
 }
 
+function createEffect(v1: Offset, v2: Offset, key: string) {
+  const effect = parseElementTransitionEffects({
+    [key]: [v1, v2],
+  });
+  return effect;
+}
+
 describe.each([
-  [createNodeMock(), createOffsets(0, 100, 0, 0), 0, `translate3d(0%, 0%, 0)`],
   [
     createNodeMock(),
-    createOffsets(0, 100, 0, 0),
-    100,
-    `translate3d(100%, 0%, 0)`,
-  ],
-  [
-    createNodeMock(),
-    createOffsets(0, 100, 0, 0),
-    200,
-    `translate3d(200%, 0%, 0)`,
-  ],
-  [createNodeMock(), createOffsets(0, 100, 0, 0), 0, `translate3d(0%, 0%, 0)`],
-  [
-    createNodeMock(),
-    createOffsets(100, 0, 0, 0),
-    50,
-    `translate3d(50%, 0%, 0)`,
-  ],
-  [
-    createNodeMock(),
-    createOffsets(100, -100, 100, -100),
+    {
+      ...createEffect(-33, 100, 'translateX'),
+    },
     0,
-    `translate3d(100%, 100%, 0)`,
+    `translateX(-33%)`,
   ],
   [
     createNodeMock(),
-    createOffsets(100, -100, 100, -100),
+    {
+      ...createEffect(-33, 100, 'foo'),
+    },
+    0,
+    ``,
+  ],
+  [
+    createNodeMock(),
+    {
+      ...createEffect('-33px', '33px', 'translateX'),
+      ...createEffect('-0px', '50px', 'translateY'),
+      ...createEffect('100deg', '0deg', 'rotateX'),
+    },
     50,
-    `translate3d(0%, 0%, 0)`,
+    `translateX(0px)translateY(25px)rotateX(50deg)`,
   ],
   [
     createNodeMock(),
-    createOffsets(100, -100, 100, -100),
+    {
+      ...createEffect('-33px', '33px', 'translateX'),
+      ...createEffect('-0px', '50px', 'translateY'),
+      ...createEffect('100deg', '0deg', 'rotateX'),
+      ...createEffect('0deg', '180deg', 'rotateY'),
+      ...createEffect('0deg', '360deg', 'rotateZ'),
+    },
     100,
-    `translate3d(-100%, -100%, 0)`,
+    `translateX(33px)translateY(50px)rotateX(0deg)rotateY(180deg)rotateZ(360deg)`,
   ],
   [
     createNodeMock(),
-    createOffsets(100, -100, 100, -100),
+    createTranslateEffects(0, 100, 0, 0),
+    100,
+    `translateX(100%)translateY(0%)`,
+  ],
+  [
+    createNodeMock(),
+    createTranslateEffects(0, 100, 0, 0),
     200,
-    `translate3d(-300%, -300%, 0)`,
+    `translateX(200%)translateY(0%)`,
   ],
   [
     createNodeMock(),
-    createOffsets(100, -100, 100, -100),
+    createTranslateEffects(0, 100, 0, 0),
+    0,
+    `translateX(0%)translateY(0%)`,
+  ],
+  [
+    createNodeMock(),
+    createTranslateEffects(100, 0, 0, 0),
+    50,
+    `translateX(50%)translateY(0%)`,
+  ],
+  [
+    createNodeMock(),
+    createTranslateEffects(100, -100, 100, -100),
+    0,
+    `translateX(100%)translateY(100%)`,
+  ],
+  [
+    createNodeMock(),
+    createTranslateEffects(100, -100, 100, -100),
+    50,
+    `translateX(0%)translateY(0%)`,
+  ],
+  [
+    createNodeMock(),
+    createTranslateEffects(100, -100, 100, -100),
+    100,
+    `translateX(-100%)translateY(-100%)`,
+  ],
+  [
+    createNodeMock(),
+    createTranslateEffects(100, -100, 100, -100),
+    200,
+    `translateX(-300%)translateY(-300%)`,
+  ],
+  [
+    createNodeMock(),
+    createTranslateEffects(100, -100, 100, -100),
     -100,
-    `translate3d(300%, 300%, 0)`,
+    `translateX(300%)translateY(300%)`,
   ],
   [
     createNodeMock(),
-    createOffsets('0px', '100px', '100%', '50%'),
+    createTranslateEffects('0px', '100px', '100%', '50%'),
     0,
-    `translate3d(0px, 100%, 0)`,
+    `translateX(0px)translateY(100%)`,
   ],
   [
     createNodeMock(),
-    createOffsets('0px', '100px', '100%', '50%'),
+    createTranslateEffects('0px', '100px', '100%', '50%'),
     50,
-    `translate3d(50px, 75%, 0)`,
+    `translateX(50px)translateY(75%)`,
   ],
   [
     createNodeMock(),
-    createOffsets('-100px', '100px', '100%', '-200%'),
+    createTranslateEffects('-100px', '100px', '100%', '-200%'),
     50,
-    `translate3d(0px, -50%, 0)`,
+    `translateX(0px)translateY(-50%)`,
   ],
-])('.setParallaxStyles(%o, %i)', (elInner, offsets, percent, expected) => {
+])('.setElementStyles(%o, %o, %n)', (elInner, offsets, percent, expected) => {
   test(`sets element styles to: ${expected}%`, () => {
     // @ts-expect-error
-    setParallaxStyles(elInner, offsets, percent);
+    setElementStyles(elInner, offsets, percent);
     expect(elInner.style.transform).toBe(expected);
   });
 });

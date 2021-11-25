@@ -10,7 +10,7 @@ import {
 import { parseElementTransitionEffects } from '../helpers/parseElementTransitionEffects';
 import { isElementInView } from '../helpers/isElementInView';
 import { percentMoved } from '../helpers/percentMoved';
-import { setParallaxStyles } from '../helpers/elementStyles';
+import { setElementStyles } from '../helpers/elementStyles';
 import { createId } from '../utils/createId';
 import { View } from './View';
 import { Scroll } from './Scroll';
@@ -86,7 +86,7 @@ export class Element {
       scroll.x
     );
 
-    setParallaxStyles(this.elInner, this.effects, this.percent);
+    setElementStyles(this.elInner, this.effects, this.percent);
 
     return this;
   }
@@ -110,7 +110,7 @@ export class Element {
       scroll.y
     );
 
-    setParallaxStyles(this.elInner, this.effects, this.percent);
+    setElementStyles(this.elInner, this.effects, this.percent);
 
     return this;
   }

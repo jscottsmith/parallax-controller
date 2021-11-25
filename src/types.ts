@@ -1,10 +1,10 @@
 export type ParallaxStartEndEffects = {
   translateX?: OffsetShape[];
   translateY?: OffsetShape[];
-  rotate?: OffsetShape[];
-  rotateX?: OffsetShape[];
-  rotateY?: OffsetShape[];
-  rotateZ?: OffsetShape[];
+  rotate?: RotationShape[];
+  rotateX?: RotationShape[];
+  rotateY?: RotationShape[];
+  rotateZ?: RotationShape[];
   scale?: OffsetShape[];
   opacity?: OffsetShape[];
 };
@@ -13,6 +13,15 @@ export enum Units {
   'px' = 'px',
   '%' = '%',
 }
+export type ValidUnits = keyof typeof Units;
+
+export enum RotationUnits {
+  'deg' = 'deg',
+  'turn' = 'turn',
+  'rad' = 'rad',
+}
+
+export type ValidRotationUnits = keyof typeof Units;
 
 export enum ScrollAxis {
   'vertical' = 'vertical',
@@ -21,11 +30,14 @@ export enum ScrollAxis {
 
 export type ValidScrollAxis = keyof typeof ScrollAxis;
 
-export type ValidUnits = keyof typeof Units;
-
 export type OffsetShape = {
   value: number;
   unit: ValidUnits;
+};
+
+export type RotationShape = {
+  value: number;
+  unit: RotationUnits;
 };
 
 export type ViewElement = HTMLElement | Window;
