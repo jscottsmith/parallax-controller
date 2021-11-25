@@ -19,16 +19,22 @@ export function parseValueAndUnit(str?: string | number): OffsetShape {
 
   str = String(str);
   out.value = parseFloat(str);
+
+  // NOTE: Must allow custom defaults for various transforms
   // @ts-ignore
   out.unit = str.match(/[\d.\-\+]*\s*(.*)/)[1] || '%'; // default to percent
 
-  const validUnits = [Units.px, Units['%'], RotationUnits.deg];
+  const validUnits = [
+    Units.px,
+    Units['%'],
+    RotationUnits.deg,
+    RotationUnits.turn,
+    RotationUnits.rad,
+  ];
   const isValidUnit = validUnits.find(unit => unit === out.unit);
 
   if (!isValidUnit) {
-    throw new Error(
-      'Invalid unit provided. Must provide a unit of px, %, or deg'
-    );
+    throw new Error('Invalid unit provided.');
   }
 
   return out;
