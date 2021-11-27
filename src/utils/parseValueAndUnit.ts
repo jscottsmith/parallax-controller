@@ -1,11 +1,29 @@
-import { OffsetShape, RotationUnits, Units } from '../types';
+import {
+  ScaleUnits,
+  ValueShape,
+  RotationUnits,
+  Units,
+  AllValidUnits,
+} from '../types';
+
+export const VALID_UNITS = [
+  ScaleUnits[''],
+  Units.px,
+  Units['%'],
+  RotationUnits.deg,
+  RotationUnits.turn,
+  RotationUnits.rad,
+];
 
 /**
  * Determines the unit of a string and parses the value
  */
 
-export function parseValueAndUnit(str?: string | number): OffsetShape {
-  let out: OffsetShape = { value: 0, unit: 'px' };
+export function parseValueAndUnit(
+  str?: string | number,
+  defaultUnit: AllValidUnits = Units['%']
+): ValueShape {
+  let out: ValueShape = { value: 0, unit: defaultUnit };
 
   if (typeof str === 'undefined') return out;
 
@@ -20,18 +38,11 @@ export function parseValueAndUnit(str?: string | number): OffsetShape {
   str = String(str);
   out.value = parseFloat(str);
 
-  // NOTE: Must allow custom defaults for various transforms
   // @ts-ignore
-  out.unit = str.match(/[\d.\-\+]*\s*(.*)/)[1] || '%'; // default to percent
+  out.unit = str.match(/[\d.\-\+]*\s*(.*)/)[1] || defaultUnit;
 
-  const validUnits = [
-    Units.px,
-    Units['%'],
-    RotationUnits.deg,
-    RotationUnits.turn,
-    RotationUnits.rad,
-  ];
-  const isValidUnit = validUnits.find(unit => unit === out.unit);
+  // @ts-expect-error
+  const isValidUnit: boolean = VALID_UNITS.includes(out.unit);
 
   if (!isValidUnit) {
     throw new Error('Invalid unit provided.');

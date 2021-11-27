@@ -1,16 +1,15 @@
-import { ValidUnits } from '..';
-import { OffsetShape } from '../types';
+import { ValueShape, AllValidUnits } from '../types';
 import { scaleBetween } from '../utils/scaleBetween';
 
 /**
  * Scales a start and end value of an effect based on percent moved
  */
 export function scaleEffectByPercentMoved(
-  effect: OffsetShape[],
+  effect: ValueShape[],
   percentMoved: number
 ): {
   value: number;
-  unit: ValidUnits;
+  unit: AllValidUnits;
 } {
   const value = scaleBetween(
     percentMoved,

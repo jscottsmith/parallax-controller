@@ -21,7 +21,15 @@ export enum RotationUnits {
   'rad' = 'rad',
 }
 
-export type ValidRotationUnits = keyof typeof Units;
+export enum ScaleUnits {
+  '' = '',
+}
+
+export type ValidScaleUnits = keyof typeof ScaleUnits;
+
+export type ValidRotationUnits = keyof typeof RotationUnits;
+
+export type AllValidUnits = ValidUnits | ValidRotationUnits | ValidScaleUnits;
 
 export enum ScrollAxis {
   'vertical' = 'vertical',
@@ -40,6 +48,11 @@ export type RotationShape = {
   unit: RotationUnits;
 };
 
+export type ValueShape = {
+  value: number;
+  unit: AllValidUnits;
+};
+
 export type ViewElement = HTMLElement | Window;
 export type ParallaxControllerOptions = {
   scrollAxis?: ValidScrollAxis;
@@ -54,7 +67,7 @@ export type ParallaxElementEffectProperties = {
   rotateX?: string[] | number[];
   rotateY?: string[] | number[];
   rotateZ?: string[] | number[];
-  scale?: string[] | number[];
+  scale?: number[];
   opacity?: number[];
 };
 

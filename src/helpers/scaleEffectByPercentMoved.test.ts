@@ -1,15 +1,19 @@
 import { scaleEffectByPercentMoved } from './scaleEffectByPercentMoved';
 import { parseValueAndUnit } from '../utils/parseValueAndUnit';
 import { scaleBetween } from '../utils/scaleBetween';
-import { OffsetShape } from '..';
+import { ValueShape } from '..';
 
-const translateX: OffsetShape[] = [
+const translateX: ValueShape[] = [
   parseValueAndUnit('-100px'),
   parseValueAndUnit('40px'),
 ];
-const translateY: OffsetShape[] = [
+const translateY: ValueShape[] = [
   parseValueAndUnit('-80%'),
   parseValueAndUnit('50%'),
+];
+const scale: ValueShape[] = [
+  parseValueAndUnit(0, ''),
+  parseValueAndUnit(1, ''),
 ];
 
 const percentMoved = 44;
@@ -34,5 +38,9 @@ test('Gets offsets based on percent in view', () => {
       100
     ),
     unit: '%',
+  });
+  expect(scaleEffectByPercentMoved(scale, percentMoved)).toEqual({
+    value: scaleBetween(percentMoved, scale[0].value, scale[1].value, 0, 100),
+    unit: '',
   });
 });
