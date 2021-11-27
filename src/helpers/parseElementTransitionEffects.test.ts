@@ -3,6 +3,7 @@ import {
   parseElementTransitionEffects,
 } from './parseElementTransitionEffects';
 import { parseValueAndUnit } from '../utils/parseValueAndUnit';
+import { ScaleUnits } from '..';
 
 describe('parseElementTransitionEffects', () => {
   it('returns the offset properties to an element with defaults', () => {
@@ -65,6 +66,20 @@ describe('parseElementTransitionEffects', () => {
     expect(parseElementTransitionEffects(effects)).toEqual(
       expectedParsedEffects
     );
+  });
+
+  it('parses the scale properties for an element', () => {
+    const props: {
+      scale: number[];
+    } = {
+      scale: [1, 2],
+    };
+    expect(parseElementTransitionEffects(props)).toEqual({
+      scale: [
+        parseValueAndUnit(props.scale[0], ScaleUnits['']),
+        parseValueAndUnit(props.scale[1], ScaleUnits['']),
+      ],
+    });
   });
 
   it('ignores and omits effects if no values are provided', () => {

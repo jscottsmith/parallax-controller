@@ -9,6 +9,17 @@ export type ParallaxStartEndEffects = {
   opacity?: OffsetShape[];
 };
 
+export enum ValidCSSEffects {
+  'translateX' = 'translateX',
+  'translateY' = 'translateY',
+  'rotate' = 'rotate',
+  'rotateX' = 'rotateX',
+  'rotateY' = 'rotateY',
+  'rotateZ' = 'rotateZ',
+  'scale' = 'scale',
+  'opacity' = 'opacity',
+}
+
 export enum Units {
   'px' = 'px',
   '%' = '%',

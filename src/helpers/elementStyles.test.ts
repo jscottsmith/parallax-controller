@@ -25,6 +25,19 @@ function createEffect(v1: Offset, v2: Offset, key: string) {
   return effect;
 }
 
+describe('setElementStyles', () => {
+  test(`handles scale styles`, () => {
+    const elInner = createNodeMock();
+    const offsets = {
+      ...createEffect(0, 1, 'scale'),
+    };
+    const percentMoved = 50;
+    // @ts-expect-error
+    setElementStyles(elInner, offsets, percentMoved);
+    expect(elInner.style.transform).toBe(`scale(0.5)`);
+  });
+});
+
 describe.each([
   [
     createNodeMock(),
