@@ -1,17 +1,8 @@
 import { Element } from '../classes/Element';
-import { ParallaxStartEndEffects } from '../types';
+import { ParallaxStartEndEffects, ValidCSSEffects } from '../types';
 import { scaleEffectByPercentMoved } from './scaleEffectByPercentMoved';
 
-export const TRANSFORM_EFFECTS = [
-  'translateX',
-  'translateY',
-  'rotate',
-  'rotateX',
-  'rotateY',
-  'rotateZ',
-  'scale',
-];
-
+const PARALLAX_EFFECTS = Object.values(ValidCSSEffects);
 /**
  * Takes a parallax element and set the styles based on the
  * offsets and percent the element has moved though the viewport.
@@ -46,7 +37,7 @@ export function getTransformStyles(
   effects: ParallaxStartEndEffects,
   percentMoved: number
 ): string {
-  const transform: string = TRANSFORM_EFFECTS.reduce((acc, key: string) => {
+  const transform: string = PARALLAX_EFFECTS.reduce((acc, key: string) => {
     const scaledEffect =
       // @ts-expect-error
       effects[key] && scaleEffectByPercentMoved(effects[key], percentMoved);
