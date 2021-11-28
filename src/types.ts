@@ -5,7 +5,10 @@ export type ParallaxStartEndEffects = {
   rotateX?: RotationShape[];
   rotateY?: RotationShape[];
   rotateZ?: RotationShape[];
-  scale?: OffsetShape[];
+  scale?: ScaleShape[];
+  scaleX?: ScaleShape[];
+  scaleY?: ScaleShape[];
+  scaleZ?: ScaleShape[];
   opacity?: OffsetShape[];
 };
 
@@ -17,6 +20,9 @@ export enum ValidCSSEffects {
   'rotateY' = 'rotateY',
   'rotateZ' = 'rotateZ',
   'scale' = 'scale',
+  'scaleX' = 'scaleX',
+  'scaleY' = 'scaleY',
+  'scaleZ' = 'scaleZ',
   'opacity' = 'opacity',
 }
 
@@ -58,6 +64,10 @@ export type RotationShape = {
   value: number;
   unit: RotationUnits;
 };
+export type ScaleShape = {
+  value: number;
+  unit: ScaleUnits;
+};
 
 export type ValueShape = {
   value: number;
@@ -79,6 +89,9 @@ export type ParallaxElementEffectProperties = {
   rotateY?: string[] | number[];
   rotateZ?: string[] | number[];
   scale?: number[];
+  scaleX?: number[];
+  scaleY?: number[];
+  scaleZ?: number[];
   opacity?: number[];
 };
 

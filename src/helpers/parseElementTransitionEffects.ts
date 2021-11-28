@@ -1,6 +1,5 @@
-import { ValidCSSEffects } from '..';
+import { ValidCSSEffects, ValueShape } from '..';
 import {
-  OffsetShape,
   ParallaxElementEffectProperties,
   ParallaxStartEndEffects,
   AllValidUnits,
@@ -19,6 +18,9 @@ export const MAP_EFFECT_TO_DEFAULT_VALUE: {
   rotateY: 'deg',
   rotateZ: 'deg',
   scale: '',
+  scaleX: '',
+  scaleY: '',
+  scaleZ: '',
   opacity: '',
 };
 /**
@@ -27,20 +29,16 @@ export const MAP_EFFECT_TO_DEFAULT_VALUE: {
 export function parseElementTransitionEffects(
   props: ParallaxElementEffectProperties
 ): ParallaxStartEndEffects {
-  const parsedEffects: { [key: string]: OffsetShape[] } = {};
+  const parsedEffects: { [key: string]: ValueShape[] } = {};
 
   PARALLAX_EFFECTS.forEach((key: keyof typeof ValidCSSEffects) => {
     if (
-      // @ts-ignore
       typeof props?.[key]?.[0] !== 'undefined' &&
-      // @ts-ignore
       typeof props?.[key]?.[1] !== 'undefined'
     ) {
       const defaultValue: AllValidUnits = MAP_EFFECT_TO_DEFAULT_VALUE[key];
       parsedEffects[key] = [
-        // @ts-ignore
         parseValueAndUnit(props?.[key]?.[0], defaultValue),
-        // @ts-ignore
         parseValueAndUnit(props?.[key]?.[1], defaultValue),
       ];
 

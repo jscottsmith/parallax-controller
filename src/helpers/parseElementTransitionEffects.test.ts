@@ -69,15 +69,48 @@ describe('parseElementTransitionEffects', () => {
   });
 
   it('parses the scale properties for an element', () => {
-    const props: {
+    const scaleProps: {
       scale: number[];
     } = {
       scale: [1, 2],
     };
-    expect(parseElementTransitionEffects(props)).toEqual({
+    expect(parseElementTransitionEffects(scaleProps)).toEqual({
       scale: [
-        parseValueAndUnit(props.scale[0], ScaleUnits['']),
-        parseValueAndUnit(props.scale[1], ScaleUnits['']),
+        parseValueAndUnit(scaleProps.scale[0], ScaleUnits['']),
+        parseValueAndUnit(scaleProps.scale[1], ScaleUnits['']),
+      ],
+    });
+    const scaleXProps: {
+      scaleX: number[];
+    } = {
+      scaleX: [1.3, 0],
+    };
+    expect(parseElementTransitionEffects(scaleXProps)).toEqual({
+      scaleX: [
+        parseValueAndUnit(scaleXProps.scaleX[0], ScaleUnits['']),
+        parseValueAndUnit(scaleXProps.scaleX[1], ScaleUnits['']),
+      ],
+    });
+    const scaleYProps: {
+      scaleY: number[];
+    } = {
+      scaleY: [0, 1],
+    };
+    expect(parseElementTransitionEffects(scaleYProps)).toEqual({
+      scaleY: [
+        parseValueAndUnit(scaleYProps.scaleY[0], ScaleUnits['']),
+        parseValueAndUnit(scaleYProps.scaleY[1], ScaleUnits['']),
+      ],
+    });
+    const scaleZProps: {
+      scaleZ: number[];
+    } = {
+      scaleZ: [0, 1],
+    };
+    expect(parseElementTransitionEffects(scaleZProps)).toEqual({
+      scaleZ: [
+        parseValueAndUnit(scaleZProps.scaleZ[0], ScaleUnits['']),
+        parseValueAndUnit(scaleZProps.scaleZ[1], ScaleUnits['']),
       ],
     });
   });
