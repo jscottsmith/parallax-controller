@@ -5,6 +5,6 @@ export default function createNodeMock() {
 
   return {
     getBoundingClientRect: () => div.getBoundingClientRect(),
-    style: { transform: '' },
+    style: { transform: '', opacity: '' },
   };
 }

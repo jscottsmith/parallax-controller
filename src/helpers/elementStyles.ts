@@ -2,27 +2,10 @@ import { Element } from '../classes/Element';
 import { ParallaxStartEndEffects, ValidCSSEffects } from '../types';
 import { scaleEffectByPercentMoved } from './scaleEffectByPercentMoved';
 
-const PARALLAX_EFFECTS = Object.values(ValidCSSEffects);
-/**
- * Takes a parallax element and set the styles based on the
- * offsets and percent the element has moved though the viewport.
- */
-// export function setParallaxStyles(
-//   elInner: HTMLElement,
-//   effects: ParallaxStartEndEffects,
-//   percentMoved: number
-// ) {
-//   const translateX =
-//     effects.translateX &&
-//     scaleEffectByPercentMoved(effects.translateX, percentMoved);
-
-//   const translateY =
-//     effects.translateY &&
-//     scaleEffectByPercentMoved(effects.translateY, percentMoved);
-
-//   // Apply styles
-//   elInner.style.transform = `translate3d(${translateX?.value}${translateX?.unit}, ${translateY?.value}${translateY?.unit}, 0)`;
-// }
+// Exclude opacity from transforms
+const TRANSFORM_EFFECTS = Object.values(ValidCSSEffects).filter(
+  v => v !== 'opacity'
+);
 
 export function setElementStyles(
   elInner: HTMLElement,
@@ -30,14 +13,37 @@ export function setElementStyles(
   percentMoved: number
 ) {
   const transform = getTransformStyles(effects, percentMoved);
+  const opacity = getOpacityStyles(effects, percentMoved);
   elInner.style.transform = transform;
+  elInner.style.opacity = opacity;
+}
+
+export function getOpacityStyles(
+  effects: ParallaxStartEndEffects,
+  percentMoved: number
+): string {
+  const scaledOpacity =
+    effects['opacity'] &&
+    scaleEffectByPercentMoved(effects['opacity'], percentMoved);
+
+  if (
+    typeof scaledOpacity === 'undefined' ||
+    typeof scaledOpacity.value === 'undefined' ||
+    typeof scaledOpacity.unit === 'undefined'
+  ) {
+    return '';
+  }
+
+  const styleStr = `${scaledOpacity.value}`;
+
+  return styleStr;
 }
 
 export function getTransformStyles(
   effects: ParallaxStartEndEffects,
   percentMoved: number
 ): string {
-  const transform: string = PARALLAX_EFFECTS.reduce((acc, key: string) => {
+  const transform: string = TRANSFORM_EFFECTS.reduce((acc, key: string) => {
     const scaledEffect =
       // @ts-expect-error
       effects[key] && scaleEffectByPercentMoved(effects[key], percentMoved);

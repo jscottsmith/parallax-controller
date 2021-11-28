@@ -36,6 +36,17 @@ describe('setElementStyles', () => {
     setElementStyles(elInner, offsets, percentMoved);
     expect(elInner.style.transform).toBe(`scale(0.5)`);
   });
+
+  test(`handles opacity styles`, () => {
+    const elInner = createNodeMock();
+    const offsets = {
+      ...createEffect(0, 1, 'opacity'),
+    };
+    const percentMoved = 50;
+    // @ts-expect-error
+    setElementStyles(elInner, offsets, percentMoved);
+    expect(elInner.style.opacity).toBe(`0.5`);
+  });
 });
 
 describe.each([
