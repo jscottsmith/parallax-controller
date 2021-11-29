@@ -1,3 +1,4 @@
+import bezier from 'bezier-easing';
 import { Bounds } from './Bounds';
 import { Rect } from './Rect';
 import {
@@ -14,6 +15,8 @@ import { setElementStyles } from '../helpers/elementStyles';
 import { createId } from '../utils/createId';
 import { View } from './View';
 import { Scroll } from './Scroll';
+import { ValidEasingPresets } from '..';
+import { easingPresets } from '../constants';
 
 type ElementConstructorOptions = CreateElementOptions & {
   scrollAxis: ValidScrollAxis;
@@ -30,6 +33,7 @@ export class Element {
   percent: number;
   rect?: Rect;
   bounds?: Bounds;
+  easing?: bezier.EasingFunction;
   updatePosition: (view: View, scroll: Scroll) => Element;
 
   constructor(options: ElementConstructorOptions) {
@@ -41,6 +45,8 @@ export class Element {
     this.effects = parseElementTransitionEffects(this.props);
     this.isInView = null;
     this.percent = 0;
+
+    this._setElementEasing(options.props.easing);
 
     this.updatePosition =
       options.scrollAxis === ScrollAxis.vertical
@@ -67,6 +73,19 @@ export class Element {
     return this;
   }
 
+  _setElementEasing(easing?: number[] | ValidEasingPresets): void {
+    if (Array.isArray(easing)) {
+      this.easing = bezier(easing[0], easing[1], easing[2], easing[3]);
+    }
+    if (
+      typeof easing === 'string' &&
+      typeof easingPresets[easing] !== 'undefined'
+    ) {
+      const params: number[] = easingPresets[easing];
+      this.easing = bezier(params[0], params[1], params[2], params[3]);
+    }
+  }
+
   _updatePositionHorizontal(view: View, scroll: Scroll): Element {
     if (!this.bounds || !this.rect || !this.elInner) return this;
 
@@ -83,7 +102,8 @@ export class Element {
       this.rect.left,
       this.rect.originTotalDistX,
       view.width,
-      scroll.x
+      scroll.x,
+      this.easing
     );
 
     setElementStyles(this.elInner, this.effects, this.percent);
@@ -107,7 +127,8 @@ export class Element {
       this.rect.top,
       this.rect.originTotalDistY,
       view.height,
-      scroll.y
+      scroll.y,
+      this.easing
     );
 
     setElementStyles(this.elInner, this.effects, this.percent);

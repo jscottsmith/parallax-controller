@@ -93,6 +93,7 @@ export type ParallaxElementEffectProperties = {
   scaleY?: number[];
   scaleZ?: number[];
   opacity?: number[];
+  easing?: number[] | ValidEasingPresets;
 };
 
 export type CreateElementOptions = {
@@ -100,3 +101,33 @@ export type CreateElementOptions = {
   elOuter?: HTMLElement;
   props: ParallaxElementEffectProperties;
 };
+
+export type ValidEasingPresets =
+  | 'ease'
+  | 'easeIn'
+  | 'easeOut'
+  | 'easeInOut'
+  | 'easeInQuad'
+  | 'easeInCubic'
+  | 'easeInQuart'
+  | 'easeInQuint'
+  | 'easeInSine'
+  | 'easeInExpo'
+  | 'easeInCirc'
+  | 'easeOutQuad'
+  | 'easeOutCubic'
+  | 'easeOutQuart'
+  | 'easeOutQuint'
+  | 'easeOutSine'
+  | 'easeOutExpo'
+  | 'easeOutCirc'
+  | 'easeInOutQuad'
+  | 'easeInOutCubic'
+  | 'easeInOutQuart'
+  | 'easeInOutQuint'
+  | 'easeInOutSine'
+  | 'easeInOutExpo'
+  | 'easeInOutCirc'
+  | 'easeInBack'
+  | 'easeOutBack'
+  | 'easeInOutBack';

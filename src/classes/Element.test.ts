@@ -3,6 +3,7 @@ import { View } from './View';
 import { Scroll } from './Scroll';
 import { createElementMock } from '../testUtils/createElementMock';
 import { ScrollAxis } from '../types';
+import { easingPresets } from '../constants';
 
 const DEFAULT_OPTIONS = {
   elInner: document.createElement('div'),
@@ -68,5 +69,46 @@ describe('Expect the Element class', () => {
 
     const instance = element.updatePosition(view, scroll);
     expect(instance).toBeInstanceOf(Element);
+  });
+
+  it('to create an easing function when arguments are provided', () => {
+    const element = new Element({
+      elInner: document.createElement('div'),
+      elOuter: document.createElement('div'),
+      scrollAxis: ScrollAxis.vertical,
+      props: {
+        easing: [0, 0, 1, 0.5],
+      },
+    });
+
+    expect(element.easing).toBeInstanceOf(Function);
+  });
+
+  describe('to create an easing function with valid preset:', () => {
+    Object.keys(easingPresets).forEach(key => {
+      test(key, () => {
+        const element = new Element({
+          elInner: document.createElement('div'),
+          elOuter: document.createElement('div'),
+          scrollAxis: ScrollAxis.vertical,
+          props: {
+            easing: [0, 0, 1, 0.5],
+          },
+        });
+
+        expect(element.easing).toBeInstanceOf(Function);
+      });
+    });
+  });
+
+  it('to NOT create an easing function when arguments are omitted', () => {
+    const element = new Element({
+      elInner: document.createElement('div'),
+      elOuter: document.createElement('div'),
+      scrollAxis: ScrollAxis.vertical,
+      props: {},
+    });
+
+    expect(element.easing).toBeUndefined();
   });
 });
