@@ -111,4 +111,19 @@ describe('Expect the Element class', () => {
 
     expect(element.easing).toBeUndefined();
   });
+
+  it('to update easing when element props are updated', () => {
+    const element = new Element({
+      elInner: document.createElement('div'),
+      elOuter: document.createElement('div'),
+      scrollAxis: ScrollAxis.vertical,
+      props: {},
+    });
+
+    expect(element.easing).toBeUndefined();
+
+    element.updateProps({ easing: [0, 0, 1, 0.5] });
+
+    expect(element.easing).toBeInstanceOf(Function);
+  });
 });

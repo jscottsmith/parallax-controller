@@ -57,6 +57,7 @@ export class Element {
   updateProps(nextProps: ParallaxElementEffectProperties) {
     this.props = { ...this.props, ...nextProps };
     this.effects = parseElementTransitionEffects(nextProps);
+    this._setElementEasing(nextProps.easing);
     return this;
   }
 
