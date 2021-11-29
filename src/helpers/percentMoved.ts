@@ -29,13 +29,16 @@ export function percentMoved(
   // adjust cached value
   const ax = a - scroll;
 
-  // Percent the element has moved based on current and total distance to move
-  let percent = ((ax * -1 + size) / totalDist) * 100;
+  // Amount the element has moved based on current and total distance to move
+  let amount = (ax * -1 + size) / totalDist;
 
   // Apply bezier easing if provided
   if (easing) {
-    percent = easing(percent);
+    amount = easing(amount);
   }
+
+  // TODO: do not return percent, just use value between 0-1
+  const percent = amount * 100;
 
   return percent;
 }
