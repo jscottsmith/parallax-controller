@@ -1,5 +1,6 @@
 import { View } from './View';
 import { Bounds } from './Bounds';
+import { OffsetShape } from '../types';
 
 const DEFAULT_RECT = {
   top: 500,
@@ -15,14 +16,21 @@ const DEFAULT_RECT = {
 const DEFAULT_VIEW = new View({ width: 1000, height: 1000 });
 
 describe('Bounds', () => {
-  test(`does not adjust the bounds if translate values are not provided`, () => {
+  test(`does not adjust the bounds if shouldUpdateBoundsWithTranslate`, () => {
     const bounds = new Bounds({
       // @ts-expect-error
       rect: DEFAULT_RECT,
       view: DEFAULT_VIEW,
+      shouldUpdateBoundsWithTranslate: false,
       translate: {
-        translateX: undefined,
-        translateY: undefined,
+        translateX: [
+          { value: 100, unit: 'px' },
+          { value: -100, unit: 'px' },
+        ] as OffsetShape[],
+        translateY: [
+          { value: -100, unit: 'px' },
+          { value: 100, unit: 'px' },
+        ] as OffsetShape[],
       },
     });
 
@@ -346,8 +354,13 @@ describe.each([
   ],
 ])('Bounds()', (rect: any, view: any, translate: any, expected) => {
   test(`returns expected bounds based on rect, offsets, and view`, () => {
-    expect(new Bounds({ rect, view, translate })).toEqual(
-      expect.objectContaining(expected)
-    );
+    expect(
+      new Bounds({
+        rect,
+        view,
+        translate,
+        shouldUpdateBoundsWithTranslate: true,
+      })
+    ).toEqual(expect.objectContaining(expected));
   });
 });

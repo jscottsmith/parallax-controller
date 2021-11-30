@@ -76,9 +76,15 @@ export class Element {
       translateX: this.effects.translateX,
       translateY: this.effects.translateY,
     };
+
+    const shouldUpdateBoundsWithTranslate =
+      !this.props.rootMargin &&
+      (!!this.effects.translateX || !!this.effects.translateY);
+
     this.bounds = new Bounds({
       view,
       translate,
+      shouldUpdateBoundsWithTranslate,
       rect: this.rect,
     });
     return this;

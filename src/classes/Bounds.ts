@@ -24,6 +24,7 @@ export class Bounds {
     rect: Rect;
     view: View;
     translate: TranslateEffectsShape;
+    shouldUpdateBoundsWithTranslate: boolean;
   }) {
     // basic bounds
     this.totalDistY = options.view.height + options.rect.height;
@@ -33,7 +34,7 @@ export class Bounds {
     this.left = options.rect.left;
     this.right = options.rect.right;
 
-    if (options.translate.translateX || options.translate.translateY) {
+    if (options.shouldUpdateBoundsWithTranslate) {
       this._setBoundsWithTranslations(
         options.rect,
         options.view,
