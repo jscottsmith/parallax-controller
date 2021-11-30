@@ -58,6 +58,7 @@ export class Element {
     this.props = { ...this.props, ...nextProps };
     this.effects = parseElementTransitionEffects(nextProps);
     this._setElementEasing(nextProps.easing);
+
     return this;
   }
 
@@ -70,7 +71,12 @@ export class Element {
       translateX: this.effects.translateX,
       translateY: this.effects.translateY,
     };
-    this.bounds = new Bounds(this.rect, view, translate);
+    this.bounds = new Bounds({
+      view,
+      translate,
+      rect: this.rect,
+      rootMargin: this.props.rootMargin,
+    });
     return this;
   }
 

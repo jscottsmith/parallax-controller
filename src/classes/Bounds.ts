@@ -11,6 +11,13 @@ export type TranslateEffectsShape = {
   translateY: OffsetShape[] | undefined;
   translateX: OffsetShape[] | undefined;
 };
+
+export type RootMarginShape = {
+  top: number;
+  bottom: number;
+  left: number;
+  right: number;
+};
 export class Bounds {
   totalDistY: number;
   totalDistX: number;
@@ -19,23 +26,48 @@ export class Bounds {
   left: number;
   right: number;
 
-  constructor(rect: Rect, view: View, translate: TranslateEffectsShape) {
+  constructor(options: {
+    rect: Rect;
+    view: View;
+    translate: TranslateEffectsShape;
+    rootMargin?: RootMarginShape;
+  }) {
     // basic bounds
-    this.totalDistY = view.height + rect.height;
-    this.totalDistX = view.width + rect.width;
-    this.top = rect.top;
-    this.bottom = rect.bottom;
-    this.left = rect.left;
-    this.right = rect.right;
+    this.totalDistY = options.view.height + options.rect.height;
+    this.totalDistX = options.view.width + options.rect.width;
+    this.top = options.rect.top;
+    this.bottom = options.rect.bottom;
+    this.left = options.rect.left;
+    this.right = options.rect.right;
 
-    if (translate.translateX || translate.translateY) {
-      this.setBoundsWithTranslations(rect, view, translate);
+    if (options.rootMargin) {
+      this._setBoundsWithRootMargin(options.rootMargin);
+    }
+
+    if (
+      options.translate.translateX ||
+      (options.translate.translateY && !options.rootMargin)
+    ) {
+      this._setBoundsWithTranslations(
+        options.rect,
+        options.view,
+        options.translate
+      );
     }
   }
   /**
-   * Sets the bounds based on X/Y
+   * Sets the bounds based root margin
    */
-  setBoundsWithTranslations(
+  _setBoundsWithRootMargin(rootMargin: RootMarginShape) {
+    this.top = this.top -= rootMargin.top;
+    this.right = this.right += rootMargin.right;
+    this.bottom = this.bottom += rootMargin.bottom;
+    this.left = this.left -= rootMargin.left;
+  }
+  /**
+   * Sets the bounds based on X/Y translation
+   */
+  _setBoundsWithTranslations(
     rect: Rect,
     view: View,
     translate: {

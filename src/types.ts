@@ -1,3 +1,5 @@
+import { RootMarginShape } from './classes/Bounds';
+
 export type ParallaxStartEndEffects = {
   translateX?: OffsetShape[];
   translateY?: OffsetShape[];
@@ -94,6 +96,7 @@ export type ParallaxElementEffectProperties = {
   scaleZ?: number[];
   opacity?: number[];
   easing?: number[] | ValidEasingPresets;
+  rootMargin?: RootMarginShape;
 };
 
 export type CreateElementOptions = {

@@ -1,4 +1,58 @@
+import { View } from './View';
 import { Bounds } from './Bounds';
+
+const DEFAULT_RECT = {
+  top: 500,
+  left: 200,
+  bottom: 700,
+  right: 900,
+  width: 700,
+  height: 200,
+  originTotalDistY: 300,
+  originTotalDistX: 1700,
+};
+
+const DEFAULT_VIEW = new View({ width: 1000, height: 1000 });
+
+describe('Bounds', () => {
+  test(`sets bounds based on root margin when provided`, () => {
+    const bounds = new Bounds({
+      rect: DEFAULT_RECT,
+      view: DEFAULT_VIEW,
+      translate: {
+        translateX: undefined,
+        translateY: undefined,
+      },
+      rootMargin: {
+        top: 10,
+        left: 20,
+        right: 30,
+        bottom: 40,
+      },
+    });
+
+    expect(bounds.top).toBe(490);
+    expect(bounds.left).toBe(180);
+    expect(bounds.right).toBe(930);
+    expect(bounds.bottom).toBe(740);
+  });
+
+  test(`does not adjust the bounds if translate values are not provided`, () => {
+    const bounds = new Bounds({
+      rect: DEFAULT_RECT,
+      view: DEFAULT_VIEW,
+      translate: {
+        translateX: undefined,
+        translateY: undefined,
+      },
+    });
+
+    expect(bounds.top).toBe(DEFAULT_RECT.top);
+    expect(bounds.left).toBe(DEFAULT_RECT.left);
+    expect(bounds.right).toBe(DEFAULT_RECT.right);
+    expect(bounds.bottom).toBe(DEFAULT_RECT.bottom);
+  });
+});
 
 describe.each([
   [
@@ -313,7 +367,7 @@ describe.each([
   ],
 ])('Bounds()', (rect: any, view: any, translate: any, expected) => {
   test(`returns expected bounds based on rect, offsets, and view`, () => {
-    expect(new Bounds(rect, view, translate)).toEqual(
+    expect(new Bounds({ rect, view, translate })).toEqual(
       expect.objectContaining(expected)
     );
   });
