@@ -1,4 +1,4 @@
-import { OffsetShape } from '..';
+import { OffsetShape } from '../types';
 import { Rect } from './Rect';
 import { View } from './View';
 
@@ -12,12 +12,6 @@ export type TranslateEffectsShape = {
   translateX: OffsetShape[] | undefined;
 };
 
-export type RootMarginShape = {
-  top: number;
-  bottom: number;
-  left: number;
-  right: number;
-};
 export class Bounds {
   totalDistY: number;
   totalDistX: number;
@@ -30,7 +24,6 @@ export class Bounds {
     rect: Rect;
     view: View;
     translate: TranslateEffectsShape;
-    rootMargin?: RootMarginShape;
   }) {
     // basic bounds
     this.totalDistY = options.view.height + options.rect.height;
@@ -40,14 +33,7 @@ export class Bounds {
     this.left = options.rect.left;
     this.right = options.rect.right;
 
-    if (options.rootMargin) {
-      this._setBoundsWithRootMargin(options.rootMargin);
-    }
-
-    if (
-      options.translate.translateX ||
-      (options.translate.translateY && !options.rootMargin)
-    ) {
+    if (options.translate.translateX || options.translate.translateY) {
       this._setBoundsWithTranslations(
         options.rect,
         options.view,
@@ -55,17 +41,7 @@ export class Bounds {
       );
     }
   }
-  /**
-   * Sets the bounds based root margin
-   */
-  _setBoundsWithRootMargin(rootMargin: RootMarginShape) {
-    this.top = this.top -= rootMargin.top;
-    this.right = this.right += rootMargin.right;
-    this.bottom = this.bottom += rootMargin.bottom;
-    this.left = this.left -= rootMargin.left;
-    this.totalDistY += rootMargin.top += rootMargin.bottom;
-    this.totalDistX += rootMargin.left += rootMargin.right;
-  }
+
   /**
    * Sets the bounds based on X/Y translation
    */

@@ -1,5 +1,43 @@
 import { Rect } from './Rect';
 import { createElementMock } from '../testUtils/createElementMock';
+import { Scroll } from './Scroll';
+import { View } from './View';
+
+const DEFAULT_VIEW = new View({ width: 1000, height: 1000 });
+const DEFAULT_SCROLL = new Scroll(0, 0);
+
+describe('Rect', () => {
+  test(`sets bounds based on root margin when provided`, () => {
+    const rect = new Rect({
+      view: DEFAULT_VIEW,
+      scroll: DEFAULT_SCROLL,
+      el: createElementMock(
+        { offsetWidth: 100, offsetHeight: 100 },
+        {
+          getBoundingClientRect: () => ({
+            top: 500,
+            left: 200,
+            bottom: 600,
+            right: 300,
+          }),
+        }
+      ),
+      rootMargin: {
+        top: 10,
+        left: 20,
+        right: 30,
+        bottom: 40,
+      },
+    });
+
+    expect(rect.top).toBe(490);
+    expect(rect.left).toBe(180);
+    expect(rect.right).toBe(330);
+    expect(rect.bottom).toBe(640);
+    expect(rect.originTotalDistY).toBe(1150);
+    expect(rect.originTotalDistX).toBe(1150);
+  });
+});
 
 describe.each([
   [
@@ -94,7 +132,7 @@ describe.each([
 ])('Rect()', (element, view, scroll, expected) => {
   test(`returns expected Rect based on element, view, and scroll`, () => {
     // @ts-ignore
-    expect(new Rect(element, view, scroll)).toEqual(
+    expect(new Rect({ el: element, view, scroll })).toEqual(
       expect.objectContaining(expected)
     );
   });

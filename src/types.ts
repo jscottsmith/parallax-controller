@@ -1,5 +1,3 @@
-import { RootMarginShape } from './classes/Bounds';
-
 export type ParallaxStartEndEffects = {
   translateX?: OffsetShape[];
   translateY?: OffsetShape[];
@@ -134,3 +132,10 @@ export type ValidEasingPresets =
   | 'easeInBack'
   | 'easeOutBack'
   | 'easeInOutBack';
+
+export type RootMarginShape = {
+  top: number;
+  bottom: number;
+  left: number;
+  right: number;
+};

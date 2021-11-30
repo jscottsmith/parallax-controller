@@ -15,32 +15,9 @@ const DEFAULT_RECT = {
 const DEFAULT_VIEW = new View({ width: 1000, height: 1000 });
 
 describe('Bounds', () => {
-  test(`sets bounds based on root margin when provided`, () => {
-    const bounds = new Bounds({
-      rect: DEFAULT_RECT,
-      view: DEFAULT_VIEW,
-      translate: {
-        translateX: undefined,
-        translateY: undefined,
-      },
-      rootMargin: {
-        top: 10,
-        left: 20,
-        right: 30,
-        bottom: 40,
-      },
-    });
-
-    expect(bounds.top).toBe(490);
-    expect(bounds.left).toBe(180);
-    expect(bounds.right).toBe(930);
-    expect(bounds.bottom).toBe(740);
-    expect(bounds.totalDistY).toBe(1250);
-    expect(bounds.totalDistX).toBe(1750);
-  });
-
   test(`does not adjust the bounds if translate values are not provided`, () => {
     const bounds = new Bounds({
+      // @ts-expect-error
       rect: DEFAULT_RECT,
       view: DEFAULT_VIEW,
       translate: {

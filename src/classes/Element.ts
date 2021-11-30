@@ -65,7 +65,12 @@ export class Element {
   setCachedAttributes(view: View, scroll: Scroll): Element {
     if (!this.elOuter) return this;
 
-    this.rect = new Rect(this.elOuter, view, scroll);
+    this.rect = new Rect({
+      el: this.elOuter,
+      rootMargin: this.props.rootMargin,
+      view,
+      scroll,
+    });
 
     const translate = {
       translateX: this.effects.translateX,
@@ -75,7 +80,6 @@ export class Element {
       view,
       translate,
       rect: this.rect,
-      rootMargin: this.props.rootMargin,
     });
     return this;
   }

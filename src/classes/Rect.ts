@@ -1,5 +1,6 @@
 import { View } from './View';
 import { Scroll } from './Scroll';
+import { RootMarginShape } from '../types';
 
 export class Rect {
   height: number;
@@ -11,12 +12,17 @@ export class Rect {
   originTotalDistY: number;
   originTotalDistX: number;
 
-  constructor(el: HTMLElement, view: View, scroll: Scroll) {
-    let rect = el.getBoundingClientRect();
+  constructor(options: {
+    el: HTMLElement;
+    view: View;
+    scroll: Scroll;
+    rootMargin?: RootMarginShape;
+  }) {
+    let rect = options.el.getBoundingClientRect();
 
     // rect is based on viewport -- must adjust for relative scroll container
-    if (view.scrollContainer) {
-      const scrollRect = view.scrollContainer.getBoundingClientRect();
+    if (options.view.scrollContainer) {
+      const scrollRect = options.view.scrollContainer.getBoundingClientRect();
       rect = {
         ...rect,
         top: rect.top - scrollRect.top,
@@ -26,13 +32,33 @@ export class Rect {
       };
     }
 
-    this.height = el.offsetHeight;
-    this.width = el.offsetWidth;
-    this.left = rect.left + scroll.x;
-    this.right = rect.right + scroll.x;
-    this.top = rect.top + scroll.y;
-    this.bottom = rect.bottom + scroll.y;
-    this.originTotalDistY = view.height + this.height;
-    this.originTotalDistX = view.width + this.width;
+    this.height = options.el.offsetHeight;
+    this.width = options.el.offsetWidth;
+    this.left = rect.left + options.scroll.x;
+    this.right = rect.right + options.scroll.x;
+    this.top = rect.top + options.scroll.y;
+    this.bottom = rect.bottom + options.scroll.y;
+    this.originTotalDistY = options.view.height + this.height;
+    this.originTotalDistX = options.view.width + this.width;
+
+    if (options.rootMargin) {
+      this._setRectWithRootMargin(options.rootMargin);
+    }
+  }
+
+  /**
+   * Apply root margin to all properties
+   */
+  _setRectWithRootMargin(rootMargin: RootMarginShape) {
+    let totalRootY = rootMargin.top + rootMargin.bottom;
+    let totalRootX = rootMargin.left + rootMargin.right;
+    this.top -= rootMargin.top;
+    this.right += rootMargin.right;
+    this.bottom += rootMargin.bottom;
+    this.left -= rootMargin.left;
+    this.height += totalRootY;
+    this.width += totalRootX;
+    this.originTotalDistY += totalRootY;
+    this.originTotalDistX += totalRootX;
   }
 }
