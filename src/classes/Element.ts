@@ -10,7 +10,7 @@ import {
 } from '../types';
 import { parseElementTransitionEffects } from '../helpers/parseElementTransitionEffects';
 import { isElementInView } from '../helpers/isElementInView';
-import { percentMoved } from '../helpers/percentMoved';
+import { getProgressAmount } from '../helpers/getProgressAmount';
 import { setElementStyles } from '../helpers/elementStyles';
 import { createId } from '../utils/createId';
 import { View } from './View';
@@ -30,7 +30,7 @@ export class Element {
   id: number;
   effects: ParallaxStartEndEffects;
   isInView: boolean | null;
-  percent: number;
+  progress: number;
   rect?: Rect;
   bounds?: Bounds;
   easing?: bezier.EasingFunction;
@@ -44,7 +44,7 @@ export class Element {
     this.id = createId();
     this.effects = parseElementTransitionEffects(this.props);
     this.isInView = null;
-    this.percent = 0;
+    this.progress = 0;
 
     this._setElementEasing(options.props.easing);
 
@@ -99,7 +99,7 @@ export class Element {
 
     if (!this.isInView) return this;
 
-    this.percent = percentMoved(
+    this.progress = getProgressAmount(
       this.rect.left,
       this.rect.originTotalDistX,
       view.width,
@@ -107,7 +107,7 @@ export class Element {
       this.easing
     );
 
-    setElementStyles(this.elInner, this.effects, this.percent);
+    setElementStyles(this.elInner, this.effects, this.progress);
 
     return this;
   }
@@ -124,7 +124,7 @@ export class Element {
 
     if (!this.isInView) return this;
 
-    this.percent = percentMoved(
+    this.progress = getProgressAmount(
       this.rect.top,
       this.rect.originTotalDistY,
       view.height,
@@ -132,7 +132,7 @@ export class Element {
       this.easing
     );
 
-    setElementStyles(this.elInner, this.effects, this.percent);
+    setElementStyles(this.elInner, this.effects, this.progress);
 
     return this;
   }

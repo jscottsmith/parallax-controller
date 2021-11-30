@@ -1,6 +1,6 @@
 import { Element } from '../classes/Element';
 import { ParallaxStartEndEffects, ValidCSSEffects } from '../types';
-import { scaleEffectByPercentMoved } from './scaleEffectByPercentMoved';
+import { scaleEffectByProgress } from './scaleEffectByProgress';
 
 // Exclude opacity from transforms
 const TRANSFORM_EFFECTS = Object.values(ValidCSSEffects).filter(
@@ -10,21 +10,20 @@ const TRANSFORM_EFFECTS = Object.values(ValidCSSEffects).filter(
 export function setElementStyles(
   elInner: HTMLElement,
   effects: ParallaxStartEndEffects,
-  percentMoved: number
+  progress: number
 ) {
-  const transform = getTransformStyles(effects, percentMoved);
-  const opacity = getOpacityStyles(effects, percentMoved);
+  const transform = getTransformStyles(effects, progress);
+  const opacity = getOpacityStyles(effects, progress);
   elInner.style.transform = transform;
   elInner.style.opacity = opacity;
 }
 
 export function getOpacityStyles(
   effects: ParallaxStartEndEffects,
-  percentMoved: number
+  progress: number
 ): string {
   const scaledOpacity =
-    effects['opacity'] &&
-    scaleEffectByPercentMoved(effects['opacity'], percentMoved);
+    effects['opacity'] && scaleEffectByProgress(effects['opacity'], progress);
 
   if (
     typeof scaledOpacity === 'undefined' ||
@@ -41,12 +40,12 @@ export function getOpacityStyles(
 
 export function getTransformStyles(
   effects: ParallaxStartEndEffects,
-  percentMoved: number
+  progress: number
 ): string {
   const transform: string = TRANSFORM_EFFECTS.reduce((acc, key: string) => {
     const scaledEffect =
       // @ts-expect-error
-      effects[key] && scaleEffectByPercentMoved(effects[key], percentMoved);
+      effects[key] && scaleEffectByProgress(effects[key], progress);
 
     if (
       typeof scaledEffect === 'undefined' ||

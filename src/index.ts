@@ -7,9 +7,9 @@ import { View } from './classes/View';
 
 import { setElementStyles, resetStyles } from './helpers/elementStyles';
 import { parseElementTransitionEffects } from './helpers/parseElementTransitionEffects';
-import { scaleEffectByPercentMoved } from './helpers/scaleEffectByPercentMoved';
+import { scaleEffectByProgress } from './helpers/scaleEffectByProgress';
 import { isElementInView } from './helpers/isElementInView';
-import { percentMoved } from './helpers/percentMoved';
+import { getProgressAmount } from './helpers/getProgressAmount';
 
 import { createId } from './utils/createId';
 import { parseValueAndUnit } from './utils/parseValueAndUnit';
@@ -28,9 +28,9 @@ export {
   setElementStyles,
   resetStyles,
   parseElementTransitionEffects,
-  scaleEffectByPercentMoved,
+  scaleEffectByProgress,
   isElementInView,
-  percentMoved,
+  getProgressAmount,
   createId,
   parseValueAndUnit,
   scaleBetween,

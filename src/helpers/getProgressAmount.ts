@@ -4,7 +4,7 @@ import bezier from 'bezier-easing';
  * Returns the percent (0 - 100) moved based on position in the viewport
  */
 
-export function percentMoved(
+export function getProgressAmount(
   /*
    * The start value from cache
    */
@@ -37,8 +37,5 @@ export function percentMoved(
     amount = easing(amount);
   }
 
-  // TODO: do not return percent, just use value between 0-1
-  const percent = amount * 100;
-
-  return percent;
+  return amount;
 }

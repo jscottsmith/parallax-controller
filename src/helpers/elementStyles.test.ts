@@ -31,9 +31,9 @@ describe('setElementStyles', () => {
     const offsets = {
       ...createEffect(0, 1, 'scale'),
     };
-    const percentMoved = 50;
+    const progress = 0.5;
     // @ts-expect-error
-    setElementStyles(elInner, offsets, percentMoved);
+    setElementStyles(elInner, offsets, progress);
     expect(elInner.style.transform).toBe(`scale(0.5)`);
   });
 
@@ -42,9 +42,9 @@ describe('setElementStyles', () => {
     const offsets = {
       ...createEffect(0, 1, 'opacity'),
     };
-    const percentMoved = 50;
+    const progress = 0.5;
     // @ts-expect-error
-    setElementStyles(elInner, offsets, percentMoved);
+    setElementStyles(elInner, offsets, progress);
     expect(elInner.style.opacity).toBe(`0.5`);
   });
 });
@@ -73,7 +73,7 @@ describe.each([
       ...createEffect('-0px', '50px', 'translateY'),
       ...createEffect('100deg', '0deg', 'rotateX'),
     },
-    50,
+    0.5,
     `translateX(0px)translateY(25px)rotateX(50deg)`,
   ],
   [
@@ -85,19 +85,19 @@ describe.each([
       ...createEffect('0deg', '180deg', 'rotateY'),
       ...createEffect('0deg', '360deg', 'rotateZ'),
     },
-    100,
+    1,
     `translateX(33px)translateY(50px)rotateX(0deg)rotateY(180deg)rotateZ(360deg)`,
   ],
   [
     createNodeMock(),
     createTranslateEffects(0, 100, 0, 0),
-    100,
+    1,
     `translateX(100%)translateY(0%)`,
   ],
   [
     createNodeMock(),
     createTranslateEffects(0, 100, 0, 0),
-    200,
+    2,
     `translateX(200%)translateY(0%)`,
   ],
   [
@@ -109,7 +109,7 @@ describe.each([
   [
     createNodeMock(),
     createTranslateEffects(100, 0, 0, 0),
-    50,
+    0.5,
     `translateX(50%)translateY(0%)`,
   ],
   [
@@ -121,25 +121,25 @@ describe.each([
   [
     createNodeMock(),
     createTranslateEffects(100, -100, 100, -100),
-    50,
+    0.5,
     `translateX(0%)translateY(0%)`,
   ],
   [
     createNodeMock(),
     createTranslateEffects(100, -100, 100, -100),
-    100,
+    1,
     `translateX(-100%)translateY(-100%)`,
   ],
   [
     createNodeMock(),
     createTranslateEffects(100, -100, 100, -100),
-    200,
+    2,
     `translateX(-300%)translateY(-300%)`,
   ],
   [
     createNodeMock(),
     createTranslateEffects(100, -100, 100, -100),
-    -100,
+    -1,
     `translateX(300%)translateY(300%)`,
   ],
   [
@@ -151,19 +151,19 @@ describe.each([
   [
     createNodeMock(),
     createTranslateEffects('0px', '100px', '100%', '50%'),
-    50,
+    0.5,
     `translateX(50px)translateY(75%)`,
   ],
   [
     createNodeMock(),
     createTranslateEffects('-100px', '100px', '100%', '-200%'),
-    50,
+    0.5,
     `translateX(0px)translateY(-50%)`,
   ],
-])('.setElementStyles(%o, %o, %n)', (elInner, offsets, percent, expected) => {
+])('.setElementStyles(%o, %o, %n)', (elInner, offsets, progress, expected) => {
   test(`sets element styles to: ${expected}%`, () => {
     // @ts-expect-error
-    setElementStyles(elInner, offsets, percent);
+    setElementStyles(elInner, offsets, progress);
     expect(elInner.style.transform).toBe(expected);
   });
 });

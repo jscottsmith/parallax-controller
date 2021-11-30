@@ -4,19 +4,19 @@ import { scaleBetween } from '../utils/scaleBetween';
 /**
  * Scales a start and end value of an effect based on percent moved
  */
-export function scaleEffectByPercentMoved(
+export function scaleEffectByProgress(
   effect: ValueShape[],
-  percentMoved: number
+  progress: number
 ): {
   value: number;
   unit: AllValidUnits;
 } {
   const value = scaleBetween(
-    percentMoved,
+    progress,
     effect?.[0]?.value || 0,
     effect?.[1]?.value || 0,
     0,
-    100
+    1
   );
 
   return {

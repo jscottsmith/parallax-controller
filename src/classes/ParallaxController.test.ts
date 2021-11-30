@@ -36,15 +36,15 @@ describe('Expect the ParallaxController', () => {
     const controller = ParallaxController.init({
       scrollAxis: ScrollAxis.vertical,
     });
-    // @ts-ignore
+    // @ts-expect-error
     expect(window.addEventListener.mock.calls[0]).toEqual(
       expect.arrayContaining(['test', null, expect.any(Object)])
     );
-    // @ts-ignore
+    // @ts-expect-error
     expect(window.addEventListener.mock.calls[1]).toEqual(
       expect.arrayContaining(['scroll', expect.any(Function), false])
     );
-    // @ts-ignore
+    // @ts-expect-error
     expect(window.addEventListener.mock.calls[2]).toEqual(
       expect.arrayContaining(['resize', expect.any(Function), false])
     );
@@ -67,7 +67,7 @@ describe('Expect the ParallaxController', () => {
       scrollAxis: 'vertical',
       elInner,
       elOuter: document.createElement('div'),
-      percent: 100,
+      progress: 1,
       updatePosition: expect.any(Function),
       effects: {
         translateY: [
@@ -85,6 +85,7 @@ describe('Expect the ParallaxController', () => {
         translateY: [0, 0],
       },
     };
+
     expect(element).toMatchObject(expectedElement);
     expect(element).toBeInstanceOf(Element);
     expect(element.bounds).toBeInstanceOf(Bounds);
@@ -144,17 +145,17 @@ describe('Expect the ParallaxController', () => {
     const controller = ParallaxController.init({
       scrollAxis: ScrollAxis.vertical,
     });
-    // @ts-ignore
+    // @ts-expect-error
     expect(window.removeEventListener.mock.calls[0]).toEqual(
       expect.arrayContaining(['test', null, expect.any(Object)])
     );
 
     controller.destroy();
-    // @ts-ignore
+    // @ts-expect-error
     expect(window.removeEventListener.mock.calls[1]).toEqual(
       expect.arrayContaining(['scroll', expect.any(Function), false])
     );
-    // @ts-ignore
+    // @ts-expect-error
     expect(window.removeEventListener.mock.calls[2]).toEqual(
       expect.arrayContaining(['resize', expect.any(Function), false])
     );
