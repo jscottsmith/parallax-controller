@@ -35,6 +35,8 @@ describe('Bounds', () => {
     expect(bounds.left).toBe(180);
     expect(bounds.right).toBe(930);
     expect(bounds.bottom).toBe(740);
+    expect(bounds.totalDistY).toBe(1250);
+    expect(bounds.totalDistX).toBe(1750);
   });
 
   test(`does not adjust the bounds if translate values are not provided`, () => {

@@ -63,6 +63,8 @@ export class Bounds {
     this.right = this.right += rootMargin.right;
     this.bottom = this.bottom += rootMargin.bottom;
     this.left = this.left -= rootMargin.left;
+    this.totalDistY += rootMargin.top += rootMargin.bottom;
+    this.totalDistX += rootMargin.left += rootMargin.right;
   }
   /**
    * Sets the bounds based on X/Y translation
