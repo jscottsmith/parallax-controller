@@ -95,6 +95,10 @@ export type ParallaxElementEffectProperties = {
   opacity?: number[];
   easing?: number[] | ValidEasingPresets;
   rootMargin?: RootMarginShape;
+
+  onEnter?: () => void;
+  onExit?: () => void;
+  onProgressChange?: (progress: number) => any;
 };
 
 export type CreateElementOptions = {

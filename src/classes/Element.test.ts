@@ -6,7 +6,17 @@ import { ScrollAxis } from '../types';
 import { easingPresets } from '../constants';
 
 const DEFAULT_OPTIONS = {
-  elInner: document.createElement('div'),
+  elInner: createElementMock(
+    { offsetWidth: 100, offsetHeight: 100 },
+    {
+      getBoundingClientRect: () => ({
+        top: 500,
+        left: 0,
+        bottom: 600,
+        right: 100,
+      }),
+    }
+  ),
   elOuter: document.createElement('div'),
   scrollAxis: ScrollAxis.vertical,
   props: { translateX: [0, 0], translateY: [0, 0] },
@@ -30,18 +40,45 @@ describe('Expect the Element class', () => {
     expect(instance).toBeInstanceOf(Element);
   });
 
-  it('to set the correct updatePosition method', () => {
-    const verticalElement = new Element(DEFAULT_OPTIONS);
-    expect(verticalElement.updatePosition).toEqual(
-      verticalElement._updatePositionVertical
-    );
-    const horizontalElement = new Element({
+  it.skip('to conditionally handle updates based on scroll axis', () => {});
+
+  it('calls enter and exit and progress handlers', () => {
+    const onEnter = jest.fn();
+    const onExit = jest.fn();
+    const onProgressChange = jest.fn();
+
+    const element = new Element({
       ...DEFAULT_OPTIONS,
-      scrollAxis: ScrollAxis.horizontal,
+      props: {
+        onEnter,
+        onExit,
+        onProgressChange,
+        translateY: [100, -100],
+      },
     });
-    expect(horizontalElement.updatePosition).toEqual(
-      horizontalElement._updatePositionHorizontal
-    );
+    const view = new View({
+      width: 100,
+      height: 100,
+      scrollContainer: createElementMock(),
+    });
+
+    const scroll = new Scroll(0, 0);
+    element.setCachedAttributes(view, scroll);
+    expect(onProgressChange).toBeCalledTimes(0);
+
+    element.updatePosition(view, scroll);
+    expect(onProgressChange).toBeCalledTimes(1);
+
+    scroll.setScroll(0, 500);
+    element.updatePosition(view, scroll);
+    expect(onEnter).toBeCalledTimes(1);
+    // expect(onProgressChange).toBeCalledWith(1);
+    // expect(onProgressChange).toBeCalledTimes(2);
+
+    scroll.setScroll(0, 499);
+    element.updatePosition(view, scroll);
+    expect(onExit).toBeCalledTimes(1);
+    // expect(onProgressChange).toBeCalledTimes(3);
   });
 
   it('to set cache and return the instance', () => {

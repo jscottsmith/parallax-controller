@@ -90,6 +90,23 @@ export class Element {
     return this;
   }
 
+  _updateElementIsInView(nextIsInView: boolean) {
+    if (nextIsInView !== this.isInView) {
+      if (nextIsInView) {
+        this.props.onEnter && this.props.onEnter();
+      } else {
+        this.props.onExit && this.props.onExit();
+      }
+    }
+    this.isInView = nextIsInView;
+  }
+
+  _updateElementProgress(nextProgress: number) {
+    this.progress = nextProgress;
+    this.props.onProgressChange && this.props.onProgressChange(this.progress);
+    setElementStyles(this.effects, this.progress, this.elInner);
+  }
+
   _setElementEasing(easing?: number[] | ValidEasingPresets): void {
     if (Array.isArray(easing)) {
       this.easing = bezier(easing[0], easing[1], easing[2], easing[3]);
@@ -106,16 +123,17 @@ export class Element {
   _updatePositionHorizontal(view: View, scroll: Scroll): Element {
     if (!this.bounds || !this.rect || !this.elInner) return this;
 
-    this.isInView = isElementInView(
+    const nextIsInView = isElementInView(
       this.bounds.left,
       this.bounds.right,
       view.width,
       scroll.x
     );
+    this._updateElementIsInView(nextIsInView);
 
-    if (!this.isInView) return this;
+    if (!nextIsInView) return this;
 
-    this.progress = getProgressAmount(
+    const nextProgress = getProgressAmount(
       this.rect.left,
       this.rect.originTotalDistX,
       view.width,
@@ -123,7 +141,7 @@ export class Element {
       this.easing
     );
 
-    setElementStyles(this.elInner, this.effects, this.progress);
+    this._updateElementProgress(nextProgress);
 
     return this;
   }
@@ -131,16 +149,17 @@ export class Element {
   _updatePositionVertical(view: View, scroll: Scroll): Element {
     if (!this.bounds || !this.rect || !this.elInner) return this;
 
-    this.isInView = isElementInView(
+    const nextIsInView = isElementInView(
       this.bounds.top,
       this.bounds.bottom,
       view.height,
       scroll.y
     );
+    this._updateElementIsInView(nextIsInView);
 
     if (!this.isInView) return this;
 
-    this.progress = getProgressAmount(
+    const nextProgress = getProgressAmount(
       this.rect.top,
       this.rect.originTotalDistY,
       view.height,
@@ -148,7 +167,7 @@ export class Element {
       this.easing
     );
 
-    setElementStyles(this.elInner, this.effects, this.progress);
+    this._updateElementProgress(nextProgress);
 
     return this;
   }

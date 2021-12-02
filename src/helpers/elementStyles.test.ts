@@ -33,7 +33,7 @@ describe('setElementStyles', () => {
     };
     const progress = 0.5;
     // @ts-expect-error
-    setElementStyles(elInner, offsets, progress);
+    setElementStyles(offsets, progress, elInner);
     expect(elInner.style.transform).toBe(`scale(0.5)`);
   });
 
@@ -44,8 +44,19 @@ describe('setElementStyles', () => {
     };
     const progress = 0.5;
     // @ts-expect-error
-    setElementStyles(elInner, offsets, progress);
+    setElementStyles(offsets, progress, elInner);
     expect(elInner.style.opacity).toBe(`0.5`);
+  });
+
+  test(`exits early when inner element is not provided`, () => {
+    const elInner = undefined;
+    const offsets = {
+      ...createEffect(0, 1, 'opacity'),
+    };
+    const progress = 0.5;
+    expect(() => {
+      setElementStyles(offsets, progress, elInner);
+    }).not.toThrowError();
   });
 });
 
@@ -163,7 +174,7 @@ describe.each([
 ])('.setElementStyles(%o, %o, %n)', (elInner, offsets, progress, expected) => {
   test(`sets element styles to: ${expected}%`, () => {
     // @ts-expect-error
-    setElementStyles(elInner, offsets, progress);
+    setElementStyles(offsets, progress, elInner);
     expect(elInner.style.transform).toBe(expected);
   });
 });

@@ -8,10 +8,11 @@ const TRANSFORM_EFFECTS = Object.values(ValidCSSEffects).filter(
 );
 
 export function setElementStyles(
-  elInner: HTMLElement,
   effects: ParallaxStartEndEffects,
-  progress: number
+  progress: number,
+  elInner?: HTMLElement
 ) {
+  if (!elInner) return;
   const transform = getTransformStyles(effects, progress);
   const opacity = getOpacityStyles(effects, progress);
   elInner.style.transform = transform;
