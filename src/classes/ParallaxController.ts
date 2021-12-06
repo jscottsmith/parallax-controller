@@ -78,8 +78,34 @@ export class ParallaxController {
     // Passive support
     this._supportsPassive = testForPassiveScroll();
 
+    // Bind methods to class
+    this._bindAllMethods();
     this._addListeners(this.viewEl);
     this._setViewSize();
+  }
+
+  _bindAllMethods() {
+    [
+      '_addListeners',
+      '_removeListeners',
+      '_getScrollPosition',
+      '_handleScroll',
+      '_handleResize',
+      '_updateAllElements',
+      '_updateElementPosition',
+      '_setViewSize',
+      'getElements',
+      'createElement',
+      'removeElementById',
+      'updateElementPropsById',
+      'resetElementStyles',
+      'update',
+      'updateScrollContainer',
+      'destroy',
+    ].forEach((method: string) => {
+      // @ts-expect-error
+      this[method] = this[method].bind(this);
+    });
   }
 
   _addListeners(el: ViewElement) {
