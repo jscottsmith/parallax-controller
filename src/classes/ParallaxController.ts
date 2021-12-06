@@ -78,37 +78,11 @@ export class ParallaxController {
     // Passive support
     this._supportsPassive = testForPassiveScroll();
 
-    // Bind methods to class
-    this._bindAllMethods();
     this._addListeners(this.viewEl);
     this._setViewSize();
   }
 
-  private _bindAllMethods() {
-    [
-      '_addListeners',
-      '_removeListeners',
-      '_getScrollPosition',
-      '_handleScroll',
-      '_handleResize',
-      '_updateAllElements',
-      '_updateElementPosition',
-      '_setViewSize',
-      'getElements',
-      'createElement',
-      'removeElementById',
-      'updateElementPropsById',
-      'resetElementStyles',
-      'update',
-      'updateScrollContainer',
-      'destroy',
-    ].forEach((method: string) => {
-      // @ts-expect-error
-      this[method] = this[method].bind(this);
-    });
-  }
-
-  private _addListeners(el: ViewElement) {
+  _addListeners(el: ViewElement) {
     el.addEventListener(
       'scroll',
       this._handleScroll,
@@ -117,12 +91,12 @@ export class ParallaxController {
     window.addEventListener('resize', this._handleResize, false);
   }
 
-  private _removeListeners(el: ViewElement) {
+  _removeListeners(el: ViewElement) {
     el.removeEventListener('scroll', this._handleScroll, false);
     window.removeEventListener('resize', this._handleResize, false);
   }
 
-  private _getScrollPosition() {
+  _getScrollPosition() {
     // Save current scroll
     // Supports IE 9 and up.
     const nx = this._hasScrollContainer
@@ -141,7 +115,7 @@ export class ParallaxController {
    * Window scroll handler sets scroll position
    * and then calls '_updateAllElements()'.
    */
-  private _handleScroll() {
+  _handleScroll() {
     const [nx, ny] = this._getScrollPosition();
     this.scroll.setScroll(nx, ny);
 
@@ -158,7 +132,7 @@ export class ParallaxController {
    * Window resize handler. Sets the new window inner height
    * then updates parallax element attributes and positions.
    */
-  private _handleResize() {
+  _handleResize() {
     this._setViewSize();
     this._updateAllElements({ updateCache: true });
   }
@@ -168,7 +142,7 @@ export class ParallaxController {
    * Determines if the element is in view based on the cached
    * attributes, if so set the elements parallax styles.
    */
-  private _updateAllElements({ updateCache }: { updateCache?: boolean } = {}) {
+  _updateAllElements({ updateCache }: { updateCache?: boolean } = {}) {
     if (this.elements) {
       this.elements.forEach(element => {
         this._updateElementPosition(element);
@@ -190,7 +164,7 @@ export class ParallaxController {
    * Determines if the element is in view based on the cached
    * attributes, if so set the elements parallax styles.
    */
-  private _updateElementPosition(element: Element) {
+  _updateElementPosition(element: Element) {
     if (element.props.disabled) return;
     element.updatePosition(this.view, this.scroll);
   }
@@ -198,7 +172,7 @@ export class ParallaxController {
   /**
    * Cache the window width/height.
    */
-  private _setViewSize() {
+  _setViewSize() {
     if (this._hasScrollContainer) {
       // @ts-ignore
       const width = this.viewEl.offsetWidth;
