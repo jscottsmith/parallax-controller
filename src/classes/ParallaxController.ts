@@ -63,16 +63,9 @@ export class ParallaxController {
     this.viewEl = scrollContainer ?? window;
 
     // Scroll and View
-    const x = this._hasScrollContainer
-      ? // @ts-expect-error
-        this.viewEl.scrollLeft
-      : window.pageXOffset;
-    const y = this._hasScrollContainer
-      ? // @ts-expect-error
-        this.viewEl.scrollTop
-      : window.pageYOffset;
-
+    const [x, y] = this._getScrollPosition();
     this.scroll = new Scroll(x, y);
+
     this.view = new View({
       width: 0,
       height: 0,
@@ -95,6 +88,7 @@ export class ParallaxController {
     [
       '_addListeners',
       '_removeListeners',
+      '_getScrollPosition',
       '_handleScroll',
       '_handleResize',
       '_updateAllElements',
@@ -128,11 +122,7 @@ export class ParallaxController {
     window.removeEventListener('resize', this._handleResize, false);
   }
 
-  /**
-   * Window scroll handler sets scroll position
-   * and then calls '_updateAllElements()'.
-   */
-  private _handleScroll() {
+  private _getScrollPosition() {
     // Save current scroll
     // Supports IE 9 and up.
     const nx = this._hasScrollContainer
@@ -143,6 +133,16 @@ export class ParallaxController {
       ? // @ts-expect-error
         this.viewEl.scrollTop
       : window.pageYOffset;
+
+    return [nx, ny];
+  }
+
+  /**
+   * Window scroll handler sets scroll position
+   * and then calls '_updateAllElements()'.
+   */
+  private _handleScroll() {
+    const [nx, ny] = this._getScrollPosition();
     this.scroll.setScroll(nx, ny);
 
     // Only called if the last animation request has been
@@ -173,6 +173,10 @@ export class ParallaxController {
       this.elements.forEach(element => {
         this._updateElementPosition(element);
         if (updateCache) {
+          // Save latest scroll
+          const [nx, ny] = this._getScrollPosition();
+          this.scroll.setScroll(nx, ny);
+
           element.setCachedAttributes(this.view, this.scroll);
         }
       });
