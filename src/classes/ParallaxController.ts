@@ -159,12 +159,8 @@ export class ParallaxController {
    * then updates parallax element attributes and positions.
    */
   _handleResize() {
-    // NOTE: i know... seems like scroll isn't updating before elements are cached
-    // but forcing this to the end of the stack works? Need to dig in deeper.
-    setTimeout(() => {
-      this._setViewSize();
-      this._updateAllElements({ updateCache: true });
-    }, 0);
+    this._setViewSize();
+    this._updateAllElements({ updateCache: true });
   }
 
   /**
@@ -286,6 +282,11 @@ export class ParallaxController {
    * Updates all parallax element attributes and positions.
    */
   update() {
+    // Save the latest scroll position because window.scroll
+    // may be called and the handle scroll event may not be called.
+    const [nx, ny] = this._getScrollPosition();
+    this.scroll.setScroll(nx, ny);
+
     this._setViewSize();
     this._updateAllElements({ updateCache: true });
   }
