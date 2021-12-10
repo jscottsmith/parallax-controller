@@ -11,9 +11,7 @@ function createTranslateEffects(
   y1: Offset
 ) {
   return parseElementTransitionEffects({
-    // @ts-expect-error
     translateX: [x0, x1],
-    // @ts-expect-error
     translateY: [y0, y1],
   });
 }

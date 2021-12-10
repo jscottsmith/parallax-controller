@@ -1,15 +1,16 @@
-import { OffsetShape } from '../types';
+import { ParsedValueEffect } from '..';
 import { Rect } from './Rect';
 import { View } from './View';
 
-const DEFAULT_VALUE = [
-  { value: 0, unit: '' },
-  { value: 0, unit: '' },
-];
+const DEFAULT_VALUE = {
+  start: 0,
+  end: 0,
+  unit: '',
+};
 
 export type TranslateEffectsShape = {
-  translateY: OffsetShape[] | undefined;
-  translateX: OffsetShape[] | undefined;
+  translateY: ParsedValueEffect | undefined;
+  translateX: ParsedValueEffect | undefined;
 };
 
 export class Bounds {
@@ -50,31 +51,33 @@ export class Bounds {
     rect: Rect,
     view: View,
     translate: {
-      translateY: OffsetShape[] | undefined;
-      translateX: OffsetShape[] | undefined;
+      translateY: ParsedValueEffect | undefined;
+      translateX: ParsedValueEffect | undefined;
     }
   ) {
-    const [x0, x1] = translate.translateX || DEFAULT_VALUE;
-    const [y0, y1] = translate.translateY || DEFAULT_VALUE;
+    const { start: x0, end: x1, unit: xUnit } =
+      translate.translateX || DEFAULT_VALUE;
+    const { start: y0, end: y1, unit: yUnit } =
+      translate.translateY || DEFAULT_VALUE;
 
     // Y offsets
-    const yPercent = y1.unit === '%' && y0.unit === '%';
-    let y0Px = y0.value;
-    let y1Px = y1.value;
+    const yPercent = yUnit === '%';
+    let y0Px = y0;
+    let y1Px = y1;
     if (yPercent) {
       const h100 = rect.height / 100;
-      y0Px = y0.value * h100;
-      y1Px = y1.value * h100;
+      y0Px = y0 * h100;
+      y1Px = y1 * h100;
     }
 
     // X offsets
-    const xPercent = x1.unit === '%' && x0.unit === '%';
-    let x0Px = x0.value;
-    let x1Px = x1.value;
+    const xPercent = xUnit === '%';
+    let x0Px = x0;
+    let x1Px = x1;
     if (xPercent) {
       const h100 = rect.width / 100;
-      x0Px = x0.value * h100;
-      x1Px = x1.value * h100;
+      x0Px = x0 * h100;
+      x1Px = x1 * h100;
     }
 
     const totalAbsOffY = Math.abs(y0Px) + Math.abs(y1Px);

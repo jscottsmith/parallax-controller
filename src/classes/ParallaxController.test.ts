@@ -2,7 +2,7 @@ import { ParallaxController } from './ParallaxController';
 import { Element } from './Element';
 import { Rect } from './Rect';
 import { Bounds } from './Bounds';
-import { ScrollAxis } from '..';
+import { CSSEffect, ScrollAxis } from '..';
 
 const addEventListener = window.addEventListener;
 const removeEventListener = window.removeEventListener;
@@ -12,8 +12,8 @@ const OPTIONS = {
   elOuter: document.createElement('div'),
   props: {
     disabled: false,
-    translateX: [0, 0],
-    translateY: [0, 0],
+    translateX: [0, 0] as CSSEffect,
+    translateY: [0, 0] as CSSEffect,
   },
 };
 
@@ -70,14 +70,8 @@ describe('Expect the ParallaxController', () => {
       progress: 1,
       updatePosition: expect.any(Function),
       effects: {
-        translateY: [
-          { unit: '%', value: 0 },
-          { unit: '%', value: 0 },
-        ],
-        translateX: [
-          { unit: '%', value: 0 },
-          { unit: '%', value: 0 },
-        ],
+        translateY: { unit: '%', start: 0, end: 0, easing: undefined },
+        translateX: { unit: '%', start: 0, end: 0, easing: undefined },
       },
       props: {
         disabled: false,

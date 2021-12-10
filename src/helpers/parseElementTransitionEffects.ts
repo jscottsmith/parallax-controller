@@ -1,10 +1,12 @@
-import { ValidCSSEffects, ValueShape } from '..';
 import {
+  ParsedValueEffect,
+  ValidCSSEffects,
   ParallaxElementEffectProperties,
   ParallaxStartEndEffects,
   AllValidUnits,
 } from '../types';
 import { parseValueAndUnit } from '../utils/parseValueAndUnit';
+import { createEasingFunction } from './createEasingFunction';
 
 export const PARALLAX_EFFECTS = Object.values(ValidCSSEffects);
 
@@ -29,7 +31,7 @@ export const MAP_EFFECT_TO_DEFAULT_VALUE: {
 export function parseElementTransitionEffects(
   props: ParallaxElementEffectProperties
 ): ParallaxStartEndEffects {
-  const parsedEffects: { [key: string]: ValueShape[] } = {};
+  const parsedEffects: { [key: string]: ParsedValueEffect } = {};
 
   PARALLAX_EFFECTS.forEach((key: keyof typeof ValidCSSEffects) => {
     if (
@@ -37,12 +39,20 @@ export function parseElementTransitionEffects(
       typeof props?.[key]?.[1] !== 'undefined'
     ) {
       const defaultValue: AllValidUnits = MAP_EFFECT_TO_DEFAULT_VALUE[key];
-      parsedEffects[key] = [
-        parseValueAndUnit(props?.[key]?.[0], defaultValue),
-        parseValueAndUnit(props?.[key]?.[1], defaultValue),
-      ];
 
-      if (parsedEffects[key][0].unit !== parsedEffects[key][1].unit) {
+      const startParsed = parseValueAndUnit(props?.[key]?.[0], defaultValue);
+      const endParsed = parseValueAndUnit(props?.[key]?.[1], defaultValue);
+
+      const easing = createEasingFunction(props?.[key]?.[2]);
+
+      parsedEffects[key] = {
+        start: startParsed.value,
+        end: endParsed.value,
+        unit: startParsed.unit,
+        easing,
+      };
+
+      if (startParsed.unit !== endParsed.unit) {
         throw new Error(
           'Must provide matching units for the min and max offset values of each axis.'
         );

@@ -4,6 +4,7 @@ import { Scroll } from './Scroll';
 import { createElementMock } from '../testUtils/createElementMock';
 import { ScrollAxis } from '../types';
 import { easingPresets } from '../constants';
+import { CSSEffect } from '..';
 
 const DEFAULT_OPTIONS = {
   elInner: createElementMock(
@@ -19,7 +20,7 @@ const DEFAULT_OPTIONS = {
   ),
   elOuter: document.createElement('div'),
   scrollAxis: ScrollAxis.vertical,
-  props: { translateX: [0, 0], translateY: [0, 0] },
+  props: { translateX: [0, 0] as CSSEffect, translateY: [0, 0] as CSSEffect },
 };
 
 describe('Expect the Element class', () => {
@@ -32,8 +33,8 @@ describe('Expect the Element class', () => {
     const element = new Element(DEFAULT_OPTIONS);
     const updates = {
       disabled: true,
-      translateX: [100, 100],
-      translateY: [0, 0],
+      translateX: [100, 100] as CSSEffect,
+      translateY: [0, 0] as CSSEffect,
     };
     const instance = element.updateProps(updates);
     expect(instance.props).toMatchObject(updates);

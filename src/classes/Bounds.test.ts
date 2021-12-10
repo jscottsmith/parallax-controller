@@ -1,6 +1,5 @@
 import { View } from './View';
 import { Bounds } from './Bounds';
-import { OffsetShape } from '../types';
 
 const DEFAULT_RECT = {
   top: 500,
@@ -23,14 +22,18 @@ describe('Bounds', () => {
       view: DEFAULT_VIEW,
       shouldUpdateBoundsWithTranslate: false,
       translate: {
-        translateX: [
-          { value: 100, unit: 'px' },
-          { value: -100, unit: 'px' },
-        ] as OffsetShape[],
-        translateY: [
-          { value: -100, unit: 'px' },
-          { value: 100, unit: 'px' },
-        ] as OffsetShape[],
+        translateX: {
+          start: 100,
+          end: -100,
+          unit: 'px',
+          easing: undefined,
+        },
+        translateY: {
+          start: -100,
+          end: 100,
+          unit: 'px',
+          easing: undefined,
+        },
       },
     });
 
@@ -55,14 +58,8 @@ describe.each([
     },
     { width: 1000, height: 100 },
     {
-      translateY: [
-        { value: 0, unit: 'px' },
-        { value: 0, unit: 'px' },
-      ],
-      translateX: [
-        { value: 0, unit: 'px' },
-        { value: 0, unit: 'px' },
-      ],
+      translateY: { start: 0, end: 0, unit: 'px', easing: undefined },
+      translateX: { start: 0, end: 0, unit: 'px', easing: undefined },
     },
     {
       totalDistX: 1700,
@@ -86,14 +83,8 @@ describe.each([
     },
     { width: 500, height: 500 },
     {
-      translateY: [
-        { value: -10, unit: '%' },
-        { value: 10, unit: '%' },
-      ],
-      translateX: [
-        { value: 10, unit: '%' },
-        { value: -10, unit: '%' },
-      ],
+      translateY: { start: -10, end: 10, unit: '%', easing: undefined },
+      translateX: { start: 10, end: -10, unit: '%', easing: undefined },
     },
     {
       totalDistX: 740,
@@ -117,14 +108,8 @@ describe.each([
     },
     { width: 805, height: 675 },
     {
-      translateY: [
-        { value: 50, unit: '%' },
-        { value: -50, unit: '%' },
-      ],
-      translateX: [
-        { value: 0, unit: '%' },
-        { value: 0, unit: '%' },
-      ],
+      translateY: { start: 50, end: -50, unit: '%', easing: undefined },
+      translateX: { start: 0, end: 0, unit: '%', easing: undefined },
     },
     {
       totalDistX: 1005,
@@ -148,14 +133,8 @@ describe.each([
     },
     { width: 1024, height: 675 },
     {
-      translateY: [
-        { value: 50, unit: '%' },
-        { value: -50, unit: '%' },
-      ],
-      translateX: [
-        { value: 0, unit: '%' },
-        { value: 0, unit: '%' },
-      ],
+      translateY: { start: 50, end: -50, unit: '%', easing: undefined },
+      translateX: { start: 0, end: 0, unit: '%', easing: undefined },
     },
     {
       totalDistX: 1224,
@@ -179,14 +158,8 @@ describe.each([
     },
     { width: 1024, height: 675 },
     {
-      translateY: [
-        { value: 0, unit: '%' },
-        { value: 0, unit: '%' },
-      ],
-      translateX: [
-        { value: -50, unit: '%' },
-        { value: 50, unit: '%' },
-      ],
+      translateY: { start: 0, end: 0, unit: '%', easing: undefined },
+      translateX: { start: -50, end: 50, unit: '%', easing: undefined },
     },
     {
       totalDistX: 1424,
@@ -210,14 +183,8 @@ describe.each([
     },
     { width: 1024, height: 813 },
     {
-      translateY: [
-        { value: 50, unit: '%' },
-        { value: -50, unit: '%' },
-      ],
-      translateX: [
-        { value: 50, unit: '%' },
-        { value: -50, unit: '%' },
-      ],
+      translateY: { start: 50, end: -50, unit: '%', easing: undefined },
+      translateX: { start: 50, end: -50, unit: '%', easing: undefined },
     },
     {
       totalDistX: 1230,
@@ -241,14 +208,8 @@ describe.each([
     },
     { width: 1024, height: 813 },
     {
-      translateY: [
-        { value: -50, unit: '%' },
-        { value: 50, unit: '%' },
-      ],
-      translateX: [
-        { value: -50, unit: '%' },
-        { value: 50, unit: '%' },
-      ],
+      translateY: { start: -50, end: 50, unit: '%', easing: undefined },
+      translateX: { start: -50, end: 50, unit: '%', easing: undefined },
     },
     {
       totalDistX: 1228,
@@ -272,14 +233,8 @@ describe.each([
     },
     { width: 1024, height: 813 },
     {
-      translateY: [
-        { value: 50, unit: '%' },
-        { value: -50, unit: '%' },
-      ],
-      translateX: [
-        { value: 50, unit: '%' },
-        { value: -50, unit: '%' },
-      ],
+      translateY: { start: 50, end: -50, unit: '%', easing: undefined },
+      translateX: { start: 50, end: -50, unit: '%', easing: undefined },
     },
     {
       totalDistX: 1230,
@@ -303,14 +258,8 @@ describe.each([
     },
     { width: 979, height: 643 },
     {
-      translateY: [
-        { value: 85, unit: 'px' },
-        { value: -85, unit: 'px' },
-      ],
-      translateX: [
-        { value: 0, unit: '%' },
-        { value: 0, unit: '%' },
-      ],
+      translateY: { start: 85, end: -85, unit: 'px', easing: undefined },
+      translateX: { start: 0, end: 0, unit: '%', easing: undefined },
     },
     {
       totalDistX: 1179,
@@ -334,14 +283,8 @@ describe.each([
     },
     { width: 891, height: 643 },
     {
-      translateY: [
-        { value: -200, unit: 'px' },
-        { value: 125, unit: 'px' },
-      ],
-      translateX: [
-        { value: 0, unit: '%' },
-        { value: 0, unit: '%' },
-      ],
+      translateY: { start: -200, end: 125, unit: 'px', easing: undefined },
+      translateX: { start: 0, end: 0, unit: '%', easing: undefined },
     },
     {
       totalDistX: 966,

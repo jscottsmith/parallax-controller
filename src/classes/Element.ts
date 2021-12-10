@@ -7,6 +7,7 @@ import {
   ParallaxStartEndEffects,
   ScrollAxis,
   ValidScrollAxis,
+  EasingParam,
 } from '../types';
 import { parseElementTransitionEffects } from '../helpers/parseElementTransitionEffects';
 import { isElementInView } from '../helpers/isElementInView';
@@ -15,8 +16,7 @@ import { setElementStyles } from '../helpers/elementStyles';
 import { createId } from '../utils/createId';
 import { View } from './View';
 import { Scroll } from './Scroll';
-import { ValidEasingPresets } from '..';
-import { easingPresets } from '../constants';
+import { createEasingFunction } from '../helpers/createEasingFunction';
 
 type ElementConstructorOptions = CreateElementOptions & {
   scrollAxis: ValidScrollAxis;
@@ -107,17 +107,8 @@ export class Element {
     setElementStyles(this.effects, this.progress, this.elInner);
   }
 
-  _setElementEasing(easing?: number[] | ValidEasingPresets): void {
-    if (Array.isArray(easing)) {
-      this.easing = bezier(easing[0], easing[1], easing[2], easing[3]);
-    }
-    if (
-      typeof easing === 'string' &&
-      typeof easingPresets[easing] !== 'undefined'
-    ) {
-      const params: number[] = easingPresets[easing];
-      this.easing = bezier(params[0], params[1], params[2], params[3]);
-    }
+  _setElementEasing(easing?: EasingParam): void {
+    this.easing = createEasingFunction(easing);
   }
 
   _updatePositionHorizontal(view: View, scroll: Scroll): Element {

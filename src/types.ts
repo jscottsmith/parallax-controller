@@ -1,15 +1,17 @@
+import { EasingFunction } from 'bezier-easing';
+
 export type ParallaxStartEndEffects = {
-  translateX?: OffsetShape[];
-  translateY?: OffsetShape[];
-  rotate?: RotationShape[];
-  rotateX?: RotationShape[];
-  rotateY?: RotationShape[];
-  rotateZ?: RotationShape[];
-  scale?: ScaleShape[];
-  scaleX?: ScaleShape[];
-  scaleY?: ScaleShape[];
-  scaleZ?: ScaleShape[];
-  opacity?: OffsetShape[];
+  translateX?: ParsedValueEffect;
+  translateY?: ParsedValueEffect;
+  rotate?: ParsedValueEffect;
+  rotateX?: ParsedValueEffect;
+  rotateY?: ParsedValueEffect;
+  rotateZ?: ParsedValueEffect;
+  scale?: ParsedValueEffect;
+  scaleX?: ParsedValueEffect;
+  scaleY?: ParsedValueEffect;
+  scaleZ?: ParsedValueEffect;
+  opacity?: ParsedValueEffect;
 };
 
 export enum ValidCSSEffects {
@@ -55,23 +57,16 @@ export enum ScrollAxis {
 
 export type ValidScrollAxis = keyof typeof ScrollAxis;
 
-export type OffsetShape = {
-  value: number;
-  unit: ValidUnits;
-};
-
-export type RotationShape = {
-  value: number;
-  unit: RotationUnits;
-};
-export type ScaleShape = {
-  value: number;
-  unit: ScaleUnits;
-};
-
-export type ValueShape = {
+export type ParsedValueShape = {
   value: number;
   unit: AllValidUnits;
+};
+
+export type ParsedValueEffect = {
+  start: number;
+  end: number;
+  unit: AllValidUnits;
+  easing: EasingFunction | undefined;
 };
 
 export type ViewElement = HTMLElement | Window;
@@ -80,20 +75,24 @@ export type ParallaxControllerOptions = {
   scrollContainer?: HTMLElement;
 };
 
+export type EasingParam = ValidEasingPresets | EasingParams;
+export type CSSEffect = [string | number, string | number, EasingParam?];
+export type ScaleOpacityEffect = [number, number, EasingParam?];
+
 export type ParallaxElementEffectProperties = {
   disabled?: boolean;
-  translateX?: string[] | number[];
-  translateY?: string[] | number[];
-  rotate?: string[] | number[];
-  rotateX?: string[] | number[];
-  rotateY?: string[] | number[];
-  rotateZ?: string[] | number[];
-  scale?: number[];
-  scaleX?: number[];
-  scaleY?: number[];
-  scaleZ?: number[];
-  opacity?: number[];
-  easing?: number[] | ValidEasingPresets;
+  translateX?: CSSEffect;
+  translateY?: CSSEffect;
+  rotate?: CSSEffect;
+  rotateX?: CSSEffect;
+  rotateY?: CSSEffect;
+  rotateZ?: CSSEffect;
+  scale?: ScaleOpacityEffect;
+  scaleX?: ScaleOpacityEffect;
+  scaleY?: ScaleOpacityEffect;
+  scaleZ?: ScaleOpacityEffect;
+  opacity?: ScaleOpacityEffect;
+  easing?: EasingParams | ValidEasingPresets;
   rootMargin?: RootMarginShape;
 
   onEnter?: () => void;
@@ -107,6 +106,7 @@ export type CreateElementOptions = {
   props: ParallaxElementEffectProperties;
 };
 
+export type EasingParams = [number, number, number, number];
 export type ValidEasingPresets =
   | 'ease'
   | 'easeIn'

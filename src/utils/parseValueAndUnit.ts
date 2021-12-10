@@ -1,6 +1,6 @@
 import {
   ScaleUnits,
-  ValueShape,
+  ParsedValueShape,
   RotationUnits,
   Units,
   AllValidUnits,
@@ -22,8 +22,8 @@ export const VALID_UNITS = [
 export function parseValueAndUnit(
   str?: string | number,
   defaultUnit: AllValidUnits = Units['%']
-): ValueShape {
-  let out: ValueShape = { value: 0, unit: defaultUnit };
+): ParsedValueShape {
+  let out: ParsedValueShape = { value: 0, unit: defaultUnit };
 
   if (typeof str === 'undefined') return out;
 
