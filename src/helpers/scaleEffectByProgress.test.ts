@@ -23,7 +23,7 @@ const scale: ParsedValueEffect = {
 
 const progress = 0.44;
 
-describe.only('scaleEffectByProgress', () => {
+describe('scaleEffectByProgress', () => {
   test('Gets offsets based on percent in view', () => {
     expect(scaleEffectByProgress(translateX, progress)).toEqual({
       value: scaleBetween(progress, translateX.start, translateX.end, 0, 1),

@@ -1,7 +1,7 @@
 import { ParsedValueEffect } from '..';
 import { getStartEndValueInPx } from './getStartEndValueInPx';
 
-describe.only('getStartEndValueInPx', () => {
+describe('getStartEndValueInPx', () => {
   test('passes through start and end for pixel values', () => {
     const translate: ParsedValueEffect = { start: 100, end: -100, unit: 'px' };
     const size = 300;
