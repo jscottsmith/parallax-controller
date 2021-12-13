@@ -1,8 +1,9 @@
 import { ParsedValueEffect } from '..';
+import { getStartEndValueInPx } from '../helpers/getStartEndValueInPx';
 import { Rect } from './Rect';
 import { View } from './View';
 
-const DEFAULT_VALUE = {
+const DEFAULT_VALUE: ParsedValueEffect = {
   start: 0,
   end: 0,
   unit: '',
@@ -51,48 +52,36 @@ export class Bounds {
     rect: Rect,
     view: View,
     translate: {
-      translateY: ParsedValueEffect | undefined;
-      translateX: ParsedValueEffect | undefined;
+      translateY?: ParsedValueEffect;
+      translateX?: ParsedValueEffect;
     }
   ) {
-    const { start: x0, end: x1, unit: xUnit } =
-      translate.translateX || DEFAULT_VALUE;
-    const { start: y0, end: y1, unit: yUnit } =
-      translate.translateY || DEFAULT_VALUE;
+    // get start and end accounting for percent effects
+    const translateX: ParsedValueEffect = translate.translateX || DEFAULT_VALUE;
+    const { start: startXPx, end: endXPx } = getStartEndValueInPx(
+      translateX,
+      rect.width
+    );
 
-    // Y offsets
-    const yPercent = yUnit === '%';
-    let y0Px = y0;
-    let y1Px = y1;
-    if (yPercent) {
-      const h100 = rect.height / 100;
-      y0Px = y0 * h100;
-      y1Px = y1 * h100;
-    }
+    const translateY: ParsedValueEffect = translate.translateY || DEFAULT_VALUE;
+    const { start: startYPx, end: endYPx } = getStartEndValueInPx(
+      translateY,
+      rect.height
+    );
 
-    // X offsets
-    const xPercent = xUnit === '%';
-    let x0Px = x0;
-    let x1Px = x1;
-    if (xPercent) {
-      const h100 = rect.width / 100;
-      x0Px = x0 * h100;
-      x1Px = x1 * h100;
-    }
-
-    const totalAbsOffY = Math.abs(y0Px) + Math.abs(y1Px);
+    const totalAbsOffY = Math.abs(startYPx) + Math.abs(endYPx);
     this.totalDistY = view.height + rect.height + totalAbsOffY;
     const totalDistTrueY =
       view.height +
       rect.height +
-      (y1Px > y0Px ? totalAbsOffY * -1 : totalAbsOffY);
+      (endYPx > startYPx ? totalAbsOffY * -1 : totalAbsOffY);
 
-    const totalAbsOffX = Math.abs(x0Px) + Math.abs(x1Px);
+    const totalAbsOffX = Math.abs(startXPx) + Math.abs(endXPx);
     this.totalDistX = view.width + rect.width + totalAbsOffX;
     const totalDistTrueX =
       view.width +
       rect.width +
-      (x1Px > x0Px ? totalAbsOffX * -1 : totalAbsOffX);
+      (endXPx > startXPx ? totalAbsOffX * -1 : totalAbsOffX);
 
     // const speed = totalDistTrueY / originTotalDistY;
     const multiplierY = rect.originTotalDistY / totalDistTrueY;
@@ -101,20 +90,20 @@ export class Bounds {
     this.top = rect.top;
     this.bottom = rect.bottom;
 
-    if (y0Px < 0) {
-      this.top = this.top + y0Px * multiplierY;
+    if (startYPx < 0) {
+      this.top = this.top + startYPx * multiplierY;
     }
-    if (y1Px > 0) {
-      this.bottom = this.bottom + y1Px * multiplierY;
+    if (endYPx > 0) {
+      this.bottom = this.bottom + endYPx * multiplierY;
     }
 
     this.left = rect.left;
     this.right = rect.right;
-    if (x0Px < 0) {
-      this.left = this.left + x0Px * multiplierX;
+    if (startXPx < 0) {
+      this.left = this.left + startXPx * multiplierX;
     }
-    if (x1Px > 0) {
-      this.right = this.right + x1Px * multiplierX;
+    if (endXPx > 0) {
+      this.right = this.right + endXPx * multiplierX;
     }
   }
 }

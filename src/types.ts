@@ -66,7 +66,7 @@ export type ParsedValueEffect = {
   start: number;
   end: number;
   unit: AllValidUnits;
-  easing: EasingFunction | undefined;
+  easing?: EasingFunction;
 };
 
 export type ViewElement = HTMLElement | Window;
