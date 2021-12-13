@@ -8,29 +8,30 @@ export function getProgressAmount(
   /*
    * The start value from cache
    */
-  a: number,
+  start: number,
   /*
    * total dist the element has to move to be 100% complete (view width/height + element width/height)
    */
   totalDist: number,
   /*
-   * The start value from cache
-   */
-  size: number,
-  /*
    * width/height of view
+   * or dist from top of el to top of view
    */
-  scroll: number,
+  viewSize: number,
+  /*
+   * Current scroll value
+   */
+  currentScroll: number,
   /*
    * an optional easing function to apply
    */
   easing?: bezier.EasingFunction
 ): number {
   // adjust cached value
-  const ax = a - scroll;
+  const startAdjustedScroll = start - currentScroll;
 
   // Amount the element has moved based on current and total distance to move
-  let amount = (ax * -1 + size) / totalDist;
+  let amount = (startAdjustedScroll * -1 + viewSize) / totalDist;
 
   // Apply bezier easing if provided
   if (easing) {
