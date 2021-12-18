@@ -1,4 +1,4 @@
-import { Bounds } from './classes/Bounds';
+import { Limits } from './classes/Limits';
 import { Element } from './classes/Element';
 import { ParallaxController } from './classes/ParallaxController';
 import { Rect } from './classes/Rect';
@@ -19,7 +19,7 @@ import { testForPassiveScroll } from './utils/testForPassiveScroll';
 export * from './types';
 
 export {
-  Bounds,
+  Limits,
   Element,
   ParallaxController,
   Rect,

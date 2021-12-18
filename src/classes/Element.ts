@@ -1,5 +1,4 @@
 import bezier from 'bezier-easing';
-import { Bounds } from './Bounds';
 import { Rect } from './Rect';
 import {
   CreateElementOptions,
@@ -17,6 +16,9 @@ import { createId } from '../utils/createId';
 import { View } from './View';
 import { Scroll } from './Scroll';
 import { createEasingFunction } from '../helpers/createEasingFunction';
+import { Limits } from './Limits';
+import { createLimitsForRelativeElements } from '../helpers/createLimitsForRelativeElements';
+import { createLimitsWithTranslationsForRelativeElements } from '../helpers/createLimitsWithTranslationsForRelativeElements';
 
 type ElementConstructorOptions = CreateElementOptions & {
   scrollAxis: ValidScrollAxis;
@@ -32,7 +34,7 @@ export class Element {
   isInView: boolean | null;
   progress: number;
   rect?: Rect;
-  bounds?: Bounds;
+  limits?: Limits;
   easing?: bezier.EasingFunction;
   updatePosition: (view: View, scroll: Scroll) => Element;
 
@@ -81,12 +83,14 @@ export class Element {
       !this.props.rootMargin &&
       (!!this.effects.translateX || !!this.effects.translateY);
 
-    this.bounds = new Bounds({
-      view,
-      translate,
-      shouldUpdateBoundsWithTranslate,
-      rect: this.rect,
-    });
+    this.limits = shouldUpdateBoundsWithTranslate
+      ? createLimitsWithTranslationsForRelativeElements(
+          this.rect,
+          view,
+          translate
+        )
+      : createLimitsForRelativeElements(this.rect, view);
+
     return this;
   }
 
@@ -112,11 +116,11 @@ export class Element {
   }
 
   _updatePositionHorizontal(view: View, scroll: Scroll): Element {
-    if (!this.bounds || !this.rect || !this.elInner) return this;
+    if (!this.limits || !this.rect || !this.elInner) return this;
 
     const nextIsInView = isElementInView(
-      this.bounds.left,
-      this.bounds.right,
+      this.limits.startX,
+      this.limits.endX,
       view.width,
       scroll.x
     );
@@ -138,11 +142,11 @@ export class Element {
   }
 
   _updatePositionVertical(view: View, scroll: Scroll): Element {
-    if (!this.bounds || !this.rect || !this.elInner) return this;
+    if (!this.limits || !this.rect || !this.elInner) return this;
 
     const nextIsInView = isElementInView(
-      this.bounds.top,
-      this.bounds.bottom,
+      this.limits.startY,
+      this.limits.endY,
       view.height,
       scroll.y
     );

@@ -1,8 +1,8 @@
 import { ParallaxController } from './ParallaxController';
 import { Element } from './Element';
 import { Rect } from './Rect';
-import { Bounds } from './Bounds';
-import { CSSEffect, ScrollAxis } from '..';
+import { Limits } from './Limits';
+import { CSSEffect, ScrollAxis } from '../types';
 
 const addEventListener = window.addEventListener;
 const removeEventListener = window.removeEventListener;
@@ -82,7 +82,7 @@ describe('Expect the ParallaxController', () => {
 
     expect(element).toMatchObject(expectedElement);
     expect(element).toBeInstanceOf(Element);
-    expect(element.bounds).toBeInstanceOf(Bounds);
+    expect(element.limits).toBeInstanceOf(Limits);
     expect(element.rect).toBeInstanceOf(Rect);
 
     controller.destroy();

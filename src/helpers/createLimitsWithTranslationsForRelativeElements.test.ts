@@ -1,48 +1,4 @@
-import { View } from './View';
-import { Bounds } from './Bounds';
-
-const DEFAULT_RECT = {
-  top: 500,
-  left: 200,
-  bottom: 700,
-  right: 900,
-  width: 700,
-  height: 200,
-  originTotalDistY: 300,
-  originTotalDistX: 1700,
-};
-
-const DEFAULT_VIEW = new View({ width: 1000, height: 1000 });
-
-describe('Bounds', () => {
-  test(`does not adjust the bounds if shouldUpdateBoundsWithTranslate`, () => {
-    const bounds = new Bounds({
-      // @ts-expect-error
-      rect: DEFAULT_RECT,
-      view: DEFAULT_VIEW,
-      shouldUpdateBoundsWithTranslate: false,
-      translate: {
-        translateX: {
-          start: 100,
-          end: -100,
-          unit: 'px',
-          easing: undefined,
-        },
-        translateY: {
-          start: -100,
-          end: 100,
-          unit: 'px',
-          easing: undefined,
-        },
-      },
-    });
-
-    expect(bounds.top).toBe(DEFAULT_RECT.top);
-    expect(bounds.left).toBe(DEFAULT_RECT.left);
-    expect(bounds.right).toBe(DEFAULT_RECT.right);
-    expect(bounds.bottom).toBe(DEFAULT_RECT.bottom);
-  });
-});
+import { createLimitsWithTranslationsForRelativeElements } from './createLimitsWithTranslationsForRelativeElements';
 
 describe.each([
   [
@@ -62,12 +18,12 @@ describe.each([
       translateX: { start: 0, end: 0, unit: 'px', easing: undefined },
     },
     {
-      totalDistX: 1700,
-      totalDistY: 300,
-      top: 500,
-      left: 200,
-      bottom: 700,
-      right: 900,
+      //   totalX: 1700,
+      //   totalY: 300,
+      startY: 500,
+      startX: 200,
+      endY: 700,
+      endX: 900,
     },
   ],
   [
@@ -87,12 +43,12 @@ describe.each([
       translateX: { start: 10, end: -10, unit: '%', easing: undefined },
     },
     {
-      totalDistX: 740,
-      totalDistY: 740,
-      top: -21.21212121212121,
-      left: 0,
-      bottom: 221.21212121212122,
-      right: 200,
+      //   totalX: 740,
+      //   totalY: 740,
+      startY: -21.21212121212121,
+      startX: 0,
+      endY: 221.21212121212122,
+      endX: 200,
     },
   ],
   [
@@ -112,12 +68,12 @@ describe.each([
       translateX: { start: 0, end: 0, unit: '%', easing: undefined },
     },
     {
-      totalDistX: 1005,
-      totalDistY: 1075,
-      top: 912.5,
-      left: 503.75,
-      bottom: 1112.5,
-      right: 703.75,
+      //   totalX: 1005,
+      //   totalY: 1075,
+      startY: 912.5,
+      startX: 503.75,
+      endY: 1112.5,
+      endX: 703.75,
     },
   ],
   [
@@ -137,12 +93,12 @@ describe.each([
       translateX: { start: 0, end: 0, unit: '%', easing: undefined },
     },
     {
-      totalDistX: 1224,
-      totalDistY: 1075,
-      top: 912.5,
-      left: 668,
-      bottom: 1112.5,
-      right: 868,
+      //   totalX: 1224,
+      //   totalY: 1075,
+      startY: 912.5,
+      startX: 668,
+      endY: 1112.5,
+      endX: 868,
     },
   ],
   [
@@ -162,12 +118,12 @@ describe.each([
       translateX: { start: -50, end: 50, unit: '%', easing: undefined },
     },
     {
-      totalDistX: 1424,
-      totalDistY: 875,
-      top: 912.5,
-      left: 36.46875,
-      bottom: 1112.5,
-      right: 475.53125,
+      //   totalX: 1424,
+      //   totalY: 875,
+      startY: 912.5,
+      startX: 36.46875,
+      endY: 1112.5,
+      endX: 475.53125,
     },
   ],
   [
@@ -187,12 +143,12 @@ describe.each([
       translateX: { start: 50, end: -50, unit: '%', easing: undefined },
     },
     {
-      totalDistX: 1230,
-      totalDistY: 1017,
-      top: 9516.5,
-      left: 802.125,
-      bottom: 9618.890625,
-      right: 904.515625,
+      //   totalX: 1230,
+      //   totalY: 1017,
+      startY: 9516.5,
+      startX: 802.125,
+      endY: 9618.890625,
+      endX: 904.515625,
     },
   ],
   [
@@ -212,12 +168,12 @@ describe.each([
       translateX: { start: -50, end: 50, unit: '%', easing: undefined },
     },
     {
-      totalDistX: 1228,
-      totalDistY: 1017,
-      top: 9753.492101014761,
-      left: 404.716796875,
-      bottom: 9970.679773985239,
-      right: 619.267578125,
+      //   totalX: 1228,
+      //   totalY: 1017,
+      startY: 9753.492101014761,
+      startX: 404.716796875,
+      endY: 9970.679773985239,
+      endX: 619.267578125,
     },
   ],
   [
@@ -237,12 +193,12 @@ describe.each([
       translateX: { start: 50, end: -50, unit: '%', easing: undefined },
     },
     {
-      totalDistX: 1230,
-      totalDistY: 1017,
-      top: 9516.5,
-      left: 802.125,
-      bottom: 9618.890625,
-      right: 904.515625,
+      //   totalX: 1230,
+      //   totalY: 1017,
+      startY: 9516.5,
+      startX: 802.125,
+      endY: 9618.890625,
+      endX: 904.515625,
     },
   ],
   [
@@ -262,12 +218,12 @@ describe.each([
       translateX: { start: 0, end: 0, unit: '%', easing: undefined },
     },
     {
-      totalDistX: 1179,
-      totalDistY: 1013,
-      top: 864.5,
-      left: 634.25,
-      bottom: 1064.5,
-      right: 834.25,
+      //   totalX: 1179,
+      //   totalY: 1013,
+      startY: 864.5,
+      startX: 634.25,
+      endY: 1064.5,
+      endX: 834.25,
     },
   ],
   [
@@ -287,23 +243,21 @@ describe.each([
       translateX: { start: 0, end: 0, unit: '%', easing: undefined },
     },
     {
-      totalDistX: 966,
-      totalDistY: 1043,
-      top: 561.7930979643766,
-      left: 813.1875,
-      bottom: 1230.1840012722646,
-      right: 887.8125,
+      //   totalX: 966,
+      //   totalY: 1043,
+      startY: 561.7930979643766,
+      startX: 813.1875,
+      endY: 1230.1840012722646,
+      endX: 887.8125,
     },
   ],
-])('Bounds()', (rect: any, view: any, translate: any, expected) => {
-  test(`returns expected bounds based on rect, offsets, and view`, () => {
-    expect(
-      new Bounds({
-        rect,
-        view,
-        translate,
-        shouldUpdateBoundsWithTranslate: true,
-      })
-    ).toEqual(expect.objectContaining(expected));
-  });
-});
+])(
+  'createLimitsWithTranslationsForRelativeElements()',
+  (rect: any, view: any, translate: any, expected) => {
+    test(`returns expected bounds based on rect, offsets, and view`, () => {
+      expect(
+        createLimitsWithTranslationsForRelativeElements(rect, view, translate)
+      ).toEqual(expect.objectContaining(expected));
+    });
+  }
+);
