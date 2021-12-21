@@ -1,6 +1,6 @@
 import { createLimitsWithTranslationsForRelativeElements } from './createLimitsWithTranslationsForRelativeElements';
 
-describe.each([
+describe.skip.each([
   [
     {
       top: 500,

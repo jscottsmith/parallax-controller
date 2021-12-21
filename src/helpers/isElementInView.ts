@@ -2,27 +2,28 @@
  * Takes two values (start, end) and returns whether it is within
  * the view size based on the cached position adjusted for current scroll.
  * Only along a single dimension <--- [ --- a --- b --- ] -->
- * @param {number} a - top/left
- * @param {number} b - bottom/right
- * @param {number} size - width/height
- * @param {number} scroll - x/y
+ * @param {number} start - start of scroll (x/y)
+ * @param {number} end - end of scroll (x/y)
+ * @param {number} viewSize - size of view (width/height)
+ * @param {number} scroll - current scroll (x/y)
  * @return {boolean} isInView
  */
 
 export function isElementInView(
-  a: number,
-  b: number,
-  size: number,
+  start: number,
+  end: number,
+  viewSize: number,
   scroll: number
 ): boolean {
-  const ax = a - scroll;
-  const bx = b - scroll;
+  // adjust for cached scroll
+  const startScroll = start - scroll;
+  const endScroll = end - scroll;
 
-  const aView = ax >= 0 && ax <= size;
-  const bInView = bx >= 0 && bx <= size;
-  const abCovering = ax <= 0 && bx >= size;
+  const startInView = startScroll <= viewSize && startScroll >= 0;
+  const endInView = endScroll >= viewSize && endScroll <= viewSize * 2;
+  const covering = startScroll <= 0 && endScroll >= viewSize * 2;
 
-  const isInView = aView || bInView || abCovering;
+  const isInView = startInView || endInView || covering;
 
   return isInView;
 }

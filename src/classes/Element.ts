@@ -1,5 +1,4 @@
 import bezier from 'bezier-easing';
-import { Rect } from './Rect';
 import {
   CreateElementOptions,
   ParallaxElementEffectProperties,
@@ -8,17 +7,23 @@ import {
   ValidScrollAxis,
   EasingParam,
 } from '../types';
-import { parseElementTransitionEffects } from '../helpers/parseElementTransitionEffects';
-import { isElementInView } from '../helpers/isElementInView';
-import { getProgressAmount } from '../helpers/getProgressAmount';
-import { setElementStyles } from '../helpers/elementStyles';
 import { createId } from '../utils/createId';
+import { Rect } from './Rect';
 import { View } from './View';
 import { Scroll } from './Scroll';
-import { createEasingFunction } from '../helpers/createEasingFunction';
 import { Limits } from './Limits';
+import { parseElementTransitionEffects } from '../helpers/parseElementTransitionEffects';
+import { getProgressAmount } from '../helpers/getProgressAmount';
+import { isElementInView } from '../helpers/isElementInView';
+import { setElementStyles } from '../helpers/elementStyles';
+import { createEasingFunction } from '../helpers/createEasingFunction';
 import { createLimitsForRelativeElements } from '../helpers/createLimitsForRelativeElements';
 import { createLimitsWithTranslationsForRelativeElements } from '../helpers/createLimitsWithTranslationsForRelativeElements';
+import { scaleTranslateEffectsForSlowerScroll } from '../helpers/scaleTranslateEffectsForSlowerScroll';
+import {
+  getTranslateMultiplier,
+  TranslateMultiplier,
+} from '../helpers/getTranslateMultiplier';
 
 type ElementConstructorOptions = CreateElementOptions & {
   scrollAxis: ValidScrollAxis;
@@ -33,9 +38,13 @@ export class Element {
   effects: ParallaxStartEndEffects;
   isInView: boolean | null;
   progress: number;
+  /* Optionally set if translate effect must be scaled */
+  scaledEffects?: ParallaxStartEndEffects;
   rect?: Rect;
   limits?: Limits;
   easing?: bezier.EasingFunction;
+  multiplier?: TranslateMultiplier;
+
   updatePosition: (view: View, scroll: Scroll) => Element;
 
   constructor(options: ElementConstructorOptions) {
@@ -74,22 +83,32 @@ export class Element {
       scroll,
     });
 
-    const translate = {
-      translateX: this.effects.translateX,
-      translateY: this.effects.translateY,
-    };
-
-    const shouldUpdateBoundsWithTranslate =
+    const shouldScaleTranslateEffects =
       !this.props.rootMargin &&
       (!!this.effects.translateX || !!this.effects.translateY);
 
-    this.limits = shouldUpdateBoundsWithTranslate
-      ? createLimitsWithTranslationsForRelativeElements(
-          this.rect,
-          view,
-          translate
-        )
-      : createLimitsForRelativeElements(this.rect, view);
+    if (shouldScaleTranslateEffects) {
+      this.multiplier = getTranslateMultiplier(
+        this.rect,
+        view,
+        this.effects,
+        this.scrollAxis
+      );
+
+      this.limits = createLimitsWithTranslationsForRelativeElements(
+        this.rect,
+        view,
+        this.effects,
+        this.multiplier
+      );
+
+      this.scaledEffects = scaleTranslateEffectsForSlowerScroll(
+        this.effects,
+        this.multiplier
+      );
+    } else {
+      this.limits = createLimitsForRelativeElements(this.rect, view);
+    }
 
     return this;
   }
@@ -99,16 +118,23 @@ export class Element {
       if (nextIsInView) {
         this.props.onEnter && this.props.onEnter();
       } else {
+        this._setFinalStylesAndProgress();
         this.props.onExit && this.props.onExit();
       }
     }
     this.isInView = nextIsInView;
   }
 
+  _setFinalStylesAndProgress() {
+    const finalProgress = Math.round(this.progress);
+    this._updateElementProgress(finalProgress);
+  }
+
   _updateElementProgress(nextProgress: number) {
     this.progress = nextProgress;
     this.props.onProgressChange && this.props.onProgressChange(this.progress);
-    setElementStyles(this.effects, this.progress, this.elInner);
+    const effects = this.scaledEffects || this.effects;
+    setElementStyles(effects, this.progress, this.elInner);
   }
 
   _setElementEasing(easing?: EasingParam): void {
@@ -129,8 +155,8 @@ export class Element {
     if (!nextIsInView) return this;
 
     const nextProgress = getProgressAmount(
-      this.rect.left,
-      this.rect.originTotalDistX,
+      this.limits.startX,
+      this.limits.totalX,
       view.width,
       scroll.x,
       this.easing
@@ -155,8 +181,8 @@ export class Element {
     if (!this.isInView) return this;
 
     const nextProgress = getProgressAmount(
-      this.rect.top,
-      this.rect.originTotalDistY,
+      this.limits.startY,
+      this.limits.totalY,
       view.height,
       scroll.y,
       this.easing
