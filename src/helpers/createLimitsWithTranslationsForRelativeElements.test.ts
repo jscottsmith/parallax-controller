@@ -256,6 +256,7 @@ describe.skip.each([
   (rect: any, view: any, translate: any, expected) => {
     test(`returns expected bounds based on rect, offsets, and view`, () => {
       expect(
+        // @ts-expect-error
         createLimitsWithTranslationsForRelativeElements(rect, view, translate)
       ).toEqual(expect.objectContaining(expected));
     });
