@@ -1,6 +1,8 @@
 import { Element } from './Element';
 import { View } from './View';
 import { Scroll } from './Scroll';
+import { Rect } from './Rect';
+import { Limits } from './Limits';
 import { createElementMock } from '../testUtils/createElementMock';
 import { ScrollAxis } from '../types';
 import { easingPresets } from '../constants';
@@ -23,6 +25,10 @@ const DEFAULT_OPTIONS = {
   props: { translateX: [0, 0] as CSSEffect, translateY: [0, 0] as CSSEffect },
 };
 
+const DEFAULT_VIEW = new View({ width: 768, height: 1024 });
+
+const DEFAULT_SCROLL = new Scroll(0, 0);
+
 describe('Expect the Element class', () => {
   it('to construct', () => {
     const element = new Element(DEFAULT_OPTIONS);
@@ -39,6 +45,28 @@ describe('Expect the Element class', () => {
     const instance = element.updateProps(updates);
     expect(instance.props).toMatchObject(updates);
     expect(instance).toBeInstanceOf(Element);
+  });
+
+  it('to creates a rect and limits when calling setCachedAttributes method', () => {
+    const element = new Element(DEFAULT_OPTIONS);
+    expect(element.rect).toBeUndefined();
+    expect(element.limits).toBeUndefined();
+    expect(element.scaledEffects).toBeUndefined();
+    element.setCachedAttributes(DEFAULT_VIEW, DEFAULT_SCROLL);
+    expect(element.rect).toBeInstanceOf(Rect);
+    expect(element.limits).toBeInstanceOf(Limits);
+    expect(element.scaledEffects).toBeDefined();
+  });
+
+  it('to creates scaledEffects when calling setCachedAttributes method with translate props and no root margin', () => {
+    const element = new Element(DEFAULT_OPTIONS);
+
+    expect(element.scaledEffects).toBeUndefined();
+    element.setCachedAttributes(DEFAULT_VIEW, DEFAULT_SCROLL);
+    expect(element.scaledEffects).toEqual({
+      translateX: { easing: undefined, end: 0, start: 0, unit: '%' },
+      translateY: { easing: undefined, end: 0, start: 0, unit: '%' },
+    });
   });
 
   it.skip('to conditionally handle updates based on scroll axis', () => {});
@@ -67,17 +95,17 @@ describe('Expect the Element class', () => {
     element.setCachedAttributes(view, scroll);
     expect(onProgressChange).toBeCalledTimes(0);
 
-    element.updatePosition(view, scroll);
+    element.updatePosition(scroll);
     expect(onProgressChange).toBeCalledTimes(1);
 
     scroll.setScroll(0, 500);
-    element.updatePosition(view, scroll);
+    element.updatePosition(scroll);
     expect(onEnter).toBeCalledTimes(1);
     // expect(onProgressChange).toBeCalledWith(1);
     // expect(onProgressChange).toBeCalledTimes(2);
 
     scroll.setScroll(0, 499);
-    element.updatePosition(view, scroll);
+    element.updatePosition(scroll);
     expect(onExit).toBeCalledTimes(1);
     // expect(onProgressChange).toBeCalledTimes(3);
   });
@@ -105,7 +133,7 @@ describe('Expect the Element class', () => {
     element.setCachedAttributes(view, scroll);
     scroll.setScroll(0, 100);
 
-    const instance = element.updatePosition(view, scroll);
+    const instance = element.updatePosition(scroll);
     expect(instance).toBeInstanceOf(Element);
   });
 

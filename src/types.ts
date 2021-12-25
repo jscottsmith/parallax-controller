@@ -94,6 +94,8 @@ export type ParallaxElementEffectProperties = {
   opacity?: ScaleOpacityEffect;
   easing?: EasingParams | ValidEasingPresets;
   rootMargin?: RootMarginShape;
+  /* Start animation at initial position if the element is positioned inside the view when scroll is at zero */
+  shouldStartAnimationInitialInView?: boolean;
 
   onEnter?: () => void;
   onExit?: () => void;

@@ -1,10 +1,9 @@
-import { ParsedValueEffect } from '../types';
-import { TranslateMultiplier } from './getTranslateMultiplier';
-import { ParallaxStartEndEffects } from '..';
+import { ParsedValueEffect, ParallaxStartEndEffects } from '../types';
+import { Limits } from '../classes/Limits';
 
 export function scaleTranslateEffectsForSlowerScroll(
   effects: ParallaxStartEndEffects,
-  multiplier: TranslateMultiplier
+  limits: Limits
 ): ParallaxStartEndEffects {
   const effectsCopy = {
     ...effects,
@@ -13,15 +12,15 @@ export function scaleTranslateEffectsForSlowerScroll(
   if (effectsCopy.translateX) {
     effectsCopy.translateX = {
       ...effects.translateX,
-      start: effectsCopy.translateX.start * multiplier.multiplierX,
-      end: effectsCopy.translateX.end * multiplier.multiplierX,
+      start: effectsCopy.translateX.start * limits.startMultiplierX,
+      end: effectsCopy.translateX.end * limits.endMultiplierX,
     } as ParsedValueEffect;
   }
   if (effectsCopy.translateY) {
     effectsCopy.translateY = {
       ...effects.translateY,
-      start: effectsCopy.translateY.start * multiplier.multiplierY,
-      end: effectsCopy.translateY.end * multiplier.multiplierY,
+      start: effectsCopy.translateY.start * limits.startMultiplierY,
+      end: effectsCopy.translateY.end * limits.endMultiplierY,
     } as ParsedValueEffect;
   }
 

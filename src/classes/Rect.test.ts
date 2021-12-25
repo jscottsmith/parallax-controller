@@ -1,16 +1,13 @@
 import { Rect } from './Rect';
 import { createElementMock } from '../testUtils/createElementMock';
-import { Scroll } from './Scroll';
 import { View } from './View';
 
 const DEFAULT_VIEW = new View({ width: 1000, height: 1000 });
-const DEFAULT_SCROLL = new Scroll(0, 0);
 
 describe('Rect', () => {
   test(`sets bounds based on root margin when provided`, () => {
     const rect = new Rect({
       view: DEFAULT_VIEW,
-      scroll: DEFAULT_SCROLL,
       el: createElementMock(
         { offsetWidth: 100, offsetHeight: 100 },
         {
@@ -34,106 +31,67 @@ describe('Rect', () => {
     expect(rect.left).toBe(180);
     expect(rect.right).toBe(330);
     expect(rect.bottom).toBe(640);
-    expect(rect.originTotalDistY).toBe(1150);
-    expect(rect.originTotalDistX).toBe(1150);
   });
-});
 
-describe.each([
-  [
-    createElementMock(
-      { offsetWidth: 400, offsetHeight: 400 },
-      {
-        getBoundingClientRect: () => ({
-          top: 500,
-          left: 200,
-          bottom: 700,
-          right: 900,
-        }),
-      }
-    ),
-    { width: 1024, height: 769 },
-    { x: 0, y: 0 },
-    {
-      height: 400,
-      width: 400,
-      left: 200,
-      right: 900,
-      top: 500,
-      bottom: 700,
-      originTotalDistY: 1169,
-      originTotalDistX: 1424,
-    },
-  ],
-  [
-    createElementMock(
-      { offsetWidth: 100, offsetHeight: 100 },
-      {
-        getBoundingClientRect: () => ({
-          top: 500,
-          left: 200,
-          bottom: 600,
-          right: 300,
-        }),
-      }
-    ),
-    { width: 2000, height: 1000 },
-    { x: 0, y: 689 },
-    {
-      height: 100,
-      width: 100,
-      left: 200,
-      right: 300,
-      top: 1189,
-      bottom: 1289,
-      originTotalDistY: 1100,
-      originTotalDistX: 2100,
-    },
-  ],
-  [
-    createElementMock(
-      { offsetWidth: 100, offsetHeight: 100 },
-      {
-        getBoundingClientRect: () => ({
-          top: 500,
-          left: 200,
-          bottom: 600,
-          right: 300,
-        }),
-      }
-    ),
-    {
-      width: 2000,
-      height: 1000,
-      scrollContainer: createElementMock(
-        { offsetWidth: 500, offsetHeight: 500 },
+  test(`caches the bounding rect`, () => {
+    const rect = new Rect({
+      view: DEFAULT_VIEW,
+      el: createElementMock(
+        { offsetWidth: 200, offsetHeight: 100 },
         {
           getBoundingClientRect: () => ({
-            top: 100,
-            left: 100,
+            top: 500,
+            left: 200,
             bottom: 600,
-            right: 600,
+            right: 300,
           }),
         }
       ),
-    },
-    { x: 0, y: 689 },
-    {
-      height: 100,
-      width: 100,
-      left: 100,
-      right: 200,
-      top: 1089,
-      bottom: 1189,
-      originTotalDistY: 1100,
-      originTotalDistX: 2100,
-    },
-  ],
-])('Rect()', (element, view, scroll, expected) => {
-  test(`returns expected Rect based on element, view, and scroll`, () => {
-    // @ts-ignore
-    expect(new Rect({ el: element, view, scroll })).toEqual(
-      expect.objectContaining(expected)
-    );
+    });
+
+    expect(rect.width).toBe(200);
+    expect(rect.height).toBe(100);
+    expect(rect.top).toBe(500);
+    expect(rect.left).toBe(200);
+    expect(rect.bottom).toBe(600);
+    expect(rect.right).toBe(300);
+  });
+
+  test(`caches the bounding rect with scrollContainer`, () => {
+    const rect = new Rect({
+      view: new View({
+        width: 2000,
+        height: 1000,
+        scrollContainer: createElementMock(
+          { offsetWidth: 500, offsetHeight: 500 },
+          {
+            getBoundingClientRect: () => ({
+              top: 100,
+              left: 100,
+              bottom: 600,
+              right: 600,
+            }),
+          }
+        ),
+      }),
+      el: createElementMock(
+        { offsetWidth: 100, offsetHeight: 100 },
+        {
+          getBoundingClientRect: () => ({
+            top: 500,
+            left: 200,
+            bottom: 600,
+            right: 300,
+          }),
+        }
+      ),
+    });
+
+    expect(rect.height).toBe(100);
+    expect(rect.width).toBe(100);
+    expect(rect.left).toBe(100);
+    expect(rect.right).toBe(200);
+    expect(rect.top).toBe(400);
+    expect(rect.bottom).toBe(500);
   });
 });

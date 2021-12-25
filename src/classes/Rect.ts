@@ -1,5 +1,4 @@
 import { View } from './View';
-import { Scroll } from './Scroll';
 import { RootMarginShape } from '../types';
 
 export class Rect {
@@ -9,13 +8,10 @@ export class Rect {
   right: number;
   top: number;
   bottom: number;
-  originTotalDistY: number;
-  originTotalDistX: number;
 
   constructor(options: {
     el: HTMLElement;
     view: View;
-    scroll: Scroll;
     rootMargin?: RootMarginShape;
   }) {
     let rect = options.el.getBoundingClientRect();
@@ -31,15 +27,12 @@ export class Rect {
         left: rect.left - scrollRect.left,
       };
     }
-
     this.height = options.el.offsetHeight;
     this.width = options.el.offsetWidth;
-    this.left = rect.left + options.scroll.x;
-    this.right = rect.right + options.scroll.x;
-    this.top = rect.top + options.scroll.y;
-    this.bottom = rect.bottom + options.scroll.y;
-    this.originTotalDistY = options.view.height + this.height;
-    this.originTotalDistX = options.view.width + this.width;
+    this.left = rect.left;
+    this.right = rect.right;
+    this.top = rect.top;
+    this.bottom = rect.bottom;
 
     if (options.rootMargin) {
       this._setRectWithRootMargin(options.rootMargin);
@@ -58,7 +51,5 @@ export class Rect {
     this.left -= rootMargin.left;
     this.height += totalRootY;
     this.width += totalRootX;
-    this.originTotalDistY += totalRootY;
-    this.originTotalDistX += totalRootX;
   }
 }

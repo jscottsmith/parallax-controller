@@ -61,26 +61,6 @@ describe('Expect the ParallaxController', () => {
     const elInner = document.createElement('div');
     elInner.style.transform = 'translate3d(0%, 0%, 0)';
 
-    const expectedElement = {
-      id: 1,
-      isInView: true,
-      scrollAxis: 'vertical',
-      elInner,
-      elOuter: document.createElement('div'),
-      progress: 1,
-      updatePosition: expect.any(Function),
-      effects: {
-        translateY: { unit: '%', start: 0, end: 0, easing: undefined },
-        translateX: { unit: '%', start: 0, end: 0, easing: undefined },
-      },
-      props: {
-        disabled: false,
-        translateX: [0, 0],
-        translateY: [0, 0],
-      },
-    };
-
-    expect(element).toMatchObject(expectedElement);
     expect(element).toBeInstanceOf(Element);
     expect(element.limits).toBeInstanceOf(Limits);
     expect(element.rect).toBeInstanceOf(Rect);

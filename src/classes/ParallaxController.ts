@@ -188,7 +188,7 @@ export class ParallaxController {
    */
   _updateElementPosition(element: Element) {
     if (element.props.disabled) return;
-    element.updatePosition(this.view, this.scroll);
+    element.updatePosition(this.scroll);
   }
 
   /**

@@ -20,10 +20,6 @@ import { createEasingFunction } from '../helpers/createEasingFunction';
 import { createLimitsForRelativeElements } from '../helpers/createLimitsForRelativeElements';
 import { createLimitsWithTranslationsForRelativeElements } from '../helpers/createLimitsWithTranslationsForRelativeElements';
 import { scaleTranslateEffectsForSlowerScroll } from '../helpers/scaleTranslateEffectsForSlowerScroll';
-import {
-  getTranslateMultiplier,
-  TranslateMultiplier,
-} from '../helpers/getTranslateMultiplier';
 
 type ElementConstructorOptions = CreateElementOptions & {
   scrollAxis: ValidScrollAxis;
@@ -43,9 +39,8 @@ export class Element {
   rect?: Rect;
   limits?: Limits;
   easing?: bezier.EasingFunction;
-  multiplier?: TranslateMultiplier;
 
-  updatePosition: (view: View, scroll: Scroll) => Element;
+  updatePosition: (scroll: Scroll) => Element;
 
   constructor(options: ElementConstructorOptions) {
     this.elInner = options.elInner;
@@ -80,7 +75,6 @@ export class Element {
       el: this.elOuter,
       rootMargin: this.props.rootMargin,
       view,
-      scroll,
     });
 
     const shouldScaleTranslateEffects =
@@ -88,26 +82,25 @@ export class Element {
       (!!this.effects.translateX || !!this.effects.translateY);
 
     if (shouldScaleTranslateEffects) {
-      this.multiplier = getTranslateMultiplier(
-        this.rect,
-        view,
-        this.effects,
-        this.scrollAxis
-      );
-
       this.limits = createLimitsWithTranslationsForRelativeElements(
         this.rect,
         view,
         this.effects,
-        this.multiplier
+        scroll,
+        this.props.shouldStartAnimationInitialInView
       );
 
       this.scaledEffects = scaleTranslateEffectsForSlowerScroll(
         this.effects,
-        this.multiplier
+        this.limits
       );
     } else {
-      this.limits = createLimitsForRelativeElements(this.rect, view);
+      this.limits = createLimitsForRelativeElements(
+        this.rect,
+        view,
+        scroll,
+        this.props.shouldStartAnimationInitialInView
+      );
     }
 
     return this;
@@ -141,13 +134,12 @@ export class Element {
     this.easing = createEasingFunction(easing);
   }
 
-  _updatePositionHorizontal(view: View, scroll: Scroll): Element {
-    if (!this.limits || !this.rect || !this.elInner) return this;
+  _updatePositionHorizontal(scroll: Scroll): Element {
+    if (!this.limits) return this;
 
     const nextIsInView = isElementInView(
       this.limits.startX,
       this.limits.endX,
-      view.width,
       scroll.x
     );
     this._updateElementIsInView(nextIsInView);
@@ -157,7 +149,6 @@ export class Element {
     const nextProgress = getProgressAmount(
       this.limits.startX,
       this.limits.totalX,
-      view.width,
       scroll.x,
       this.easing
     );
@@ -167,15 +158,15 @@ export class Element {
     return this;
   }
 
-  _updatePositionVertical(view: View, scroll: Scroll): Element {
-    if (!this.limits || !this.rect || !this.elInner) return this;
+  _updatePositionVertical(scroll: Scroll): Element {
+    if (!this.limits) return this;
 
     const nextIsInView = isElementInView(
       this.limits.startY,
       this.limits.endY,
-      view.height,
       scroll.y
     );
+
     this._updateElementIsInView(nextIsInView);
 
     if (!this.isInView) return this;
@@ -183,7 +174,6 @@ export class Element {
     const nextProgress = getProgressAmount(
       this.limits.startY,
       this.limits.totalY,
-      view.height,
       scroll.y,
       this.easing
     );

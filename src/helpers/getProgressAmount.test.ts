@@ -1,19 +1,18 @@
 import { getProgressAmount } from './getProgressAmount';
 
 describe.each([
-  // element // win height // scroll // percent
-  [500, 600, 500, 300, 0.5],
-  [500, 600, 500, 600, 1],
-  [500, 600, 500, 0, 0],
-  [500, 600, 500, 150, 0.25],
-  [500, 600, 500, 450, 0.75],
-  [500, 600, 500, 1200, 2],
-  [500, 600, 500, -600, -1],
+  [0, 600, 300, 0.5],
+  [0, 600, 600, 1],
+  [0, 600, 0, 0],
+  [0, 600, 150, 0.25],
+  [0, 600, 450, 0.75],
+  [0, 600, 1200, 2],
+  [0, 600, -600, -1],
 ])(
   'getProgressAmount(%i, %i, %i, %i)',
-  (a, totalDist, size, scroll, expected) => {
+  (start, totalDist, currentScroll, expected) => {
     test(`returns ${expected}%`, () => {
-      expect(getProgressAmount(a, totalDist, size, scroll)).toBe(expected);
+      expect(getProgressAmount(start, totalDist, currentScroll)).toBe(expected);
     });
   }
 );
