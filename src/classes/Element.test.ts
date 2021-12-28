@@ -69,6 +69,11 @@ describe('Expect the Element class', () => {
     });
   });
 
+  it('set will change styles in contructor', () => {
+    const element = new Element(DEFAULT_OPTIONS);
+    expect(element.elInner?.style.willChange).toEqual('transform,opacity');
+  });
+
   it.skip('to conditionally handle updates based on scroll axis', () => {});
 
   it('calls enter and exit and progress handlers', () => {

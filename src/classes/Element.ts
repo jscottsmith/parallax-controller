@@ -15,7 +15,10 @@ import { Limits } from './Limits';
 import { parseElementTransitionEffects } from '../helpers/parseElementTransitionEffects';
 import { getProgressAmount } from '../helpers/getProgressAmount';
 import { isElementInView } from '../helpers/isElementInView';
-import { setElementStyles } from '../helpers/elementStyles';
+import {
+  setElementStyles,
+  setWillChangeStyles,
+} from '../helpers/elementStyles';
 import { createEasingFunction } from '../helpers/createEasingFunction';
 import { createLimitsForRelativeElements } from '../helpers/createLimitsForRelativeElements';
 import { createLimitsWithTranslationsForRelativeElements } from '../helpers/createLimitsWithTranslationsForRelativeElements';
@@ -53,6 +56,8 @@ export class Element {
     this.progress = 0;
 
     this._setElementEasing(options.props.easing);
+
+    setWillChangeStyles(options.elInner);
 
     this.updatePosition =
       options.scrollAxis === ScrollAxis.vertical

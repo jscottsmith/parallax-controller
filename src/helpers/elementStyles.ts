@@ -7,6 +7,11 @@ const TRANSFORM_EFFECTS = Object.values(ValidCSSEffects).filter(
   v => v !== 'opacity'
 );
 
+export function setWillChangeStyles(elInner?: HTMLElement) {
+  if (!elInner) return;
+  elInner.style.willChange = 'transform,opacity';
+}
+
 export function setElementStyles(
   effects: ParallaxStartEndEffects,
   progress: number,
