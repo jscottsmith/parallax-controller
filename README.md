@@ -6,4 +6,22 @@ Core classes and controller for creating parallax scrolling effects.
 
 ## Optimizations to Reduce Jank
 
-Parallax Controller uses a single passive scroll listener (dependent on browser support) with the minimal amount of work done on the scroll event to prevent jank (calculations that cause layout, reflow and paint are cached initially and only updated when layout changes). Request animation frame is then used to decouple the scroll handler and further reduce jank. All translations are applied with 3D transforms to utilize the GPU and prevent paints. If you have ideas to further optimize scrolling please PR or post an issue.
+A number of techniques are used to keep scrolling optimized:
+
+1. Uses a single passive scroll listener to control all animated elements on the page.
+2. A minimal amount of work is done on the scroll event to prevent jank with no calls to methods that cause layout shifts.
+3. Calculations that cause layout, reflow ([`getBoundingClientRect)`](https://developer.mozilla.org/en-US/docs/Web/API/Element/getBoundingClientRect)) are cached and only updated when layout may change.
+4. The [`requestAnimationFrame`](https://developer.mozilla.org/en-US/docs/Web/API/window/requestAnimationFrame) is used to apply all scroll effects.
+5. Only GPU supported CSS effects `transform` and `opacity` are allowed.
+6. CSS [`will-change`](https://developer.mozilla.org/en-US/docs/Web/CSS/will-change) is added to an element when it's visible and animating to prevent paints. It's then removed when the element leaves the view.
+
+If you have ideas to further optimize scrolling please PR or post an issue.
+
+⚠️ **Scroll effects may still cause jank and bad user experiences!** It's up to you to make sure you use this package appropriately.
+
+Suggestions for best UX:
+
+1. Keep effects simple -- less is more. Oftentimes the less extreme animations on the page the better the scrolling will be.
+2. Minimize the number of scroll effects on elements that are in view at the same time.
+3. When using images keep them small and optimized. Hi-resolution images will hurt scroll performance.
+4. Disable most (or all) scroll effects on mobile. Mobile devices optimize for best battery life and animation performance will often be degraded.
