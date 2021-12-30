@@ -7,6 +7,12 @@ import { createElementMock } from '../testUtils/createElementMock';
 import { ScrollAxis } from '../types';
 import { easingPresets } from '../constants';
 import { CSSEffect } from '..';
+import {
+  setWillChangeStyles,
+  removeWillChangeStyles,
+} from '../helpers/elementStyles';
+
+jest.mock('../helpers/elementStyles');
 
 const DEFAULT_OPTIONS = {
   elInner: createElementMock(
@@ -69,11 +75,6 @@ describe('Expect the Element class', () => {
     });
   });
 
-  it('set will change styles in contructor', () => {
-    const element = new Element(DEFAULT_OPTIONS);
-    expect(element.elInner?.style.willChange).toEqual('transform,opacity');
-  });
-
   it.skip('to conditionally handle updates based on scroll axis', () => {});
 
   it('calls enter and exit and progress handlers', () => {
@@ -106,12 +107,14 @@ describe('Expect the Element class', () => {
     scroll.setScroll(0, 500);
     element.updatePosition(scroll);
     expect(onEnter).toBeCalledTimes(1);
+    expect(setWillChangeStyles).toBeCalledTimes(1);
     // expect(onProgressChange).toBeCalledWith(1);
     // expect(onProgressChange).toBeCalledTimes(2);
 
     scroll.setScroll(0, 499);
     element.updatePosition(scroll);
     expect(onExit).toBeCalledTimes(1);
+    expect(removeWillChangeStyles).toBeCalledTimes(1);
     // expect(onProgressChange).toBeCalledTimes(3);
   });
 

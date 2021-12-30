@@ -16,6 +16,7 @@ import { parseElementTransitionEffects } from '../helpers/parseElementTransition
 import { getProgressAmount } from '../helpers/getProgressAmount';
 import { isElementInView } from '../helpers/isElementInView';
 import {
+  removeWillChangeStyles,
   setElementStyles,
   setWillChangeStyles,
 } from '../helpers/elementStyles';
@@ -29,8 +30,8 @@ type ElementConstructorOptions = CreateElementOptions & {
 };
 
 export class Element {
-  elInner?: HTMLElement;
-  elOuter?: HTMLElement;
+  elInner: HTMLElement;
+  elOuter: HTMLElement;
   props: ParallaxElementEffectProperties;
   scrollAxis: ValidScrollAxis;
   id: number;
@@ -56,8 +57,6 @@ export class Element {
     this.progress = 0;
 
     this._setElementEasing(options.props.easing);
-
-    setWillChangeStyles(options.elInner);
 
     this.updatePosition =
       options.scrollAxis === ScrollAxis.vertical
@@ -114,8 +113,10 @@ export class Element {
   _updateElementIsInView(nextIsInView: boolean) {
     if (nextIsInView !== this.isInView) {
       if (nextIsInView) {
+        setWillChangeStyles(this.elInner, this.effects);
         this.props.onEnter && this.props.onEnter();
       } else {
+        removeWillChangeStyles(this.elInner);
         this._setFinalStylesAndProgress();
         this.props.onExit && this.props.onExit();
       }
