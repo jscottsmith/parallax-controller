@@ -1,8 +1,39 @@
-# Parallax Controller
+# 🕹 Parallax Controller
 
 [![npm version](https://badge.fury.io/js/parallax-controller.svg)](https://badge.fury.io/js/parallax-controller) [![codecov](https://codecov.io/gh/jscottsmith/parallax-controller/branch/master/graph/badge.svg)](https://codecov.io/gh/jscottsmith/parallax-controller)
 
 Core classes and controller for creating parallax scrolling effects.
+
+This package was created for [react-scroll-parallax](https://github.com/jscottsmith/react-scroll-parallax), but can be used as a standalone lib.
+
+## Usage
+
+Create the parallax controller first:
+
+```ts
+const controller = ParallaxController.init();
+```
+
+Then create an element with animation effects as props:
+
+```ts
+controller.createElement({
+  elOuter: document.getElementById('outer'),
+  elInner: document.getElementById('inner'),
+  props: {
+    translateY: [-100, 100],
+    opacity: [0.4, 1],
+  },
+});
+```
+
+```html
+<div id="outer">
+  <div id="inner">
+    <!-- children  -->
+  </div>
+</div>
+```
 
 ## Optimizations to Reduce Jank
 
