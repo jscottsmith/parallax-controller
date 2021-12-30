@@ -10,7 +10,7 @@ A number of techniques are used to keep scrolling optimized:
 
 1. Uses a single passive scroll listener to control all animated elements on the page.
 2. A minimal amount of work is done on the scroll event to prevent jank with no calls to methods that cause layout shifts.
-3. Calculations that cause layout, reflow ([`getBoundingClientRect)`](https://developer.mozilla.org/en-US/docs/Web/API/Element/getBoundingClientRect)) are cached and only updated when layout may change.
+3. Calculations that cause layout, reflow ([`getBoundingClientRect()`](https://developer.mozilla.org/en-US/docs/Web/API/Element/getBoundingClientRect)) are cached and only updated when layout may change.
 4. The [`requestAnimationFrame`](https://developer.mozilla.org/en-US/docs/Web/API/window/requestAnimationFrame) is used to apply all scroll effects.
 5. Only GPU supported CSS effects `transform` and `opacity` are allowed.
 6. CSS [`will-change`](https://developer.mozilla.org/en-US/docs/Web/CSS/will-change) is added to an element when it's visible and animating to prevent paints. It's then removed when the element leaves the view.
