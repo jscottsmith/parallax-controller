@@ -17,9 +17,9 @@ A number of techniques are used to keep scrolling optimized:
 
 If you have ideas to further optimize scrolling please PR or post an issue.
 
-⚠️ **Scroll effects may still cause jank and bad user experiences!** It's up to you to make sure you use this package appropriately.
+## ⚠️ **Scroll Effects May Still Cause Jank and Bad User Experiences!**
 
-Suggestions for best UX:
+It's up to you to make sure you use this package appropriately. Here's some suggestions for usage while maintaining good UX:
 
 1. Keep effects simple -- less is more. Oftentimes the less extreme animations on the page the better the scrolling will be.
 2. Minimize the number of scroll effects on elements that are in view at the same time.
