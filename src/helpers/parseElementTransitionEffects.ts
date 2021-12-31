@@ -1,7 +1,7 @@
 import {
   ParsedValueEffect,
   ValidCSSEffects,
-  ParallaxElementEffectProperties,
+  ParallaxElementConfig,
   ParallaxStartEndEffects,
   AllValidUnits,
 } from '../types';
@@ -29,7 +29,7 @@ export const MAP_EFFECT_TO_DEFAULT_VALUE: {
  * Takes a parallax element effects and parses the properties to get the start and end values and units.
  */
 export function parseElementTransitionEffects(
-  props: ParallaxElementEffectProperties
+  props: ParallaxElementConfig
 ): ParallaxStartEndEffects {
   const parsedEffects: { [key: string]: ParsedValueEffect } = {};
 

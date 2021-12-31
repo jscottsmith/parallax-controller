@@ -69,9 +69,21 @@ describe('Expect the Element class', () => {
     });
   });
 
-  it('set will change styles in contructor', () => {
+  it('set will change styles in constructor', () => {
     const element = new Element(DEFAULT_OPTIONS);
     expect(element.elInner?.style.willChange).toEqual('transform');
+  });
+
+  it('set limits based on user provided start end scroll values', () => {
+    const element = new Element({
+      ...DEFAULT_OPTIONS,
+      props: { ...DEFAULT_OPTIONS.props, startScroll: 0, endScroll: 999 },
+    });
+    element.setCachedAttributes(DEFAULT_VIEW, DEFAULT_SCROLL);
+    expect(element.limits?.startX).toEqual(0);
+    expect(element.limits?.startY).toEqual(0);
+    expect(element.limits?.endX).toEqual(999);
+    expect(element.limits?.endY).toEqual(999);
   });
 
   it.skip('to conditionally handle updates based on scroll axis', () => {});

@@ -6,7 +6,7 @@ import { testForPassiveScroll } from '../utils/testForPassiveScroll';
 import {
   CreateElementOptions,
   ParallaxControllerOptions,
-  ParallaxElementEffectProperties,
+  ParallaxElementConfig,
   ScrollAxis,
   ValidScrollAxis,
   ViewElement,
@@ -254,10 +254,7 @@ export class ParallaxController {
    * @param {object} element
    * @param {object} options
    */
-  updateElementPropsById(
-    id: number,
-    props: ParallaxElementEffectProperties
-  ): void {
+  updateElementPropsById(id: number, props: ParallaxElementConfig): void {
     if (this.elements) {
       this.elements = this.elements.map(el => {
         if (el.id === id) {

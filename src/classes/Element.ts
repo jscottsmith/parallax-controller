@@ -1,7 +1,7 @@
 import bezier from 'bezier-easing';
 import {
   CreateElementOptions,
-  ParallaxElementEffectProperties,
+  ParallaxElementConfig,
   ParallaxStartEndEffects,
   ScrollAxis,
   ValidScrollAxis,
@@ -31,7 +31,7 @@ type ElementConstructorOptions = CreateElementOptions & {
 export class Element {
   elInner: HTMLElement;
   elOuter: HTMLElement;
-  props: ParallaxElementEffectProperties;
+  props: ParallaxElementConfig;
   scrollAxis: ValidScrollAxis;
   id: number;
   effects: ParallaxStartEndEffects;
@@ -65,7 +65,7 @@ export class Element {
         : this._updatePositionHorizontal;
   }
 
-  updateProps(nextProps: ParallaxElementEffectProperties) {
+  updateProps(nextProps: ParallaxElementConfig) {
     this.props = { ...this.props, ...nextProps };
     this.effects = parseElementTransitionEffects(nextProps);
     this._setElementEasing(nextProps.easing);
@@ -85,6 +85,19 @@ export class Element {
     const shouldScaleTranslateEffects =
       !this.props.rootMargin &&
       (!!this.effects.translateX || !!this.effects.translateY);
+
+    if (
+      typeof this.props.startScroll === 'number' &&
+      typeof this.props.endScroll === 'number'
+    ) {
+      this.limits = new Limits({
+        startX: this.props.startScroll,
+        startY: this.props.startScroll,
+        endX: this.props.endScroll,
+        endY: this.props.endScroll,
+      });
+      return this;
+    }
 
     if (shouldScaleTranslateEffects) {
       this.limits = createLimitsWithTranslationsForRelativeElements(

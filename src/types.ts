@@ -79,7 +79,7 @@ export type EasingParam = ValidEasingPresets | EasingParams;
 export type CSSEffect = [string | number, string | number, EasingParam?];
 export type ScaleOpacityEffect = [number, number, EasingParam?];
 
-export type ParallaxElementEffectProperties = {
+export type ParallaxElementConfig = {
   disabled?: boolean;
   translateX?: CSSEffect;
   translateY?: CSSEffect;
@@ -97,6 +97,9 @@ export type ParallaxElementEffectProperties = {
   /* Start animation at initial position if the element is positioned inside the view when scroll is at zero */
   shouldStartAnimationInitialInView?: boolean;
 
+  startScroll?: number;
+  endScroll?: number;
+
   onEnter?: () => void;
   onExit?: () => void;
   onProgressChange?: (progress: number) => any;
@@ -105,7 +108,7 @@ export type ParallaxElementEffectProperties = {
 export type CreateElementOptions = {
   elInner: HTMLElement;
   elOuter: HTMLElement;
-  props: ParallaxElementEffectProperties;
+  props: ParallaxElementConfig;
 };
 
 export type EasingParams = [number, number, number, number];
