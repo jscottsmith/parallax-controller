@@ -103,8 +103,8 @@ export type ParallaxElementEffectProperties = {
 };
 
 export type CreateElementOptions = {
-  elInner: HTMLElement;
-  elOuter: HTMLElement;
+  elInner?: HTMLElement;
+  elOuter?: HTMLElement;
   props: ParallaxElementEffectProperties;
 };
 
