@@ -29,8 +29,8 @@ type ElementConstructorOptions = CreateElementOptions & {
 };
 
 export class Element {
-  elInner?: HTMLElement;
-  elOuter?: HTMLElement;
+  elInner: HTMLElement;
+  elOuter: HTMLElement;
   props: ParallaxElementEffectProperties;
   scrollAxis: ValidScrollAxis;
   id: number;
@@ -57,7 +57,7 @@ export class Element {
 
     this._setElementEasing(options.props.easing);
 
-    setWillChangeStyles(options.elInner);
+    setWillChangeStyles(options.elInner, this.effects);
 
     this.updatePosition =
       options.scrollAxis === ScrollAxis.vertical
