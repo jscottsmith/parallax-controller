@@ -1,3 +1,4 @@
+import { EffectNumber, EffectString } from '../types';
 import createNodeMock from '../testUtils/createNodeMock';
 import { setElementStyles } from './elementStyles';
 import { parseElementTransitionEffects } from './parseElementTransitionEffects';
@@ -11,8 +12,8 @@ function createTranslateEffects(
   y1: Offset
 ) {
   return parseElementTransitionEffects({
-    translateX: [x0, x1],
-    translateY: [y0, y1],
+    translateX: [x0, x1] as EffectNumber | EffectString,
+    translateY: [y0, y1] as EffectNumber | EffectString,
   });
 }
 
