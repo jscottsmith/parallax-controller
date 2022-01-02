@@ -75,9 +75,11 @@ export type ParallaxControllerOptions = {
   scrollContainer?: HTMLElement;
 };
 
+export type EffectNumber = [number, number, EasingParam?];
+export type EffectString = [string, string, EasingParam?];
 export type EasingParam = ValidEasingPresets | EasingParams;
-export type CSSEffect = [string | number, string | number, EasingParam?];
-export type ScaleOpacityEffect = [number, number, EasingParam?];
+export type CSSEffect = EffectNumber | EffectString;
+export type ScaleOpacityEffect = EffectNumber;
 
 export type ParallaxElementConfig = {
   disabled?: boolean;
@@ -112,35 +114,39 @@ export type CreateElementOptions = {
 };
 
 export type EasingParams = [number, number, number, number];
-export type ValidEasingPresets =
-  | 'ease'
-  | 'easeIn'
-  | 'easeOut'
-  | 'easeInOut'
-  | 'easeInQuad'
-  | 'easeInCubic'
-  | 'easeInQuart'
-  | 'easeInQuint'
-  | 'easeInSine'
-  | 'easeInExpo'
-  | 'easeInCirc'
-  | 'easeOutQuad'
-  | 'easeOutCubic'
-  | 'easeOutQuart'
-  | 'easeOutQuint'
-  | 'easeOutSine'
-  | 'easeOutExpo'
-  | 'easeOutCirc'
-  | 'easeInOutQuad'
-  | 'easeInOutCubic'
-  | 'easeInOutQuart'
-  | 'easeInOutQuint'
-  | 'easeInOutSine'
-  | 'easeInOutExpo'
-  | 'easeInOutCirc'
-  | 'easeInBack'
-  | 'easeOutBack'
-  | 'easeInOutBack';
+
+export enum EasingPreset {
+  ease = 'ease',
+  easeIn = 'easeIn',
+  easeOut = 'easeOut',
+  easeInOut = 'easeInOut',
+  easeInQuad = 'easeInQuad',
+  easeInCubic = 'easeInCubic',
+  easeInQuart = 'easeInQuart',
+  easeInQuint = 'easeInQuint',
+  easeInSine = 'easeInSine',
+  easeInExpo = 'easeInExpo',
+  easeInCirc = 'easeInCirc',
+  easeOutQuad = 'easeOutQuad',
+  easeOutCubic = 'easeOutCubic',
+  easeOutQuart = 'easeOutQuart',
+  easeOutQuint = 'easeOutQuint',
+  easeOutSine = 'easeOutSine',
+  easeOutExpo = 'easeOutExpo',
+  easeOutCirc = 'easeOutCirc',
+  easeInOutQuad = 'easeInOutQuad',
+  easeInOutCubic = 'easeInOutCubic',
+  easeInOutQuart = 'easeInOutQuart',
+  easeInOutQuint = 'easeInOutQuint',
+  easeInOutSine = 'easeInOutSine',
+  easeInOutExpo = 'easeInOutExpo',
+  easeInOutCirc = 'easeInOutCirc',
+  easeInBack = 'easeInBack',
+  easeOutBack = 'easeOutBack',
+  easeInOutBack = 'easeInOutBack',
+}
+
+export type ValidEasingPresets = keyof typeof EasingPreset;
 
 export type RootMarginShape = {
   top: number;
