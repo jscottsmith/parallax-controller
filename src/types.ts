@@ -102,6 +102,7 @@ export type ParallaxElementConfig = {
 
   startScroll?: number;
   endScroll?: number;
+  targetElement?: HTMLElement;
 
   onEnter?: () => any;
   onExit?: () => any;

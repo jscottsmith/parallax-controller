@@ -23,6 +23,7 @@ import { createEasingFunction } from '../helpers/createEasingFunction';
 import { createLimitsForRelativeElements } from '../helpers/createLimitsForRelativeElements';
 import { createLimitsWithTranslationsForRelativeElements } from '../helpers/createLimitsWithTranslationsForRelativeElements';
 import { scaleTranslateEffectsForSlowerScroll } from '../helpers/scaleTranslateEffectsForSlowerScroll';
+import { getShouldScaleTranslateEffects } from '../helpers/getShouldScaleTranslateEffects';
 
 type ElementConstructorOptions = CreateElementOptions & {
   scrollAxis: ValidScrollAxis;
@@ -74,17 +75,16 @@ export class Element {
   }
 
   setCachedAttributes(view: View, scroll: Scroll): Element {
-    if (!this.elOuter) return this;
-
     this.rect = new Rect({
-      el: this.elOuter,
+      el: this.props.targetElement || this.elOuter,
       rootMargin: this.props.rootMargin,
       view,
     });
 
-    const shouldScaleTranslateEffects =
-      !this.props.rootMargin &&
-      (!!this.effects.translateX || !!this.effects.translateY);
+    const shouldScaleTranslateEffects = getShouldScaleTranslateEffects(
+      this.props,
+      this.effects
+    );
 
     if (
       typeof this.props.startScroll === 'number' &&
