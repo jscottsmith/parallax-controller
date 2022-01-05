@@ -1,4 +1,5 @@
 import { EasingFunction } from 'bezier-easing';
+import { Element } from './classes/Element';
 
 export type ParallaxStartEndEffects = {
   translateX?: ParsedValueEffect;
@@ -102,8 +103,9 @@ export type ParallaxElementConfig = {
   startScroll?: number;
   endScroll?: number;
 
-  onEnter?: () => void;
-  onExit?: () => void;
+  onEnter?: () => any;
+  onExit?: () => any;
+  onChange?: (element: Element) => any;
   onProgressChange?: (progress: number) => any;
 };
 

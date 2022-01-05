@@ -144,6 +144,7 @@ export class Element {
   _updateElementProgress(nextProgress: number) {
     this.progress = nextProgress;
     this.props.onProgressChange && this.props.onProgressChange(this.progress);
+    this.props.onChange && this.props.onChange(this);
     const effects = this.scaledEffects || this.effects;
     setElementStyles(effects, this.progress, this.elInner);
   }

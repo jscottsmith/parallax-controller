@@ -91,6 +91,7 @@ describe('Expect the Element class', () => {
   it('calls enter and exit and progress handlers', () => {
     const onEnter = jest.fn();
     const onExit = jest.fn();
+    const onChange = jest.fn();
     const onProgressChange = jest.fn();
 
     const element = new Element({
@@ -98,6 +99,7 @@ describe('Expect the Element class', () => {
       props: {
         onEnter,
         onExit,
+        onChange,
         onProgressChange,
         translateY: [100, -100],
       },
@@ -110,9 +112,11 @@ describe('Expect the Element class', () => {
 
     const scroll = new Scroll(0, 0);
     element.setCachedAttributes(view, scroll);
+    expect(onChange).toBeCalledTimes(0);
     expect(onProgressChange).toBeCalledTimes(0);
 
     element.updatePosition(scroll);
+    expect(onChange).toBeCalledTimes(1);
     expect(onProgressChange).toBeCalledTimes(1);
 
     scroll.setScroll(0, 500);
