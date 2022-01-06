@@ -17,11 +17,7 @@ import {
  * Parallax Controller
  * -------------------------------------------------------
  *
- * The global controller for setting up window scroll/resize
- * listeners, managing and caching parallax element positions,
- * determining which elements are inside the viewport based on
- * scroll position, and then updating parallax element styles
- * based on x/y offsets and current scroll position.
+ * The global controller for setting up and managing a scroll view of elements.
  *
  */
 
@@ -98,7 +94,6 @@ export class ParallaxController {
       'createElement',
       'removeElementById',
       'updateElementPropsById',
-      'resetElementStyles',
       'update',
       'updateScrollContainer',
       'destroy',
@@ -217,18 +212,14 @@ export class ParallaxController {
    */
 
   /**
-   * Gets the parallax elements in the controller
-   * @return {array} parallax elements
+   * Returns all the parallax elements in the controller
    */
   getElements(): Element[] {
     return this.elements;
   }
 
   /**
-   * Creates a new parallax element object with new id
-   * and options to store in the 'elements' array.
-   * @param {object} options
-   * @return {object} element
+   * Creates and returns new parallax element with provided options to be managed by the controller.
    */
   createElement(options: CreateElementOptions): Element {
     const newElement = new Element({ ...options, scrollAxis: this.scrollAxis });
@@ -242,7 +233,6 @@ export class ParallaxController {
 
   /**
    * Remove an element by id
-   * @param {object} element
    */
   removeElementById(id: number) {
     if (!this.elements) return;
@@ -251,8 +241,6 @@ export class ParallaxController {
 
   /**
    * Updates an existing parallax element object with new options.
-   * @param {object} element
-   * @param {object} options
    */
   updateElementPropsById(id: number, props: ParallaxElementConfig): void {
     if (this.elements) {
@@ -268,15 +256,7 @@ export class ParallaxController {
   }
 
   /**
-   * Remove element styles.
-   * @param {object} element
-   */
-  resetElementStyles(element: Element) {
-    resetStyles(element);
-  }
-
-  /**
-   * Updates all parallax element attributes and positions.
+   * Updates all cached attributes on parallax elements.
    */
   update() {
     // Save the latest scroll position because window.scroll
@@ -287,7 +267,9 @@ export class ParallaxController {
     this._setViewSize();
     this._updateAllElements({ updateCache: true });
   }
-
+  /**
+   * Updates the scroll container of the parallax controller
+   */
   updateScrollContainer(el: HTMLElement) {
     // remove existing listeners with current el first
     this._removeListeners(this.viewEl);
@@ -301,7 +283,7 @@ export class ParallaxController {
   }
 
   /**
-   * Removes listeners, reset all styles then nullifies the global ParallaxController.
+   * Removes all listeners and resets all styles on managed elements.
    */
   destroy() {
     this._removeListeners(this.viewEl);
