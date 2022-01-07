@@ -40,6 +40,14 @@ Removes and element by a given ID
 parallaxController.removeElementById(element.id);
 ```
 
+## resetElementStyles()
+
+Remove a target elements parallax styles
+
+```ts
+parallaxController.resetElementStyles(element);
+```
+
 ## updateScrollContainer()
 
 Updates the scroll container of the parallax controller.

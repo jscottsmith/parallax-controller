@@ -93,6 +93,7 @@ export class ParallaxController {
       'getElements',
       'createElement',
       'removeElementById',
+      'resetElementStyles',
       'updateElementPropsById',
       'update',
       'updateScrollContainer',
@@ -253,6 +254,13 @@ export class ParallaxController {
     }
 
     this.update();
+  }
+
+  /**
+   * Remove a target elements parallax styles
+   */
+  resetElementStyles(element: Element) {
+    resetStyles(element);
   }
 
   /**
