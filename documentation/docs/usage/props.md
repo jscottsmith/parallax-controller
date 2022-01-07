@@ -1,3 +1,7 @@
+---
+sidebar_position: 3
+---
+
 # Props
 
 All available options for scroll effect animation configurations of a parallax element are defined in the `props` option.

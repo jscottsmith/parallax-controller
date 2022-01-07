@@ -10,7 +10,7 @@ Create the parallax controller first:
 const controller = ParallaxController.init();
 ```
 
-Then create an element with animation effects as props:
+Then create an element with [animation effects](./props) as props:
 
 ```ts
 controller.createElement({
