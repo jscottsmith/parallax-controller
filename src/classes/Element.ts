@@ -16,6 +16,7 @@ import { parseElementTransitionEffects } from '../helpers/parseElementTransition
 import { getProgressAmount } from '../helpers/getProgressAmount';
 import { isElementInView } from '../helpers/isElementInView';
 import {
+  resetStyles,
   setElementStyles,
   setWillChangeStyles,
 } from '../helpers/elementStyles';
@@ -30,8 +31,7 @@ type ElementConstructorOptions = CreateElementOptions & {
 };
 
 export class Element {
-  elInner: HTMLElement;
-  elOuter: HTMLElement;
+  el: HTMLElement;
   props: ParallaxElementConfig;
   scrollAxis: ValidScrollAxis;
   id: number;
@@ -47,8 +47,7 @@ export class Element {
   updatePosition: (scroll: Scroll) => Element;
 
   constructor(options: ElementConstructorOptions) {
-    this.elInner = options.elInner;
-    this.elOuter = options.elOuter;
+    this.el = options.el;
     this.props = options.props;
     this.scrollAxis = options.scrollAxis;
     this.id = createId();
@@ -58,7 +57,7 @@ export class Element {
 
     this._setElementEasing(options.props.easing);
 
-    setWillChangeStyles(options.elInner, this.effects);
+    setWillChangeStyles(options.el, this.effects);
 
     this.updatePosition =
       options.scrollAxis === ScrollAxis.vertical
@@ -75,8 +74,11 @@ export class Element {
   }
 
   setCachedAttributes(view: View, scroll: Scroll): Element {
+    // NOTE: Must reset styles before getting the rect, as it might impact the natural position
+    resetStyles(this);
+
     this.rect = new Rect({
-      el: this.props.targetElement || this.elOuter,
+      el: this.props.targetElement || this.el,
       rootMargin: this.props.rootMargin,
       view,
     });
@@ -121,6 +123,8 @@ export class Element {
       );
     }
 
+    this._setElementStyles();
+
     return this;
   }
 
@@ -141,12 +145,16 @@ export class Element {
     this._updateElementProgress(finalProgress);
   }
 
+  _setElementStyles() {
+    const effects = this.scaledEffects || this.effects;
+    setElementStyles(effects, this.progress, this.el);
+  }
+
   _updateElementProgress(nextProgress: number) {
     this.progress = nextProgress;
     this.props.onProgressChange && this.props.onProgressChange(this.progress);
     this.props.onChange && this.props.onChange(this);
-    const effects = this.scaledEffects || this.effects;
-    setElementStyles(effects, this.progress, this.elInner);
+    this._setElementStyles();
   }
 
   _setElementEasing(easing?: EasingParam): void {

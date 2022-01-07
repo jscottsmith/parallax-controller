@@ -26,35 +26,35 @@ function createEffect(v1: Offset, v2: Offset, key: string) {
 
 describe('setElementStyles', () => {
   test(`handles scale styles`, () => {
-    const elInner = createNodeMock();
+    const el = createNodeMock();
     const offsets = {
       ...createEffect(0, 1, 'scale'),
     };
     const progress = 0.5;
     // @ts-expect-error
-    setElementStyles(offsets, progress, elInner);
-    expect(elInner.style.transform).toBe(`scale(0.5)`);
+    setElementStyles(offsets, progress, el);
+    expect(el.style.transform).toBe(`scale(0.5)`);
   });
 
   test(`handles opacity styles`, () => {
-    const elInner = createNodeMock();
+    const el = createNodeMock();
     const offsets = {
       ...createEffect(0, 1, 'opacity'),
     };
     const progress = 0.5;
     // @ts-expect-error
-    setElementStyles(offsets, progress, elInner);
-    expect(elInner.style.opacity).toBe(`0.5`);
+    setElementStyles(offsets, progress, el);
+    expect(el.style.opacity).toBe(`0.5`);
   });
 
   test(`exits early when inner element is not provided`, () => {
-    const elInner = undefined;
+    const el = undefined;
     const offsets = {
       ...createEffect(0, 1, 'opacity'),
     };
     const progress = 0.5;
     expect(() => {
-      setElementStyles(offsets, progress, elInner);
+      setElementStyles(offsets, progress, el);
     }).not.toThrowError();
   });
 });
@@ -170,10 +170,10 @@ describe.each([
     0.5,
     `translateX(0px)translateY(-50%)`,
   ],
-])('.setElementStyles(%o, %o, %n)', (elInner, offsets, progress, expected) => {
+])('.setElementStyles(%o, %o, %n)', (el, offsets, progress, expected) => {
   test(`sets element styles to: ${expected}%`, () => {
     // @ts-expect-error
-    setElementStyles(offsets, progress, elInner);
-    expect(elInner.style.transform).toBe(expected);
+    setElementStyles(offsets, progress, el);
+    expect(el.style.transform).toBe(expected);
   });
 });

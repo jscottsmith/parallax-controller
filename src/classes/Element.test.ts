@@ -9,7 +9,7 @@ import { easingPresets } from '../constants';
 import { CSSEffect } from '..';
 
 const DEFAULT_OPTIONS = {
-  elInner: createElementMock(
+  el: createElementMock(
     { offsetWidth: 100, offsetHeight: 100 },
     {
       getBoundingClientRect: () => ({
@@ -20,7 +20,6 @@ const DEFAULT_OPTIONS = {
       }),
     }
   ),
-  elOuter: document.createElement('div'),
   scrollAxis: ScrollAxis.vertical,
   props: { translateX: [0, 0] as CSSEffect, translateY: [0, 0] as CSSEffect },
 };
@@ -71,7 +70,7 @@ describe('Expect the Element class', () => {
 
   it('set will change styles in constructor', () => {
     const element = new Element(DEFAULT_OPTIONS);
-    expect(element.elInner?.style.willChange).toEqual('transform');
+    expect(element.el?.style.willChange).toEqual('transform');
   });
 
   it('set limits based on user provided start end scroll values', () => {
@@ -160,8 +159,7 @@ describe('Expect the Element class', () => {
 
   it('to create an easing function when arguments are provided', () => {
     const element = new Element({
-      elInner: document.createElement('div'),
-      elOuter: document.createElement('div'),
+      el: document.createElement('div'),
       scrollAxis: ScrollAxis.vertical,
       props: {
         easing: [0, 0, 1, 0.5],
@@ -175,8 +173,7 @@ describe('Expect the Element class', () => {
     Object.keys(easingPresets).forEach(key => {
       test(key, () => {
         const element = new Element({
-          elInner: document.createElement('div'),
-          elOuter: document.createElement('div'),
+          el: document.createElement('div'),
           scrollAxis: ScrollAxis.vertical,
           props: {
             easing: [0, 0, 1, 0.5],
@@ -190,8 +187,7 @@ describe('Expect the Element class', () => {
 
   it('to NOT create an easing function when arguments are omitted', () => {
     const element = new Element({
-      elInner: document.createElement('div'),
-      elOuter: document.createElement('div'),
+      el: document.createElement('div'),
       scrollAxis: ScrollAxis.vertical,
       props: {},
     });
@@ -201,8 +197,7 @@ describe('Expect the Element class', () => {
 
   it('to update easing when element props are updated', () => {
     const element = new Element({
-      elInner: document.createElement('div'),
-      elOuter: document.createElement('div'),
+      el: document.createElement('div'),
       scrollAxis: ScrollAxis.vertical,
       props: {},
     });

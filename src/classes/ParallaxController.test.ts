@@ -8,8 +8,7 @@ const addEventListener = window.addEventListener;
 const removeEventListener = window.removeEventListener;
 
 const OPTIONS = {
-  elInner: document.createElement('div'),
-  elOuter: document.createElement('div'),
+  el: document.createElement('div'),
   props: {
     disabled: false,
     translateX: [0, 0] as CSSEffect,
@@ -56,10 +55,6 @@ describe('Expect the ParallaxController', () => {
       scrollAxis: ScrollAxis.vertical,
     });
     const element = controller.createElement(OPTIONS);
-    expect(element).toBeInstanceOf(Element);
-
-    const elInner = document.createElement('div');
-    elInner.style.transform = 'translate3d(0%, 0%, 0)';
 
     expect(element).toBeInstanceOf(Element);
     expect(element.limits).toBeInstanceOf(Limits);
@@ -98,8 +93,7 @@ describe('Expect the ParallaxController', () => {
     });
 
     const incorrectOffsets = {
-      elInner: document.createElement('div'),
-      elOuter: document.createElement('div'),
+      el: document.createElement('div'),
       props: {
         disabled: false,
         translateX: ['-10%', '100px'],

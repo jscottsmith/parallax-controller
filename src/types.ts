@@ -111,8 +111,7 @@ export type ParallaxElementConfig = {
 };
 
 export type CreateElementOptions = {
-  elInner: HTMLElement;
-  elOuter: HTMLElement;
+  el: HTMLElement;
   props: ParallaxElementConfig;
 };
 
