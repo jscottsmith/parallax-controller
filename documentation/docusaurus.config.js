@@ -70,38 +70,70 @@ const config = {
           },
         ],
       },
-      // footer: {
-      //   style: 'dark',
-      //   links: [
-      //     {
-      //       title: 'Docs',
-      //       items: [
-      //         {
-      //           label: 'Tutorial',
-      //           to: '/docs/intro',
-      //         },
-      //       ],
-      //     },
-      //     {
-      //       title: 'Community',
-      //       items: [
-      //         {
-      //           label: 'Stack Overflow',
-      //           href: 'https://stackoverflow.com/questions/tagged/docusaurus',
-      //         },
-      //         {
-      //           label: 'Discord',
-      //           href: 'https://discordapp.com/invite/docusaurus',
-      //         },
-      //         {
-      //           label: 'Twitter',
-      //           href: 'https://twitter.com/docusaurus',
-      //         },
-      //       ],
-      //     },
-      //   ],
-      //   copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
-      // },
+      footer: {
+        style: 'dark',
+        links: [
+          {
+            title: 'Docs',
+            items: [
+              {
+                label: 'Introduction',
+                to: '/docs/intro',
+              },
+
+              {
+                to: '/docs/performance',
+                label: 'Performance',
+              },
+
+              {
+                to: '/docs/usage/basic-usage',
+                label: 'Usage',
+              },
+              {
+                to: '/docs/api/',
+                label: 'API',
+              },
+            ],
+          },
+          {
+            title: 'Elsewhere',
+            items: [
+              {
+                label: 'NPM',
+                href: 'https://www.npmjs.com/package/parallax-controller',
+              },
+              {
+                label: 'Github',
+                href: 'https://github.com/jscottsmith/parallax-controller',
+              },
+              {
+                label: 'Support',
+                href:
+                  'https://github.com/jscottsmith/parallax-controller/issues',
+              },
+            ],
+          },
+          {
+            title: 'Who',
+            items: [
+              {
+                label: 'J',
+                href: 'https://github.com/jscottsmith',
+              },
+              {
+                label: 'Damnthat.tv',
+                href: 'https://damnthat.tv/',
+              },
+              {
+                label: '@damntelevision',
+                href: 'https://twitter.com/damntelevision',
+              },
+            ],
+          },
+        ],
+        copyright: `It's ok 👌🏻`,
+      },
       prism: {
         theme: lightCodeTheme,
         darkTheme: darkCodeTheme,
