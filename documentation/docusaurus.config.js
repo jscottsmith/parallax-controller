@@ -47,6 +47,12 @@ const config = {
         items: [
           {
             type: 'doc',
+            docId: 'performance',
+            position: 'left',
+            label: 'Performance',
+          },
+          {
+            type: 'doc',
             docId: 'usage/basic-usage',
             position: 'left',
             label: 'Usage',

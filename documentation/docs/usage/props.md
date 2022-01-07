@@ -27,7 +27,7 @@ The following properties can be provided to configure the scroll animation:
 
 ## CSS Effect Props
 
-All props for creating CSS effects are defined by a **_start_** and **_end_** value represented by an `array`.
+All props for creating CSS effects are defined by a **start** and **end** value represented by an `array`.
 
 ```ts
 const translateY = [-100, 100];
@@ -43,9 +43,13 @@ parallaxController.createElement({
 
 ### How Effects Progress
 
-The **_start_** of an effect begins when the top of the element enters the bottom of the view.
+The **start** of an effect begins when the top of the element enters the bottom of the view.
 
-The **_end_** of an effect begins when the bottom of the element exits the top of the view.
+The **end** of an effect begins when the bottom of the element exits the top of the view.
+
+### Available CSS Effects
+
+These are all the supported CSS effects:
 
 | Name           |           Type           | Description                                                                                                                           |
 | -------------- | :----------------------: | ------------------------------------------------------------------------------------------------------------------------------------- |
