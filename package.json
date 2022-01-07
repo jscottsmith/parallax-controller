@@ -38,6 +38,18 @@
     "trailingComma": "es5"
   },
   "name": "parallax-controller",
+  "description": "Core classes and controller for creating parallax scrolling effects",
+  "keywords": [
+    "scroll",
+    "effects",
+    "parallax",
+    "animation",
+    "transform",
+    "translate",
+    "rotate",
+    "scale",
+    "opacity"
+  ],
   "author": "J Scott Smith",
   "module": "dist/parallax-controller.esm.js",
   "size-limit": [
