@@ -1,0 +1,162 @@
+# Props
+
+All available options for scroll effect animation configurations of a parallax element are defined in the `props` option.
+
+```ts
+parallaxController.createElement({
+  elOuter: document.getElementById('outer'),
+  elInner: document.getElementById('inner'),
+  props: {
+    // ...your props here
+  },
+});
+```
+
+## Configuration Props
+
+The following properties can be provided to configure the scroll animation:
+
+| Name                                  |          Type          | Default | Description                                                                                                                                                                                        |
+| ------------------------------------- | :--------------------: | :------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **easing**                            | `string` or `number[]` |         | String representing an [easing preset](#easing-presets) or array of params to supply to a [cubic bezier easing function](#cubic-bezier-easing-function).                                           |
+| **rootMargin**                        |        `object`        |         | Margin to be applied as the bounds around an element. This will affect when an element is determined to be considered in the viewport. Example: `{ top: 100, right: 100, bottom: 100, left: 100 }` |
+| **disabled**                          |       `boolean`        | `false` | Disables parallax effects on individual elements when `true`.                                                                                                                                      |
+| **shouldStartAnimationInitialInView** |       `boolean`        | `false` | Will start the animation at initial element position if the element is positioned inside the view when scroll is at zero.                                                                          |
+| **startScroll**                       |        `number`        |         | Scroll top value to begin the animation. When provided along with `endScroll` relative scroll values will be ignored.                                                                              |
+| **endScroll**                         |        `number`        |         | Scroll top value to end the animation. When provided along with `startScroll` relative scroll values will be ignored.                                                                              |
+
+## CSS Effect Props
+
+All props for creating CSS effects are defined by a **_start_** and **_end_** value represented by an `array`.
+
+```ts
+const translateY = [-100, 100];
+
+parallaxController.createElement({
+  elOuter: document.getElementById('outer'),
+  elInner: document.getElementById('inner'),
+  props: {
+    translateY,
+  },
+});
+```
+
+### How Effects Progress
+
+The **_start_** of an effect begins when the top of the element enters the bottom of the view.
+
+The **_end_** of an effect begins when the bottom of the element exits the top of the view.
+
+| Name           |           Type           | Description                                                                                                                           |
+| -------------- | :----------------------: | ------------------------------------------------------------------------------------------------------------------------------------- |
+| **translateX** | `string[]` or `number[]` | Start and end translation on x-axis in `%` or `px`. If no unit is passed percent is assumed. Percent is based on the elements width.  |
+| **translateY** | `string[]` or `number[]` | Start and end translation on y-axis in `%` or `px`. If no unit is passed percent is assumed. Percent is based on the elements height. |
+| **rotate**     | `string[]` or `number[]` | Start and end rotation on z-axis in `deg`, `rad`, or `turn`. If no unit is passed `deg` is assumed.                                   |
+| **rotateX**    | `string[]` or `number[]` | Start and end rotation on x-axis in `deg`, `rad`, or `turn`. If no unit is passed `deg` is assumed.                                   |
+| **rotateY**    | `string[]` or `number[]` | Start and end rotation on y-axis in `deg`, `rad`, or `turn`. If no unit is passed `deg` is assumed.                                   |
+| **rotateZ**    | `string[]` or `number[]` | Start and end rotation on z-axis in `deg`, `rad`, or `turn`. If no unit is passed `deg` is assumed.                                   |
+| **scale**      |        `number[]`        | Start and end scale on x-axis and y-axis.                                                                                             |
+| **scaleX**     |        `number[]`        | Start and end scale on x-axis.                                                                                                        |
+| **scaleY**     |        `number[]`        | Start and end scale on y-axis.                                                                                                        |
+| **scaleZ**     |        `number[]`        | Start and end scale on z-axis.                                                                                                        |
+| **opacity**    |        `number[]`        | Start and end opacity value.                                                                                                          |
+
+## Callback Props
+
+Example using `onChange` callback
+
+```ts
+const onChange = element => console.log(element);
+
+parallaxController.createElement({
+  elOuter: document.getElementById('outer'),
+  elInner: document.getElementById('inner'),
+  props: {
+    onChange,
+  },
+});
+```
+
+All available callbacks:
+
+| Name                 |    Type    | Description                                                                                                  |
+| -------------------- | :--------: | ------------------------------------------------------------------------------------------------------------ |
+| **onProgressChange** | `function` | Callback for when the progress of an element in the viewport changes.                                        |
+| **onChange**         | `function` | Callback for when the progress of an element in the viewport changes and includes the Element as a parameter |
+| **onEnter**          | `function` | Callback for when an element enters the viewport.                                                            |
+| **onExit**           | `function` | Callback for when an element exits the viewport.                                                             |
+
+## Easing Presets
+
+Example of setting easing:
+
+```ts
+const easing = 'easeInCubic';
+
+parallaxController.createElement({
+  elOuter: document.getElementById('outer'),
+  elInner: document.getElementById('inner'),
+  props: {
+    easing,
+  },
+});
+```
+
+The following easing values are preset and can be used as easing
+
+```
+ease
+easeIn
+easeOut
+easeInOut
+easeInQuad
+easeInCubic
+easeInQuart
+easeInQuint
+easeInSine
+easeInExpo
+easeInCirc
+easeOutQuad
+easeOutCubic
+easeOutQuart
+easeOutQuint
+easeOutSine
+easeOutExpo
+easeOutCirc
+easeInOutQuad
+easeInOutCubic
+easeInOutQuart
+easeInOutQuint
+easeInOutSine
+easeInOutExpo
+easeInOutCirc
+easeInBack
+easeOutBack
+easeInOutBack
+```
+
+### Easing Individual Effects
+
+You can provide various easing values to each effect by defining it as the third element in the array
+
+```ts
+const translateY = [-100, 100, 'easeInOut'];
+const scale = [0, 1, 'easeOutBack'];
+
+parallaxController.createElement({
+  elOuter: document.getElementById('outer'),
+  elInner: document.getElementById('inner'),
+  props: {
+    translateY,
+    scale,
+  },
+});
+```
+
+### Cubic Bezier Easing Function
+
+Just like with CSS `cubic-bezier(0.2,-0.67,1,-0.62);`, you can supply the 4 params to a custom bezier function.
+
+```ts
+const easing = [0.2, -0.6, 1, -0.6];
+```
