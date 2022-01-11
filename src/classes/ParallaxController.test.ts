@@ -47,6 +47,18 @@ describe('Expect the ParallaxController', () => {
     expect(window.addEventListener.mock.calls[2]).toEqual(
       expect.arrayContaining(['resize', expect.any(Function), false])
     );
+    // @ts-expect-error
+    expect(window.addEventListener.mock.calls[3]).toEqual(
+      expect.arrayContaining(['blur', expect.any(Function), false])
+    );
+    // @ts-expect-error
+    expect(window.addEventListener.mock.calls[4]).toEqual(
+      expect.arrayContaining(['focus', expect.any(Function), false])
+    );
+    // @ts-expect-error
+    expect(window.addEventListener.mock.calls[5]).toEqual(
+      expect.arrayContaining(['load', expect.any(Function), false])
+    );
     controller.destroy();
   });
 

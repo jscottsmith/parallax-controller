@@ -86,7 +86,7 @@ export class ParallaxController {
       '_removeListeners',
       '_getScrollPosition',
       '_handleScroll',
-      '_handleResize',
+      '_handleUpdateCache',
       '_updateAllElements',
       '_updateElementPosition',
       '_setViewSize',
@@ -110,12 +110,18 @@ export class ParallaxController {
       this._handleScroll,
       this._supportsPassive ? { passive: true } : false
     );
-    window.addEventListener('resize', this._handleResize, false);
+    window.addEventListener('resize', this._handleUpdateCache, false);
+    window.addEventListener('blur', this._handleUpdateCache, false);
+    window.addEventListener('focus', this._handleUpdateCache, false);
+    window.addEventListener('load', this._handleUpdateCache, false);
   }
 
   _removeListeners(el: ViewElement) {
     el.removeEventListener('scroll', this._handleScroll, false);
-    window.removeEventListener('resize', this._handleResize, false);
+    window.removeEventListener('resize', this._handleUpdateCache, false);
+    window.removeEventListener('blur', this._handleUpdateCache, false);
+    window.removeEventListener('focus', this._handleUpdateCache, false);
+    window.removeEventListener('load', this._handleUpdateCache, false);
   }
 
   _getScrollPosition() {
@@ -154,7 +160,7 @@ export class ParallaxController {
    * Window resize handler. Sets the new window inner height
    * then updates parallax element attributes and positions.
    */
-  _handleResize() {
+  _handleUpdateCache() {
     this._setViewSize();
     this._updateAllElements({ updateCache: true });
   }
