@@ -14,8 +14,7 @@ You can set `startScroll` and `startScroll` representing the `scrollTop` values 
 const props = { startScroll: 0, endScroll: 1000 };
 
 controller.createElement({
-  elOuter: document.getElementById('outer'),
-  elInner: document.getElementById('inner'),
+  el: document.querySelector('.your-element'),
   props,
 });
 ```
@@ -28,8 +27,7 @@ A different element can also be used to track scroll progress. Assign a `targetE
 const props = { targetElement: document.getElementById('target') };
 
 controller.createElement({
-  elOuter: document.getElementById('outer'),
-  elInner: document.getElementById('inner'),
+  el: document.querySelector('.your-element'),
   props,
 });
 ```
@@ -42,8 +40,7 @@ You can add a `rootMargin` that will adjust the bounds that determine when an el
 const props = { rootMargin: { top: 100, right: 100, bottom: 100, left: 100 } };
 
 controller.createElement({
-  elOuter: document.getElementById('outer'),
-  elInner: document.getElementById('inner'),
+  el: document.querySelector('.your-element'),
   props,
 });
 ```

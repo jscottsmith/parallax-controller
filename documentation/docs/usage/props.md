@@ -8,8 +8,7 @@ All available options for scroll effect animation configurations of a parallax e
 
 ```ts
 parallaxController.createElement({
-  elOuter: document.getElementById('outer'),
-  elInner: document.getElementById('inner'),
+  el: document.querySelector('.your-element'),
   props: {
     // ...your props here
   },
@@ -37,8 +36,7 @@ All props for creating CSS effects are defined by a **start** and **end** value 
 const translateY = [-100, 100];
 
 parallaxController.createElement({
-  elOuter: document.getElementById('outer'),
-  elInner: document.getElementById('inner'),
+  el: document.querySelector('.your-element'),
   props: {
     translateY,
   },
@@ -74,11 +72,10 @@ These are all the supported CSS effects:
 Example using `onChange` callback
 
 ```ts
-const onChange = element => console.log(element);
+const onChange = (element) => console.log(element);
 
 parallaxController.createElement({
-  elOuter: document.getElementById('outer'),
-  elInner: document.getElementById('inner'),
+  el: document.querySelector('.your-element'),
   props: {
     onChange,
   },
@@ -102,8 +99,7 @@ Example of setting easing:
 const easing = 'easeInCubic';
 
 parallaxController.createElement({
-  elOuter: document.getElementById('outer'),
-  elInner: document.getElementById('inner'),
+  el: document.querySelector('.your-element'),
   props: {
     easing,
   },
@@ -152,8 +148,7 @@ const translateY = [-100, 100, 'easeInOut'];
 const scale = [0, 1, 'easeOutBack'];
 
 parallaxController.createElement({
-  elOuter: document.getElementById('outer'),
-  elInner: document.getElementById('inner'),
+  el: document.querySelector('.your-element'),
   props: {
     translateY,
     scale,

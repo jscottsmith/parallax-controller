@@ -8,8 +8,7 @@ Creates and returns a new parallax element with provided [options](#todo) to be 
 
 ```ts
 const options = {
-  elInner: document.querySelector('.el-inner'),
-  elOuter: document.querySelector('.el-inner'),
+  el: document.querySelector('.your-element'),
   props: { translateY: [-100, 100] },
 };
 const element = parallaxController.createElement(options);

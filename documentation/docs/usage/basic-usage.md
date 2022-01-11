@@ -14,8 +14,7 @@ Then create an element with [animation effects](./props) as props:
 
 ```ts
 controller.createElement({
-  elOuter: document.getElementById('outer'),
-  elInner: document.getElementById('inner'),
+  el: document.querySelector('.your-element'),
   props: {
     translateY: [-100, 100],
     opacity: [0.4, 1],
