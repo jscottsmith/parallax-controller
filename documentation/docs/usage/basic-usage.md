@@ -23,9 +23,7 @@ controller.createElement({
 ```
 
 ```html
-<div id="outer">
-  <div id="inner">
-    <!-- children  -->
-  </div>
+<div class="your-element">
+  <!-- children  -->
 </div>
 ```
