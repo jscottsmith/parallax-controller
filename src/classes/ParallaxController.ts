@@ -173,10 +173,10 @@ export class ParallaxController {
   _updateAllElements({ updateCache }: { updateCache?: boolean } = {}) {
     if (this.elements) {
       this.elements.forEach(element => {
-        this._updateElementPosition(element);
         if (updateCache) {
           element.setCachedAttributes(this.view, this.scroll);
         }
+        this._updateElementPosition(element);
       });
     }
     // reset ticking so more animations can be called
