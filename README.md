@@ -18,6 +18,10 @@ or NPM
 npm add parallax-controller
 ```
 
+## Documentation
+
+[API and Usage docs](https://parallax-controller.vercel.app/docs/intro)
+
 ## Demos
 
 This package was created for [react-scroll-parallax](https://github.com/jscottsmith/react-scroll-parallax), but can be used as a standalone lib. Most demos were built with `react-scroll-parallax`.
