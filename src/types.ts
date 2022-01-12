@@ -16,6 +16,7 @@ export type ParallaxStartEndEffects = {
 };
 
 export enum ValidCSSEffects {
+  'speed' = 'speed',
   'translateX' = 'translateX',
   'translateY' = 'translateY',
   'rotate' = 'rotate',
@@ -83,6 +84,7 @@ export type CSSEffect = EffectNumber | EffectString;
 export type ScaleOpacityEffect = EffectNumber;
 
 export type ParallaxElementConfig = {
+  speed?: number;
   disabled?: boolean;
   translateX?: CSSEffect;
   translateY?: CSSEffect;

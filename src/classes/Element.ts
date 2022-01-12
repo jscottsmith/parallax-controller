@@ -51,7 +51,7 @@ export class Element {
     this.props = options.props;
     this.scrollAxis = options.scrollAxis;
     this.id = createId();
-    this.effects = parseElementTransitionEffects(this.props);
+    this.effects = parseElementTransitionEffects(this.props, this.scrollAxis);
     this.isInView = null;
     this.progress = 0;
 
@@ -67,7 +67,7 @@ export class Element {
 
   updateProps(nextProps: ParallaxElementConfig) {
     this.props = { ...this.props, ...nextProps };
-    this.effects = parseElementTransitionEffects(nextProps);
+    this.effects = parseElementTransitionEffects(nextProps, this.scrollAxis);
     this._setElementEasing(nextProps.easing);
 
     return this;

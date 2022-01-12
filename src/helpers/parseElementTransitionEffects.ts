@@ -1,3 +1,4 @@
+import { ScrollAxis, ValidScrollAxis } from '..';
 import {
   ParsedValueEffect,
   ValidCSSEffects,
@@ -10,9 +11,10 @@ import { createEasingFunction } from './createEasingFunction';
 
 export const PARALLAX_EFFECTS = Object.values(ValidCSSEffects);
 
-export const MAP_EFFECT_TO_DEFAULT_VALUE: {
+export const MAP_EFFECT_TO_DEFAULT_UNIT: {
   [key in ValidCSSEffects]: AllValidUnits;
 } = {
+  speed: 'px',
   translateX: '%',
   translateY: '%',
   rotate: 'deg',
@@ -29,21 +31,52 @@ export const MAP_EFFECT_TO_DEFAULT_VALUE: {
  * Takes a parallax element effects and parses the properties to get the start and end values and units.
  */
 export function parseElementTransitionEffects(
-  props: ParallaxElementConfig
+  props: ParallaxElementConfig,
+  scrollAxis: ValidScrollAxis
 ): ParallaxStartEndEffects {
   const parsedEffects: { [key: string]: ParsedValueEffect } = {};
 
   PARALLAX_EFFECTS.forEach((key: keyof typeof ValidCSSEffects) => {
-    if (
-      typeof props?.[key]?.[0] !== 'undefined' &&
-      typeof props?.[key]?.[1] !== 'undefined'
-    ) {
-      const defaultValue: AllValidUnits = MAP_EFFECT_TO_DEFAULT_VALUE[key];
+    const value = props?.[key];
+    const defaultValue: AllValidUnits = MAP_EFFECT_TO_DEFAULT_UNIT[key];
 
-      const startParsed = parseValueAndUnit(props?.[key]?.[0], defaultValue);
-      const endParsed = parseValueAndUnit(props?.[key]?.[1], defaultValue);
+    // If the provided type is a number, this must be the speed prop
+    // in which case we need to construct the proper translate config
+    if (typeof value === 'number') {
+      const startSpeed = `${(props.speed || 0) * 10}px`;
+      const endSpeed = `${(props.speed || 0) * -10}px`;
 
-      const easing = createEasingFunction(props?.[key]?.[2]);
+      const startParsed = parseValueAndUnit(startSpeed);
+      const endParsed = parseValueAndUnit(endSpeed);
+
+      const speedConfig = {
+        start: startParsed.value,
+        end: endParsed.value,
+        unit: startParsed.unit,
+      };
+
+      // Manually set translate y value
+      if (scrollAxis === ScrollAxis.vertical) {
+        parsedEffects.translateY = speedConfig;
+      }
+
+      // Manually set translate y value
+      if (scrollAxis === ScrollAxis.horizontal) {
+        parsedEffects.translateX = speedConfig;
+      }
+    }
+
+    // The rest are standard effect being parsed
+    const shouldParseEffect =
+      Array.isArray(value) &&
+      typeof value?.[0] !== 'undefined' &&
+      typeof value?.[1] !== 'undefined';
+
+    if (shouldParseEffect) {
+      const startParsed = parseValueAndUnit(value?.[0], defaultValue);
+      const endParsed = parseValueAndUnit(value?.[1], defaultValue);
+
+      const easing = createEasingFunction(value?.[2]);
 
       parsedEffects[key] = {
         start: startParsed.value,

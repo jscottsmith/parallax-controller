@@ -21,6 +21,7 @@ The following properties can be provided to configure the scroll animation:
 
 | Name                                  |          Type          | Default | Description                                                                                                                                                                                        |
 | ------------------------------------- | :--------------------: | :------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **speed**                             |        `number`        |         | A value representing the elements scroll speed. If less than zero scroll will appear slower. If greater than zero scroll will appear faster.                                                       |
 | **easing**                            | `string` or `number[]` |         | String representing an [easing preset](#easing-presets) or array of params to supply to a [cubic bezier easing function](#cubic-bezier-easing-function).                                           |
 | **rootMargin**                        |        `object`        |         | Margin to be applied as the bounds around an element. This will affect when an element is determined to be considered in the viewport. Example: `{ top: 100, right: 100, bottom: 100, left: 100 }` |
 | **disabled**                          |       `boolean`        | `false` | Disables parallax effects on individual elements when `true`.                                                                                                                                      |
@@ -56,6 +57,7 @@ These are all the supported CSS effects:
 | Name           |           Type           | Description                                                                                                                           |
 | -------------- | :----------------------: | ------------------------------------------------------------------------------------------------------------------------------------- |
 | **translateX** | `string[]` or `number[]` | Start and end translation on x-axis in `%` or `px`. If no unit is passed percent is assumed. Percent is based on the elements width.  |
+| **translateX** | `string[]` or `number[]` | Start and end translation on x-axis in `%` or `px`. If no unit is passed percent is assumed. Percent is based on the elements width.  |
 | **translateY** | `string[]` or `number[]` | Start and end translation on y-axis in `%` or `px`. If no unit is passed percent is assumed. Percent is based on the elements height. |
 | **rotate**     | `string[]` or `number[]` | Start and end rotation on z-axis in `deg`, `rad`, or `turn`. If no unit is passed `deg` is assumed.                                   |
 | **rotateX**    | `string[]` or `number[]` | Start and end rotation on x-axis in `deg`, `rad`, or `turn`. If no unit is passed `deg` is assumed.                                   |
@@ -72,7 +74,7 @@ These are all the supported CSS effects:
 Example using `onChange` callback
 
 ```ts
-const onChange = (element) => console.log(element);
+const onChange = element => console.log(element);
 
 parallaxController.createElement({
   el: document.querySelector('.your-element'),
