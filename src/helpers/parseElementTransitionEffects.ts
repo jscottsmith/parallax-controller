@@ -1,4 +1,4 @@
-import { ScrollAxis, ValidScrollAxis } from '..';
+import { CSSEffect, ScrollAxis, ValidScrollAxis } from '..';
 import {
   ParsedValueEffect,
   ValidCSSEffects,
@@ -37,14 +37,14 @@ export function parseElementTransitionEffects(
   const parsedEffects: { [key: string]: ParsedValueEffect } = {};
 
   PARALLAX_EFFECTS.forEach((key: keyof typeof ValidCSSEffects) => {
-    const value = props?.[key];
     const defaultValue: AllValidUnits = MAP_EFFECT_TO_DEFAULT_UNIT[key];
 
     // If the provided type is a number, this must be the speed prop
     // in which case we need to construct the proper translate config
-    if (typeof value === 'number') {
-      const startSpeed = `${(props.speed || 0) * 10}px`;
-      const endSpeed = `${(props.speed || 0) * -10}px`;
+    if (typeof props?.[key] === 'number') {
+      const value = props?.[key] as number;
+      const startSpeed = `${(value || 0) * 10}px`;
+      const endSpeed = `${(value || 0) * -10}px`;
 
       const startParsed = parseValueAndUnit(startSpeed);
       const endParsed = parseValueAndUnit(endSpeed);
@@ -67,28 +67,27 @@ export function parseElementTransitionEffects(
     }
 
     // The rest are standard effect being parsed
-    const shouldParseEffect =
-      Array.isArray(value) &&
-      typeof value?.[0] !== 'undefined' &&
-      typeof value?.[1] !== 'undefined';
+    if (Array.isArray(props?.[key])) {
+      const value = props?.[key] as CSSEffect;
 
-    if (shouldParseEffect) {
-      const startParsed = parseValueAndUnit(value?.[0], defaultValue);
-      const endParsed = parseValueAndUnit(value?.[1], defaultValue);
+      if (typeof value[0] !== 'undefined' && typeof value[1] !== 'undefined') {
+        const startParsed = parseValueAndUnit(value?.[0], defaultValue);
+        const endParsed = parseValueAndUnit(value?.[1], defaultValue);
 
-      const easing = createEasingFunction(value?.[2]);
+        const easing = createEasingFunction(value?.[2]);
 
-      parsedEffects[key] = {
-        start: startParsed.value,
-        end: endParsed.value,
-        unit: startParsed.unit,
-        easing,
-      };
+        parsedEffects[key] = {
+          start: startParsed.value,
+          end: endParsed.value,
+          unit: startParsed.unit,
+          easing,
+        };
 
-      if (startParsed.unit !== endParsed.unit) {
-        throw new Error(
-          'Must provide matching units for the min and max offset values of each axis.'
-        );
+        if (startParsed.unit !== endParsed.unit) {
+          throw new Error(
+            'Must provide matching units for the min and max offset values of each axis.'
+          );
+        }
       }
     }
   });
