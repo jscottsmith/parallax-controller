@@ -85,7 +85,8 @@ export class Element {
 
     const shouldScaleTranslateEffects = getShouldScaleTranslateEffects(
       this.props,
-      this.effects
+      this.effects,
+      this.scrollAxis
     );
 
     if (

@@ -1,14 +1,19 @@
+import { ScrollAxis, ValidScrollAxis } from '../types';
 import { ParallaxElementConfig, ParallaxStartEndEffects } from '../types';
 
 export function getShouldScaleTranslateEffects(
   props: ParallaxElementConfig,
-  effects: ParallaxStartEndEffects
+  effects: ParallaxStartEndEffects,
+  scrollAxis: ValidScrollAxis
 ): boolean {
   if (props.rootMargin || props.targetElement) {
     return false;
   }
 
-  if (!!effects.translateX || !!effects.translateY) {
+  if (
+    (!!effects.translateX && scrollAxis === ScrollAxis.horizontal) ||
+    (!!effects.translateY && scrollAxis === ScrollAxis.vertical)
+  ) {
     return true;
   }
 
