@@ -6,7 +6,7 @@ import { Scroll } from '../classes/Scroll';
 
 import { getTranslateScalar } from './getTranslateScalar';
 import { getStartEndValueInPx } from './getStartEndValueInPx';
-import { ParallaxStartEndEffects } from '../types';
+import { ParallaxStartEndEffects, ScrollAxis, ValidScrollAxis } from '../types';
 
 const DEFAULT_VALUE: ParsedValueEffect = {
   start: 0,
@@ -19,6 +19,7 @@ export function createLimitsWithTranslationsForRelativeElements(
   view: View,
   effects: ParallaxStartEndEffects,
   scroll: Scroll,
+  scrollAxis: ValidScrollAxis,
   shouldStartAnimationInitialInView?: boolean
 ): Limits {
   // get start and end accounting for percent effects
@@ -40,24 +41,26 @@ export function createLimitsWithTranslationsForRelativeElements(
   let endY = rect.bottom;
   let endX = rect.right;
 
-  // let multiplierY = 1;
-  // if (scrollAxis === ScrollAxis.vertical) {
-  let startMultiplierY = getTranslateScalar(
-    startTranslateYPx,
-    endTranslateYPx,
-    view.height + rect.height
-  );
-  let endMultiplierY = startMultiplierY;
-  // }
-  // let multiplierX = 1;
-  // if (scrollAxis === ScrollAxis.horizontal) {
-  let startMultiplierX = getTranslateScalar(
-    startTranslateXPx,
-    endTranslateXPx,
-    view.width + rect.width
-  );
-  let endMultiplierX = startMultiplierX;
-  // }
+  let startMultiplierY = 1;
+  let endMultiplierY = 1;
+  if (scrollAxis === ScrollAxis.vertical) {
+    startMultiplierY = getTranslateScalar(
+      startTranslateYPx,
+      endTranslateYPx,
+      view.height + rect.height
+    );
+    endMultiplierY = startMultiplierY;
+  }
+  let startMultiplierX = 1;
+  let endMultiplierX = 1;
+  if (scrollAxis === ScrollAxis.horizontal) {
+    startMultiplierX = getTranslateScalar(
+      startTranslateXPx,
+      endTranslateXPx,
+      view.width + rect.width
+    );
+    endMultiplierX = startMultiplierX;
+  }
 
   // Apply the scale to initial values
   if (startTranslateYPx < 0) {

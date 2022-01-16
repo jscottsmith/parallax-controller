@@ -108,6 +108,7 @@ export class Element {
         view,
         this.effects,
         scroll,
+        this.scrollAxis,
         this.props.shouldStartAnimationInitialInView
       );
 
