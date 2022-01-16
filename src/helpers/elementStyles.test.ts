@@ -2,6 +2,7 @@ import { EffectNumber, EffectString } from '../types';
 import createNodeMock from '../testUtils/createNodeMock';
 import { setElementStyles } from './elementStyles';
 import { parseElementTransitionEffects } from './parseElementTransitionEffects';
+import { ScrollAxis, ValidScrollAxis } from '..';
 
 type Offset = string | number;
 
@@ -9,18 +10,25 @@ function createTranslateEffects(
   x0: Offset,
   x1: Offset,
   y0: Offset,
-  y1: Offset
+  y1: Offset,
+  scrollAxis: ValidScrollAxis = ScrollAxis.vertical
 ) {
-  return parseElementTransitionEffects({
-    translateX: [x0, x1] as EffectNumber | EffectString,
-    translateY: [y0, y1] as EffectNumber | EffectString,
-  });
+  return parseElementTransitionEffects(
+    {
+      translateX: [x0, x1] as EffectNumber | EffectString,
+      translateY: [y0, y1] as EffectNumber | EffectString,
+    },
+    scrollAxis
+  );
 }
 
 function createEffect(v1: Offset, v2: Offset, key: string) {
-  const effect = parseElementTransitionEffects({
-    [key]: [v1, v2],
-  });
+  const effect = parseElementTransitionEffects(
+    {
+      [key]: [v1, v2],
+    },
+    ScrollAxis.vertical
+  );
   return effect;
 }
 
