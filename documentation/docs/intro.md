@@ -5,7 +5,13 @@ sidebar_position: 1
 
 # Parallax Controller: Introduction
 
-[![npm version](https://badge.fury.io/js/parallax-controller.svg)](https://badge.fury.io/js/parallax-controller) [![codecov](https://codecov.io/gh/jscottsmith/parallax-controller/branch/master/graph/badge.svg)](https://codecov.io/gh/jscottsmith/parallax-controller)
+[![NPM Version Latest](https://img.shields.io/npm/v/parallax-controller/latest)](https://www.npmjs.com/package/parallax-controller)
+[![NPM Downloads](https://img.shields.io/npm/dm/parallax-controller)](https://www.npmjs.com/package/parallax-controller)
+[![Codecov](https://codecov.io/gh/jscottsmith/parallax-controller/branch/master/graph/badge.svg)](https://codecov.io/gh/jscottsmith/parallax-controller)
+
+[![Test and Lint](https://github.com/jscottsmith/parallax-controller/actions/workflows/main.yml/badge.svg)](https://github.com/jscottsmith/parallax-controller/actions/workflows/main.yml)
+[![Size](https://github.com/jscottsmith/parallax-controller/actions/workflows/size.yml/badge.svg)](https://github.com/jscottsmith/parallax-controller/actions/workflows/size.yml)
+[![Coverage](https://github.com/jscottsmith/parallax-controller/actions/workflows/coverage.yml/badge.svg)](https://github.com/jscottsmith/parallax-controller/actions/workflows/coverage.yml)
 
 Core classes and controller for creating parallax scrolling effects. Designed to provide scroll based animations for elements relative to the view. Built for performance by caching important attributes that cause reflow and layout when accessing.
 
@@ -20,7 +26,7 @@ yarn add parallax-controller
 or NPM
 
 ```bash
-npm add parallax-controller
+npm install parallax-controller
 ```
 
 ## Demos
