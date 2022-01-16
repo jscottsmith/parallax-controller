@@ -39,7 +39,7 @@ export function parseValueAndUnit(
   out.value = parseFloat(str);
 
   // @ts-ignore
-  out.unit = str.match(/[\d.\-\+]*\s*(.*)/)[1] || defaultUnit;
+  out.unit = str.match(/[\d.\-+]*\s*(.*)/)[1] || defaultUnit;
 
   // @ts-expect-error
   const isValidUnit: boolean = VALID_UNITS.includes(out.unit);
