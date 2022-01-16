@@ -4,6 +4,7 @@ export function testForPassiveScroll() {
     const opts = Object.defineProperty({}, 'passive', {
       get() {
         supportsPassiveOption = true;
+        return true;
       },
     });
     // @ts-expect-error
