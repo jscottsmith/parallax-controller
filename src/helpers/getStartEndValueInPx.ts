@@ -7,7 +7,7 @@ export function getStartEndValueInPx(
   translate: ParsedValueEffect,
   elementSize: number
 ) {
-  let { start: start, end: end, unit } = translate;
+  let { start, end, unit } = translate;
 
   if (unit === '%') {
     const scale = elementSize / 100;
