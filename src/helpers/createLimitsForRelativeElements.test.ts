@@ -3,7 +3,12 @@ import { Rect } from '../classes/Rect';
 import { createElementMock } from '../testUtils/createElementMock';
 import { createLimitsForRelativeElements } from './createLimitsForRelativeElements';
 
-const DEFAULT_VIEW = new View({ width: 768, height: 1024 });
+const DEFAULT_VIEW = new View({
+  width: 768,
+  height: 1024,
+  scrollHeight: 2048,
+  scrollWidth: 768,
+});
 
 const DEFAULT_SCROLL = new Scroll(0, 0);
 
@@ -21,7 +26,7 @@ const DEFAULT_RECT = new Rect({
       }),
     }
   ),
-  view: new View({ width: 768, height: 1024 }),
+  view: DEFAULT_VIEW,
 });
 
 describe('createLimitsForRelativeElements', () => {

@@ -100,7 +100,7 @@ export type ParallaxElementConfig = {
   easing?: EasingParams | ValidEasingPresets;
   rootMargin?: RootMarginShape;
   /* Start animation at initial position if the element is positioned inside the view when scroll is at zero */
-  shouldStartAnimationInitialInView?: boolean;
+  shouldAlwaysCompleteAnimation?: boolean;
 
   startScroll?: number;
   endScroll?: number;

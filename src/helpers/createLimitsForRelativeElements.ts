@@ -5,7 +5,7 @@ export function createLimitsForRelativeElements(
   rect: Rect,
   view: View,
   scroll: Scroll,
-  shouldStartAnimationInitialInView?: boolean
+  shouldAlwaysCompleteAnimation?: boolean
 ): Limits {
   let startY = rect.top - view.height;
   let startX = rect.left - view.width;
@@ -18,12 +18,18 @@ export function createLimitsForRelativeElements(
   startY += scroll.y;
   endY += scroll.y;
 
-  if (shouldStartAnimationInitialInView) {
+  if (shouldAlwaysCompleteAnimation) {
     if (scroll.y + rect.top < view.height) {
       startY = 0;
     }
     if (scroll.x + rect.left < view.width) {
       startX = 0;
+    }
+    if (endY > view.scrollHeight - view.height) {
+      endY = view.scrollHeight - view.height;
+    }
+    if (endX > view.scrollWidth - view.width) {
+      endX = view.scrollWidth - view.width;
     }
   }
 

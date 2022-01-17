@@ -65,6 +65,8 @@ export class ParallaxController {
     this.view = new View({
       width: 0,
       height: 0,
+      scrollWidth: 0,
+      scrollHeight: 0,
       scrollContainer: this._hasScrollContainer ? scrollContainer : undefined,
     });
 
@@ -198,18 +200,24 @@ export class ParallaxController {
    */
   _setViewSize() {
     if (this._hasScrollContainer) {
-      // @ts-ignore
+      // @ts-expect-error
       const width = this.viewEl.offsetWidth;
-      // @ts-ignore
+      // @ts-expect-error
       const height = this.viewEl.offsetHeight;
-      return this.view.setSize(width, height);
+      // @ts-expect-error
+      const scrollHeight = this.viewEl.scrollHeight;
+      // @ts-expect-error
+      const scrollWidth = this.viewEl.scrollWidth;
+      return this.view.setSize({ width, height, scrollHeight, scrollWidth });
     }
 
     const html = document.documentElement;
     const width = window.innerWidth || html.clientWidth;
     const height = window.innerHeight || html.clientHeight;
+    const scrollHeight = html.scrollHeight;
+    const scrollWidth = html.scrollWidth;
 
-    return this.view.setSize(width, height);
+    return this.view.setSize({ width, height, scrollHeight, scrollWidth });
   }
 
   /**
@@ -290,7 +298,13 @@ export class ParallaxController {
 
     this.viewEl = el;
     this._hasScrollContainer = !!el;
-    this.view = new View({ width: 0, height: 0, scrollContainer: el });
+    this.view = new View({
+      width: 0,
+      height: 0,
+      scrollWidth: 0,
+      scrollHeight: 0,
+      scrollContainer: el,
+    });
     this._setViewSize();
     this._addListeners(this.viewEl);
     this._updateAllElements({ updateCache: true });

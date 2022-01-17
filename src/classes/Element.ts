@@ -109,7 +109,7 @@ export class Element {
         this.effects,
         scroll,
         this.scrollAxis,
-        this.props.shouldStartAnimationInitialInView
+        this.props.shouldAlwaysCompleteAnimation
       );
 
       this.scaledEffects = scaleTranslateEffectsForSlowerScroll(
@@ -121,7 +121,7 @@ export class Element {
         this.rect,
         view,
         scroll,
-        this.props.shouldStartAnimationInitialInView
+        this.props.shouldAlwaysCompleteAnimation
       );
     }
 

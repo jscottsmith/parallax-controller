@@ -20,7 +20,7 @@ export function createLimitsWithTranslationsForRelativeElements(
   effects: ParallaxStartEndEffects,
   scroll: Scroll,
   scrollAxis: ValidScrollAxis,
-  shouldStartAnimationInitialInView?: boolean
+  shouldAlwaysCompleteAnimation?: boolean
 ): Limits {
   // get start and end accounting for percent effects
   const translateX: ParsedValueEffect = effects.translateX || DEFAULT_VALUE;
@@ -82,35 +82,81 @@ export function createLimitsWithTranslationsForRelativeElements(
   startY += scroll.y;
   endY += scroll.y;
 
-  if (shouldStartAnimationInitialInView) {
-    if (scroll.y + rect.top < view.height) {
+  // NOTE: please refactor and isolate this :(
+  if (shouldAlwaysCompleteAnimation) {
+    const topBeginsInView = scroll.y + rect.top < view.height;
+    const leftBeginsInView = scroll.x + rect.left < view.width;
+    const bottomEndsInView =
+      scroll.y + rect.bottom > view.scrollHeight - view.height;
+    const rightEndsInView =
+      scroll.x + rect.right > view.scrollWidth - view.height;
+
+    if (topBeginsInView && bottomEndsInView) {
+      startMultiplierY = 1;
+      endMultiplierY = 1;
+      startY = 0;
+      endY = view.scrollHeight - view.height;
+    }
+    if (leftBeginsInView && rightEndsInView) {
+      startMultiplierX = 1;
+      endMultiplierX = 1;
+      startX = 0;
+      endX = view.scrollWidth - view.width;
+    }
+
+    if (!topBeginsInView && bottomEndsInView) {
+      startY = rect.top - view.height + scroll.y;
+      endY = view.scrollHeight - view.height;
+      const totalDist = endY - startY;
+      startMultiplierY = getTranslateScalar(
+        startTranslateYPx,
+        endTranslateYPx,
+        totalDist
+      );
+      endMultiplierY = 1;
+      if (startTranslateYPx < 0) {
+        startY = startY + startTranslateYPx * startMultiplierY;
+      }
+    }
+    if (!leftBeginsInView && rightEndsInView) {
+      startX = rect.left - view.width + scroll.x;
+      endX = view.scrollWidth - view.width;
+      const totalDist = endX - startX;
+      startMultiplierX = getTranslateScalar(
+        startTranslateXPx,
+        endTranslateXPx,
+        totalDist
+      );
+      endMultiplierX = 1;
+      if (startTranslateXPx < 0) {
+        startX = startX + startTranslateXPx * startMultiplierX;
+      }
+    }
+
+    if (topBeginsInView && !bottomEndsInView) {
       startY = 0;
       endY = rect.bottom + scroll.y;
       const totalDist = endY - startY;
-      // no multiplier for start value since this is initially in view
       startMultiplierY = 1;
       endMultiplierY = getTranslateScalar(
         startTranslateYPx,
         endTranslateYPx,
         totalDist
       );
-      // Apply the scale to end initial values
       if (endTranslateYPx > 0) {
         endY = endY + endTranslateYPx * endMultiplierY;
       }
     }
-    if (scroll.x + rect.left < view.width) {
+    if (leftBeginsInView && !rightEndsInView) {
       startX = 0;
       endX = rect.right + scroll.x;
       const totalDist = endX - startX;
-      // no multiplier for start value since this is initially in view
       startMultiplierX = 1;
       endMultiplierX = getTranslateScalar(
         startTranslateXPx,
         endTranslateXPx,
         totalDist
       );
-      // Apply the scale to end initial values
       if (endTranslateXPx > 0) {
         endX = endX + endTranslateXPx * endMultiplierX;
       }

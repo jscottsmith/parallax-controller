@@ -6,6 +6,8 @@ describe('Expect the View class', () => {
     const view = new View({
       width: 100,
       height: 150,
+      scrollWidth: 100,
+      scrollHeight: 3000,
       scrollContainer: div,
     });
     expect(view).toMatchObject({
@@ -20,12 +22,21 @@ describe('Expect the View class', () => {
     const view = new View({
       width: 100,
       height: 150,
+      scrollWidth: 100,
+      scrollHeight: 3000,
       scrollContainer: div,
     });
-    const instance = view.setSize(400, 250);
+    const instance = view.setSize({
+      width: 400,
+      height: 250,
+      scrollWidth: 400,
+      scrollHeight: 4000,
+    });
     expect(instance).toMatchObject({
       width: 400,
       height: 250,
+      scrollWidth: 400,
+      scrollHeight: 4000,
       scrollContainer: div,
     });
     expect(instance).toBeInstanceOf(View);
