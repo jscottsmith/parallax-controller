@@ -2,7 +2,12 @@ import { Rect } from './Rect';
 import { createElementMock } from '../testUtils/createElementMock';
 import { View } from './View';
 
-const DEFAULT_VIEW = new View({ width: 1000, height: 1000 });
+const DEFAULT_VIEW = new View({
+  width: 1000,
+  height: 1000,
+  scrollHeight: 3000,
+  scrollWidth: 1000,
+});
 
 describe('Rect', () => {
   test(`sets bounds based on root margin when provided`, () => {
@@ -62,6 +67,8 @@ describe('Rect', () => {
       view: new View({
         width: 2000,
         height: 1000,
+        scrollWidth: 2000,
+        scrollHeight: 2000,
         scrollContainer: createElementMock(
           { offsetWidth: 500, offsetHeight: 500 },
           {

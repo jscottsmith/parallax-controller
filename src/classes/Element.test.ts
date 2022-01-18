@@ -24,7 +24,12 @@ const DEFAULT_OPTIONS = {
   props: { translateX: [0, 0] as CSSEffect, translateY: [0, 0] as CSSEffect },
 };
 
-const DEFAULT_VIEW = new View({ width: 768, height: 1024 });
+const DEFAULT_VIEW = new View({
+  width: 768,
+  height: 1024,
+  scrollHeight: 3000,
+  scrollWidth: 768,
+});
 
 const DEFAULT_SCROLL = new Scroll(0, 0);
 
@@ -106,6 +111,8 @@ describe('Expect the Element class', () => {
     const view = new View({
       width: 100,
       height: 100,
+      scrollWidth: 100,
+      scrollHeight: 200,
       scrollContainer: createElementMock(),
     });
 
@@ -135,6 +142,8 @@ describe('Expect the Element class', () => {
     const view = new View({
       width: 100,
       height: 50,
+      scrollWidth: 100,
+      scrollHeight: 200,
       scrollContainer: createElementMock(),
     });
     const scroll = new Scroll(0, 40);
@@ -147,6 +156,8 @@ describe('Expect the Element class', () => {
     const view = new View({
       width: 100,
       height: 50,
+      scrollWidth: 100,
+      scrollHeight: 200,
       scrollContainer: createElementMock(),
     });
     const scroll = new Scroll(0, 0);
