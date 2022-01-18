@@ -148,6 +148,7 @@ export class Element {
   }
 
   _setElementStyles() {
+    if (this.props.disabled) return;
     const effects = this.scaledEffects || this.effects;
     setElementStyles(effects, this.progress, this.el);
   }
