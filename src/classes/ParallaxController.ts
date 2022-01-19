@@ -30,6 +30,7 @@ export class ParallaxController {
   _hasScrollContainer: boolean;
   _ticking: boolean;
   _supportsPassive: boolean;
+  _resizeObserver?: ResizeObserver;
 
   /**
    * Static method to instantiate the ParallaxController.
@@ -79,6 +80,7 @@ export class ParallaxController {
     // Bind methods to class
     this._bindAllMethods();
     this._addListeners(this.viewEl);
+    this._addResizeObserver();
     this._setViewSize();
   }
 
@@ -92,6 +94,7 @@ export class ParallaxController {
       '_updateAllElements',
       '_updateElementPosition',
       '_setViewSize',
+      '_addResizeObserver',
       'getElements',
       'createElement',
       'removeElementById',
@@ -124,6 +127,15 @@ export class ParallaxController {
     window.removeEventListener('blur', this._handleUpdateCache, false);
     window.removeEventListener('focus', this._handleUpdateCache, false);
     window.removeEventListener('load', this._handleUpdateCache, false);
+    this._resizeObserver?.disconnect();
+  }
+
+  _addResizeObserver() {
+    const observedEl: HTMLElement = this._hasScrollContainer
+      ? (this.viewEl as HTMLElement)
+      : document.documentElement;
+    this._resizeObserver = new ResizeObserver(() => this.update());
+    this._resizeObserver.observe(observedEl);
   }
 
   _getScrollPosition() {
