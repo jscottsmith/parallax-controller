@@ -62,6 +62,14 @@ describe('Expect the ParallaxController', () => {
     controller.destroy();
   });
 
+  it('to add a resize observer', () => {
+    const controller = ParallaxController.init({
+      scrollAxis: ScrollAxis.vertical,
+    });
+    expect(global.ResizeObserver).toBeCalledWith(expect.any(Function));
+    controller.destroy();
+  });
+
   it('to create an element and return it', () => {
     const controller = ParallaxController.init({
       scrollAxis: ScrollAxis.vertical,
@@ -139,5 +147,13 @@ describe('Expect the ParallaxController', () => {
     expect(window.removeEventListener.mock.calls[2]).toEqual(
       expect.arrayContaining(['resize', expect.any(Function), false])
     );
+  });
+
+  it('to disconnect the resize observer', () => {
+    const controller = ParallaxController.init({
+      scrollAxis: ScrollAxis.vertical,
+    });
+    controller.destroy();
+    expect(controller._resizeObserver?.disconnect).toBeCalledTimes(1);
   });
 });
