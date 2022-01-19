@@ -131,11 +131,17 @@ export class ParallaxController {
   }
 
   _addResizeObserver() {
-    const observedEl: HTMLElement = this._hasScrollContainer
-      ? (this.viewEl as HTMLElement)
-      : document.documentElement;
-    this._resizeObserver = new ResizeObserver(() => this.update());
-    this._resizeObserver.observe(observedEl);
+    try {
+      const observedEl: HTMLElement = this._hasScrollContainer
+        ? (this.viewEl as HTMLElement)
+        : document.documentElement;
+      this._resizeObserver = new ResizeObserver(() => this.update());
+      this._resizeObserver.observe(observedEl);
+    } catch (e) {
+      console.warn(
+        'Failed to create the resize observer in the ParallaxContoller'
+      );
+    }
   }
 
   _getScrollPosition() {
