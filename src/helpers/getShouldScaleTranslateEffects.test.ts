@@ -13,6 +13,18 @@ describe('given getShouldScaleTranslateEffects()', () => {
       ).toEqual(false);
     });
   });
+
+  describe('when shouldDisableScalingTranslations is true', () => {
+    test(`then it returns false`, () => {
+      expect(
+        getShouldScaleTranslateEffects(
+          { shouldDisableScalingTranslations: true },
+          {},
+          ScrollAxis.vertical
+        )
+      ).toEqual(false);
+    });
+  });
   describe('when axis is horizontal and', () => {
     describe('when translateX provided', () => {
       test(`then it returns true`, () => {

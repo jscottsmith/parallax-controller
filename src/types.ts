@@ -99,8 +99,10 @@ export type ParallaxElementConfig = {
   opacity?: ScaleOpacityEffect;
   easing?: EasingParams | ValidEasingPresets;
   rootMargin?: RootMarginShape;
-  /* Start animation at initial position if the element is positioned inside the view when scroll is at zero */
+  /* Always start and end animations at the given effect values - if the element is positioned inside the view when scroll is at zero or ends in view at final scroll position, the initial and final positions are used to determine progress instead of the scroll view size */
   shouldAlwaysCompleteAnimation?: boolean;
+  /* Disable scaling translations - translate effects that cause the element to appear in the view longer must be scaled up so that animation doesn't end early */
+  shouldDisableScalingTranslations?: boolean;
 
   startScroll?: number;
   endScroll?: number;
