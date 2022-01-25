@@ -28,6 +28,16 @@ npm add parallax-controller
 
 [API and Usage docs](https://parallax-controller.vercel.app/docs/intro)
 
+## React Integration
+
+If you're building with React use `react-scroll-parallax`, a set of hooks and components to easily create effects and interact with the `parallax-controller`.
+
+```bash
+yarn add react-scroll-parallax
+```
+
+See the [React Scroll Parallax documentation](https://react-scroll-parallax.damnthat.tv/) for usage and demos.
+
 ## Demos
 
 This package was created for [react-scroll-parallax](https://github.com/jscottsmith/react-scroll-parallax), but can be used as a standalone lib. Most demos were built with `react-scroll-parallax`.
