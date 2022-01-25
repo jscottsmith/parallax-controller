@@ -9,7 +9,7 @@ const config = {
   title: 'Parallax Controller',
   tagline:
     'Core classes and controller for creating parallax scrolling effects',
-  url: 'https://todo',
+  url: 'https://parallax-controller.damnthat.tv',
   baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
