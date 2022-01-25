@@ -4,7 +4,7 @@ The following methods are available on a controller instance
 
 ## createElement()
 
-Creates and returns a new parallax element with provided [options](#todo) to be managed by the controller.
+Creates and returns a new parallax element with provided config including [props](/docs/usage/props) to be managed by the controller.
 
 ```ts
 const options = {
@@ -24,7 +24,7 @@ const elements = parallaxController.getElements();
 
 ## updateElementPropsById()
 
-Updates an existing parallax element with new [props](#todo).
+Updates an existing parallax element with new [props](/docs/usage/props).
 
 ```ts
 const newProps = { translateY: [-200, 200] };
