@@ -95,6 +95,8 @@ export class ParallaxController {
       '_updateElementPosition',
       '_setViewSize',
       '_addResizeObserver',
+      '_checkIfViewHasChanged',
+      '_getViewParams',
       'getElements',
       'createElement',
       'removeElementById',
@@ -214,9 +216,14 @@ export class ParallaxController {
   }
 
   /**
-   * Cache the window width/height.
+   * Gets the params to set in the View from the scroll container or the window
    */
-  _setViewSize() {
+  _getViewParams(): {
+    width: number;
+    height: number;
+    scrollHeight: number;
+    scrollWidth: number;
+  } {
     if (this._hasScrollContainer) {
       // @ts-expect-error
       const width = this.viewEl.offsetWidth;
@@ -235,7 +242,22 @@ export class ParallaxController {
     const scrollHeight = html.scrollHeight;
     const scrollWidth = html.scrollWidth;
 
-    return this.view.setSize({ width, height, scrollHeight, scrollWidth });
+    return { width, height, scrollHeight, scrollWidth };
+  }
+
+  /**
+   * Cache the view attributes
+   */
+  _setViewSize() {
+    return this.view.setSize(this._getViewParams());
+  }
+
+  /**
+   * Checks if any of the cached attributes of the view have changed.
+   * @returns boolean
+   */
+  _checkIfViewHasChanged() {
+    return this.view.hasChanged(this._getViewParams());
   }
 
   /**
@@ -261,6 +283,13 @@ export class ParallaxController {
       ? [...this.elements, newElement]
       : [newElement];
     this._updateElementPosition(newElement);
+
+    // NOTE: This checks if the view has changed then update the controller and all elements if it has
+    // This shouldn't always be necessary with a resize observer watching the view element
+    // but there seems to be cases where the resize observer does not catch and update.
+    if (this._checkIfViewHasChanged()) {
+      this.update();
+    }
     return newElement;
   }
 
