@@ -21,7 +21,7 @@ yarn add parallax-controller
 or NPM
 
 ```bash
-npm add parallax-controller
+npm install parallax-controller
 ```
 
 ## Documentation
