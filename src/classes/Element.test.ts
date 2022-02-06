@@ -122,19 +122,20 @@ describe('Expect the Element class', () => {
     expect(onProgressChange).toBeCalledTimes(0);
 
     element.updatePosition(scroll);
-    expect(onChange).toBeCalledTimes(1);
-    expect(onProgressChange).toBeCalledTimes(1);
+    expect(onChange).toBeCalledTimes(0);
+    expect(onProgressChange).toBeCalledTimes(0);
 
     scroll.setScroll(0, 500);
     element.updatePosition(scroll);
     expect(onEnter).toBeCalledTimes(1);
-    // expect(onProgressChange).toBeCalledWith(1);
-    // expect(onProgressChange).toBeCalledTimes(2);
+    expect(onChange).toBeCalledTimes(1);
+    expect(onProgressChange).toBeCalledTimes(1);
 
-    scroll.setScroll(0, 499);
+    scroll.setScroll(0, 0);
     element.updatePosition(scroll);
     expect(onExit).toBeCalledTimes(1);
-    // expect(onProgressChange).toBeCalledTimes(3);
+    expect(onChange).toBeCalledTimes(2);
+    expect(onProgressChange).toBeCalledTimes(2);
   });
 
   it('to set cache and return the instance', () => {
