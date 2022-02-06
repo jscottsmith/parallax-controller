@@ -131,10 +131,12 @@ export class Element {
   }
 
   _updateElementIsInView(nextIsInView: boolean) {
+    // NOTE: Check if this is the first change to make sure onExit isn't called
+    const isFirstChange = this.isInView === null;
     if (nextIsInView !== this.isInView) {
       if (nextIsInView) {
         this.props.onEnter && this.props.onEnter();
-      } else {
+      } else if (!isFirstChange) {
         this._setFinalStylesAndProgress();
         this.props.onExit && this.props.onExit();
       }
