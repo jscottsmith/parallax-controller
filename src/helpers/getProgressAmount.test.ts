@@ -6,8 +6,8 @@ describe.each([
   [0, 600, 0, 0],
   [0, 600, 150, 0.25],
   [0, 600, 450, 0.75],
-  [0, 600, 1200, 2],
-  [0, 600, -600, -1],
+  [0, 600, 1200, 1],
+  [0, 600, -600, 0],
 ])(
   'getProgressAmount(%i, %i, %i, %i)',
   (start, totalDist, currentScroll, expected) => {

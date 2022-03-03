@@ -1,4 +1,5 @@
 import bezier from 'bezier-easing';
+import { clamp } from './clamp';
 
 /**
  * Returns the percent (0 - 100) moved based on position in the viewport
@@ -33,5 +34,5 @@ export function getProgressAmount(
     amount = easing(amount);
   }
 
-  return amount;
+  return clamp(amount, 0, 1);
 }
