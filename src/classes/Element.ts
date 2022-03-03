@@ -25,6 +25,7 @@ import { createLimitsForRelativeElements } from '../helpers/createLimitsForRelat
 import { createLimitsWithTranslationsForRelativeElements } from '../helpers/createLimitsWithTranslationsForRelativeElements';
 import { scaleTranslateEffectsForSlowerScroll } from '../helpers/scaleTranslateEffectsForSlowerScroll';
 import { getShouldScaleTranslateEffects } from '../helpers/getShouldScaleTranslateEffects';
+import { clamp } from '../helpers/clamp';
 
 type ElementConstructorOptions = CreateElementOptions & {
   scrollAxis: ValidScrollAxis;
@@ -144,7 +145,7 @@ export class Element {
   }
 
   _setFinalProgress() {
-    const finalProgress = Math.round(this.progress);
+    const finalProgress = clamp(Math.round(this.progress), 0, 1);
     this._updateElementProgress(finalProgress);
   }
 
