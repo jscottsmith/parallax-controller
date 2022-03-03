@@ -44,8 +44,6 @@ export class Element {
   limits?: Limits;
   easing?: bezier.EasingFunction;
 
-  updatePosition: (scroll: Scroll) => Element;
-
   constructor(options: ElementConstructorOptions) {
     this.el = options.el;
     this.props = options.props;
@@ -58,11 +56,6 @@ export class Element {
     this._setElementEasing(options.props.easing);
 
     setWillChangeStyles(options.el, this.effects);
-
-    this.updatePosition =
-      options.scrollAxis === ScrollAxis.vertical
-        ? this._updatePositionVertical
-        : this._updatePositionHorizontal;
   }
 
   updateProps(nextProps: ParallaxElementConfig) {
@@ -99,6 +92,10 @@ export class Element {
         endX: this.props.endScroll,
         endY: this.props.endScroll,
       });
+
+      // Undo the reset -- place it back at current position with styles
+      this._setElementStyles();
+
       return this;
     }
 
@@ -125,6 +122,7 @@ export class Element {
       );
     }
 
+    // Undo the reset -- place it back at current position with styles
     this._setElementStyles();
 
     return this;
@@ -137,14 +135,15 @@ export class Element {
       if (nextIsInView) {
         this.props.onEnter && this.props.onEnter();
       } else if (!isFirstChange) {
-        this._setFinalStylesAndProgress();
+        this._setFinalProgress();
+        this._setElementStyles();
         this.props.onExit && this.props.onExit();
       }
     }
     this.isInView = nextIsInView;
   }
 
-  _setFinalStylesAndProgress() {
+  _setFinalProgress() {
     const finalProgress = Math.round(this.progress);
     this._updateElementProgress(finalProgress);
   }
@@ -159,58 +158,37 @@ export class Element {
     this.progress = nextProgress;
     this.props.onProgressChange && this.props.onProgressChange(this.progress);
     this.props.onChange && this.props.onChange(this);
-    this._setElementStyles();
   }
 
   _setElementEasing(easing?: EasingParam): void {
     this.easing = createEasingFunction(easing);
   }
 
-  _updatePositionHorizontal(scroll: Scroll): Element {
+  updatePosition(scroll: Scroll): Element {
     if (!this.limits) return this;
 
-    const nextIsInView = isElementInView(
-      this.limits.startX,
-      this.limits.endX,
-      scroll.x
-    );
+    const isVertical = this.scrollAxis === ScrollAxis.vertical;
+    const isFirstChange = this.isInView === null;
+    // based on scroll axis
+    const start = isVertical ? this.limits.startY : this.limits.startX;
+    const end = isVertical ? this.limits.endY : this.limits.endX;
+    const total = isVertical ? this.limits.totalY : this.limits.totalX;
+    const s = isVertical ? scroll.y : scroll.x;
+
+    // check if in view
+    const nextIsInView = isElementInView(start, end, s);
     this._updateElementIsInView(nextIsInView);
 
-    if (!nextIsInView) return this;
-
-    const nextProgress = getProgressAmount(
-      this.limits.startX,
-      this.limits.totalX,
-      scroll.x,
-      this.easing
-    );
-
-    this._updateElementProgress(nextProgress);
-
-    return this;
-  }
-
-  _updatePositionVertical(scroll: Scroll): Element {
-    if (!this.limits) return this;
-
-    const nextIsInView = isElementInView(
-      this.limits.startY,
-      this.limits.endY,
-      scroll.y
-    );
-
-    this._updateElementIsInView(nextIsInView);
-
-    if (!this.isInView) return this;
-
-    const nextProgress = getProgressAmount(
-      this.limits.startY,
-      this.limits.totalY,
-      scroll.y,
-      this.easing
-    );
-
-    this._updateElementProgress(nextProgress);
+    // set the progress if in view or this is the first change
+    if (nextIsInView) {
+      const nextProgress = getProgressAmount(start, total, s, this.easing);
+      this._updateElementProgress(nextProgress);
+      this._setElementStyles();
+    } else if (isFirstChange) {
+      // NOTE: this._updateElementProgress -- dont use this because it will trigger onChange
+      this.progress = getProgressAmount(start, total, s, this.easing);
+      this._setElementStyles();
+    }
 
     return this;
   }
