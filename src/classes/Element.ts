@@ -187,7 +187,11 @@ export class Element {
       this._setElementStyles();
     } else if (isFirstChange) {
       // NOTE: this._updateElementProgress -- dont use this because it will trigger onChange
-      this.progress = getProgressAmount(start, total, s, this.easing);
+      this.progress = clamp(
+        Math.round(getProgressAmount(start, total, s, this.easing)),
+        0,
+        1
+      );
       this._setElementStyles();
     }
 
