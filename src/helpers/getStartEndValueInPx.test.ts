@@ -23,4 +23,18 @@ describe('getStartEndValueInPx', () => {
       end: -300,
     });
   });
+
+  test.skip('handles vw and vh units and calculates the pixel values based on the window', () => {
+    // TODO:
+    // const translate: ParsedValueEffect = {
+    //   start: 100,
+    //   end: -100,
+    //   unit: 'vh',
+    // };
+    // const size = 300;
+    // expect(getStartEndValueInPx(translate, size)).toEqual({
+    //   start: 300,
+    //   end: -300,
+    // });
+  });
 });

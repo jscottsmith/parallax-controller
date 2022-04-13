@@ -10,6 +10,8 @@ export const VALID_UNITS = [
   ScaleUnits[''],
   Units.px,
   Units['%'],
+  Units['vh'],
+  Units['vw'],
   RotationUnits.deg,
   RotationUnits.turn,
   RotationUnits.rad,
