@@ -15,6 +15,20 @@ export function getStartEndValueInPx(
     end = end * scale;
   }
 
+  if (unit === 'vw') {
+    const startScale = Math.abs(window.innerWidth * (start / 100));
+    const endScale = Math.abs(window.innerWidth * (end / 100));
+    start = start * startScale;
+    end = end * endScale;
+  }
+
+  if (unit === 'vh') {
+    const startScale = Math.abs(window.innerHeight * (start / 100));
+    const endScale = Math.abs(window.innerHeight * (end / 100));
+    start = start * startScale;
+    end = end * endScale;
+  }
+
   return {
     start,
     end,

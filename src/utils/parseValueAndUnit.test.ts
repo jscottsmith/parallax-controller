@@ -7,6 +7,8 @@ describe('Parse a string to get the value and unit in either pixels or percent',
     expect(parseValueAndUnit('52%')).toEqual({ unit: '%', value: 52 });
     expect(parseValueAndUnit(13.333)).toEqual({ unit: '%', value: 13.333 });
     expect(parseValueAndUnit('75.8%')).toEqual({ unit: '%', value: 75.8 });
+    expect(parseValueAndUnit('10vw')).toEqual({ unit: 'vw', value: 10 });
+    expect(parseValueAndUnit('1.04vh')).toEqual({ unit: 'vh', value: 1.04 });
     expect(parseValueAndUnit('23.1px')).toEqual({ unit: 'px', value: 23.1 });
     expect(parseValueAndUnit('1.5turn')).toEqual({ unit: 'turn', value: 1.5 });
     expect(parseValueAndUnit('143.4deg')).toEqual({
