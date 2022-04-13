@@ -38,6 +38,15 @@ const config = {
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
+      algolia: {
+        appId: 'YVJ9L8IGS3',
+        // Public API key: it is safe to commit it
+        apiKey: '59df3c62f6a1a15d23659f198810311f',
+        indexName: 'parallax-controller',
+        contextualSearch: true,
+        externalUrlRegex: 'external\\.com|domain\\.com',
+        searchParameters: {},
+      },
       navbar: {
         title: 'Parallax Controller',
         logo: {
