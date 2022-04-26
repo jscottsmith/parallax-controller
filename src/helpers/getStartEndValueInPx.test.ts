@@ -24,17 +24,27 @@ describe('getStartEndValueInPx', () => {
     });
   });
 
-  test.skip('handles vw and vh units and calculates the pixel values based on the window', () => {
-    // TODO:
-    // const translate: ParsedValueEffect = {
-    //   start: 100,
-    //   end: -100,
-    //   unit: 'vh',
-    // };
-    // const size = 300;
-    // expect(getStartEndValueInPx(translate, size)).toEqual({
-    //   start: 300,
-    //   end: -300,
-    // });
+  test('handles vh units and calculates the pixel values based on the window', () => {
+    const translate: ParsedValueEffect = {
+      start: 100,
+      end: -100,
+      unit: 'vh',
+    };
+    expect(getStartEndValueInPx(translate, 100)).toEqual({
+      start: window.innerHeight,
+      end: -window.innerHeight,
+    });
+  });
+
+  test('handles vw units and calculates the pixel values based on the window', () => {
+    const translate: ParsedValueEffect = {
+      start: 50,
+      end: -50,
+      unit: 'vw',
+    };
+    expect(getStartEndValueInPx(translate, 100)).toEqual({
+      start: window.innerWidth / 2,
+      end: -window.innerWidth / 2,
+    });
   });
 });
