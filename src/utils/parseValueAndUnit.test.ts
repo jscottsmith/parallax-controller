@@ -38,7 +38,6 @@ describe('Parse a string to get the value and unit in either pixels or percent',
   });
 
   test('throw on unsupported units', () => {
-    expect(() => parseValueAndUnit('100vh')).toThrow();
     expect(() => parseValueAndUnit('1rem')).toThrow();
     expect(() => parseValueAndUnit('1em')).toThrow();
   });
