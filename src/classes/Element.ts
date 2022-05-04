@@ -134,11 +134,11 @@ export class Element {
     const isFirstChange = this.isInView === null;
     if (nextIsInView !== this.isInView) {
       if (nextIsInView) {
-        this.props.onEnter && this.props.onEnter();
+        this.props.onEnter && this.props.onEnter(this);
       } else if (!isFirstChange) {
         this._setFinalProgress();
         this._setElementStyles();
-        this.props.onExit && this.props.onExit();
+        this.props.onExit && this.props.onExit(this);
       }
     }
     this.isInView = nextIsInView;
