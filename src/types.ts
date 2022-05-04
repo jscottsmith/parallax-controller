@@ -110,8 +110,8 @@ export type ParallaxElementConfig = {
   endScroll?: number;
   targetElement?: HTMLElement;
 
-  onEnter?: () => any;
-  onExit?: () => any;
+  onEnter?: (element: Element) => any;
+  onExit?: (element: Element) => any;
   onChange?: (element: Element) => any;
   onProgressChange?: (progress: number) => any;
 };
