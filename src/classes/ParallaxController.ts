@@ -233,7 +233,12 @@ export class ParallaxController {
       const scrollHeight = this.viewEl.scrollHeight;
       // @ts-expect-error
       const scrollWidth = this.viewEl.scrollWidth;
-      return this.view.setSize({ width, height, scrollHeight, scrollWidth });
+      return this.view.setSize({
+        width,
+        height,
+        scrollHeight,
+        scrollWidth,
+      });
     }
 
     const html = document.documentElement;
@@ -277,7 +282,10 @@ export class ParallaxController {
    * Creates and returns new parallax element with provided options to be managed by the controller.
    */
   createElement(options: CreateElementOptions): Element {
-    const newElement = new Element({ ...options, scrollAxis: this.scrollAxis });
+    const newElement = new Element({
+      ...options,
+      scrollAxis: this.scrollAxis,
+    });
     newElement.setCachedAttributes(this.view, this.scroll);
     this.elements = this.elements
       ? [...this.elements, newElement]
@@ -355,6 +363,30 @@ export class ParallaxController {
     this._setViewSize();
     this._addListeners(this.viewEl);
     this._updateAllElements({ updateCache: true });
+  }
+
+  /**
+   * Disable all parallax elements
+   */
+  disableAllElements() {
+    if (this.elements) {
+      this.elements = this.elements.map(el => {
+        return el.updateProps({ disabled: true });
+      });
+    }
+    this.update();
+  }
+
+  /**
+   * Enable all parallax elements
+   */
+  enableAllElements() {
+    if (this.elements) {
+      this.elements = this.elements.map(el => {
+        return el.updateProps({ disabled: false });
+      });
+    }
+    this.update();
   }
 
   /**

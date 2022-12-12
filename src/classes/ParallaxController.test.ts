@@ -128,6 +128,38 @@ describe('Expect the ParallaxController', () => {
     controller.destroy();
   });
 
+  it('to disable all elements when calling disableAllElements()', () => {
+    const controller = ParallaxController.init({
+      scrollAxis: ScrollAxis.vertical,
+    });
+    const elements = Array.from({ length: 3 }, () =>
+      controller.createElement(OPTIONS)
+    );
+    elements.forEach(element => {
+      expect(element.props.disabled).toBe(false);
+    });
+    controller.disableAllElements();
+    elements.forEach(element => {
+      expect(element.props.disabled).toBe(true);
+    });
+  });
+
+  it('to enable all elements when calling enableAllElements()', () => {
+    const controller = ParallaxController.init({
+      scrollAxis: ScrollAxis.vertical,
+    });
+    const elements = Array.from({ length: 3 }, () =>
+      controller.createElement({ ...OPTIONS, props: { disabled: true } })
+    );
+    elements.forEach(element => {
+      expect(element.props.disabled).toBe(true);
+    });
+    controller.enableAllElements();
+    elements.forEach(element => {
+      expect(element.props.disabled).toBe(false);
+    });
+  });
+
   it('to remove listeners when destroyed', () => {
     window.removeEventListener = jest.fn();
     const controller = ParallaxController.init({
