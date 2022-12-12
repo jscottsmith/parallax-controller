@@ -56,6 +56,22 @@ const el = document.getElementById('your-scroll-container');
 parallaxController.updateScrollContainer(el);
 ```
 
+## disableAllElements()
+
+Disables all parallax elements in the controller.
+
+```ts
+parallaxController.disableAllElements();
+```
+
+## enableAllElements()
+
+Enables all parallax elements in the controller.
+
+```ts
+parallaxController.enableAllElements();
+```
+
 ## update()
 
 Updates all cached attributes on parallax elements.
