@@ -22,6 +22,7 @@ import {
  */
 
 export class ParallaxController {
+  disabled: boolean;
   elements: Element[];
   scrollAxis: ValidScrollAxis;
   viewEl: ViewElement;
@@ -51,7 +52,9 @@ export class ParallaxController {
   constructor({
     scrollAxis = ScrollAxis.vertical,
     scrollContainer,
+    disabled = false,
   }: ParallaxControllerOptions) {
+    this.disabled = disabled;
     this.scrollAxis = scrollAxis;
     // All parallax elements to be updated
     this.elements = [];
@@ -79,6 +82,10 @@ export class ParallaxController {
 
     // Bind methods to class
     this._bindAllMethods();
+
+    // If this is initialized disabled, don't do anything below.
+    if (this.disabled) return;
+
     this._addListeners(this.viewEl);
     this._addResizeObserver();
     this._setViewSize();
@@ -211,7 +218,7 @@ export class ParallaxController {
    * attributes, if so set the elements parallax styles.
    */
   _updateElementPosition(element: Element) {
-    if (element.props.disabled) return;
+    if (element.props.disabled || this.disabled) return;
     element.updatePosition(this.scroll);
   }
 
@@ -285,6 +292,7 @@ export class ParallaxController {
     const newElement = new Element({
       ...options,
       scrollAxis: this.scrollAxis,
+      disabledParallaxController: this.disabled,
     });
     newElement.setCachedAttributes(this.view, this.scroll);
     this.elements = this.elements
@@ -365,10 +373,37 @@ export class ParallaxController {
     this._updateAllElements({ updateCache: true });
   }
 
+  disableParallaxController() {
+    this.disabled = true;
+    // remove listeners
+    this._removeListeners(this.viewEl);
+    // reset all styles
+    if (this.elements) {
+      this.elements.forEach(element => resetStyles(element));
+    }
+  }
+
+  enableParallaxController() {
+    this.disabled = false;
+    if (this.elements) {
+      this.elements.forEach(element =>
+        element.updateElementOptions({
+          disabledParallaxController: false,
+          scrollAxis: this.scrollAxis,
+        })
+      );
+    }
+    // add back listeners
+    this._addListeners(this.viewEl);
+    this._addResizeObserver();
+    this._setViewSize();
+  }
+
   /**
    * Disable all parallax elements
    */
   disableAllElements() {
+    console.warn('deprecated: use disableParallaxController() instead');
     if (this.elements) {
       this.elements = this.elements.map(el => {
         return el.updateProps({ disabled: true });
@@ -381,6 +416,7 @@ export class ParallaxController {
    * Enable all parallax elements
    */
   enableAllElements() {
+    console.warn('deprecated: use enableParallaxController() instead');
     if (this.elements) {
       this.elements = this.elements.map(el => {
         return el.updateProps({ disabled: false });

@@ -25,4 +25,5 @@ The following option can be passed to `ParallaxController.init(...)`.
 | Option            |   Default    | Description                                                                |
 | ----------------- | :----------: | -------------------------------------------------------------------------- |
 | `scrollAxis`      | `'vertical'` | Direction of scroll for the element. One of `'vertical'` or `'horizontal'` |
+| `disabled`        |    false     | Initial disabled state of the Parallax Controller                          |
 | `scrollContainer` |   `window`   | HTMLElement that will contain scroll elements.                             |
