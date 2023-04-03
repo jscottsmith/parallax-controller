@@ -77,6 +77,7 @@ export type ViewElement = HTMLElement | Window;
 export type ParallaxControllerOptions = {
   scrollAxis?: ValidScrollAxis;
   scrollContainer?: HTMLElement;
+  disabled?: boolean;
 };
 
 export type EffectNumber = [number, number, EasingParam?];

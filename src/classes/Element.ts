@@ -27,14 +27,18 @@ import { scaleTranslateEffectsForSlowerScroll } from '../helpers/scaleTranslateE
 import { getShouldScaleTranslateEffects } from '../helpers/getShouldScaleTranslateEffects';
 import { clamp } from '../helpers/clamp';
 
-type ElementConstructorOptions = CreateElementOptions & {
+type ParallaxControllerConstructorOptions = {
   scrollAxis: ValidScrollAxis;
+  disabledParallaxController?: boolean;
 };
+type ElementConstructorOptions = CreateElementOptions &
+  ParallaxControllerConstructorOptions;
 
 export class Element {
   el: HTMLElement;
   props: ParallaxElementConfig;
   scrollAxis: ValidScrollAxis;
+  disabledParallaxController: boolean;
   id: number;
   effects: ParallaxStartEndEffects;
   isInView: boolean | null;
@@ -49,6 +53,8 @@ export class Element {
     this.el = options.el;
     this.props = options.props;
     this.scrollAxis = options.scrollAxis;
+    this.disabledParallaxController =
+      options.disabledParallaxController || false;
     this.id = createId();
     this.effects = parseElementTransitionEffects(this.props, this.scrollAxis);
     this.isInView = null;
@@ -150,7 +156,7 @@ export class Element {
   }
 
   _setElementStyles() {
-    if (this.props.disabled) return;
+    if (this.props.disabled || this.disabledParallaxController) return;
     const effects = this.scaledEffects || this.effects;
     setElementStyles(effects, this.progress, this.el);
   }
@@ -163,6 +169,12 @@ export class Element {
 
   _setElementEasing(easing?: EasingParam): void {
     this.easing = createEasingFunction(easing);
+  }
+
+  updateElementOptions(options: ParallaxControllerConstructorOptions) {
+    this.scrollAxis = options.scrollAxis;
+    this.disabledParallaxController =
+      options.disabledParallaxController || false;
   }
 
   updatePosition(scroll: Scroll): Element {

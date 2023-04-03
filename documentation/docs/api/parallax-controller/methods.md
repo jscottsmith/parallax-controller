@@ -56,20 +56,20 @@ const el = document.getElementById('your-scroll-container');
 parallaxController.updateScrollContainer(el);
 ```
 
-## disableAllElements()
+## disableParallaxController()
 
-Disables all parallax elements in the controller.
+Disables the Parallax Controller.
 
 ```ts
-parallaxController.disableAllElements();
+parallaxController.disableParallaxController();
 ```
 
-## enableAllElements()
+## enableParallaxController()
 
-Enables all parallax elements in the controller.
+Enables the Parallax Controller.
 
 ```ts
-parallaxController.enableAllElements();
+parallaxController.enableParallaxController();
 ```
 
 ## update()
