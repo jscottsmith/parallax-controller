@@ -7,6 +7,7 @@ import { createElementMock } from '../testUtils/createElementMock';
 import { ScrollAxis } from '../types';
 import { easingPresets } from '../constants';
 import { CSSEffect } from '..';
+import { simulateScroll } from '../testUtils/scrollHelpers';
 
 const DEFAULT_OPTIONS = {
   el: createElementMock(
@@ -136,6 +137,159 @@ describe('Expect the Element class', () => {
     expect(onExit).toBeCalledTimes(1);
     expect(onChange).toBeCalledTimes(2);
     expect(onProgressChange).toBeCalledTimes(2);
+  });
+
+  describe('when updating scroll position', () => {
+    const view = new View({
+      width: 1000,
+      height: 600,
+      scrollWidth: 1000,
+      scrollHeight: 10000,
+      scrollContainer: createElementMock(),
+    });
+    describe('when the element is initially out of view', () => {
+      describe('when the element scrolls into view from above', () => {
+        test('then is calls onEnter', () => {
+          const el = createElementMock(
+            { offsetWidth: 100, offsetHeight: 100 },
+            {
+              getBoundingClientRect: () => ({
+                top: -1100,
+                left: 0,
+                bottom: -1000,
+                right: 900,
+              }),
+            }
+          );
+          const onEnter = jest.fn();
+          const element = new Element({
+            scrollAxis: 'vertical',
+            el: el as HTMLElement,
+            props: { onEnter },
+          });
+          const scroll = new Scroll(0, 1100);
+          element.setCachedAttributes(view, scroll);
+          element.updatePosition(scroll);
+          simulateScroll(3, 0, scroll, element);
+          expect(onEnter).toBeCalledTimes(1);
+        });
+      });
+      describe('when the element scrolls into view from below', () => {
+        test('then is calls onEnter', () => {
+          const el = createElementMock(
+            { offsetWidth: 100, offsetHeight: 100 },
+            {
+              getBoundingClientRect: () => ({
+                top: 1000,
+                left: 0,
+                bottom: 1100,
+                right: 900,
+              }),
+            }
+          );
+          const onEnter = jest.fn();
+          const element = new Element({
+            scrollAxis: 'vertical',
+            el: el as HTMLElement,
+            props: { onEnter },
+          });
+          const scroll = new Scroll(0, 0);
+          element.setCachedAttributes(view, scroll);
+          element.updatePosition(scroll);
+          simulateScroll(1097, 1101, scroll, element);
+          expect(onEnter).toBeCalledTimes(1);
+        });
+      });
+      describe('when the element scrolls completely past the view in one scroll tick', () => {
+        test.skip('then is calls onEnter and onExit', () => {
+          const el = createElementMock(
+            { offsetWidth: 100, offsetHeight: 100 },
+            {
+              getBoundingClientRect: () => ({
+                top: 601,
+                left: 0,
+                bottom: 701,
+                right: 900,
+              }),
+            }
+          );
+          const onEnter = jest.fn();
+          const onExit = jest.fn();
+          const element = new Element({
+            scrollAxis: 'vertical',
+            el: el as HTMLElement,
+            props: { onEnter, onExit },
+          });
+          const scroll = new Scroll(0, 0);
+          element.setCachedAttributes(view, scroll);
+          element.updatePosition(scroll);
+          scroll.setScroll(0, 2000);
+          element.updatePosition(scroll);
+          expect(onEnter).toBeCalledTimes(1);
+          expect(onExit).toBeCalledTimes(1);
+        });
+      });
+    });
+    describe('when the element is initially in the view', () => {
+      describe('when the element scrolls above and out the view', () => {
+        test('then it calls onExit', () => {
+          const el = createElementMock(
+            { offsetWidth: 100, offsetHeight: 100 },
+            {
+              getBoundingClientRect: () => ({
+                top: 0,
+                left: 0,
+                bottom: 100,
+                right: 900,
+              }),
+            }
+          );
+          const onExit = jest.fn();
+          const onEnter = jest.fn();
+          const element = new Element({
+            scrollAxis: 'vertical',
+            el: el as HTMLElement,
+            props: { onExit, onEnter },
+          });
+          const scroll = new Scroll(0, 0);
+          element.setCachedAttributes(view, scroll);
+          element.updatePosition(scroll);
+          // onEnter should be called after the first update since it's in view to start
+          expect(onEnter).toBeCalledTimes(1);
+          simulateScroll(99, 102, scroll, element);
+          expect(onExit).toBeCalledTimes(1);
+        });
+      });
+      describe('when the element scrolls below and out the view', () => {
+        test('then it calls onExit', () => {
+          const el = createElementMock(
+            { offsetWidth: 100, offsetHeight: 100 },
+            {
+              getBoundingClientRect: () => ({
+                top: 0,
+                left: 0,
+                bottom: 100,
+                right: 900,
+              }),
+            }
+          );
+          const onExit = jest.fn();
+          const onEnter = jest.fn();
+          const element = new Element({
+            scrollAxis: 'vertical',
+            el: el as HTMLElement,
+            props: { onExit, onEnter },
+          });
+          const scroll = new Scroll(0, 0);
+          element.setCachedAttributes(view, scroll);
+          element.updatePosition(scroll);
+          // onEnter should be called after the first update since it's in view to start
+          expect(onEnter).toBeCalledTimes(1);
+          simulateScroll(0, 102, scroll, element); // 102?
+          expect(onExit).toBeCalledTimes(1);
+        });
+      });
+    });
   });
 
   it('to set cache and return the instance', () => {
