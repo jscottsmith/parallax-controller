@@ -122,9 +122,13 @@ describe('Expect the Element class', () => {
     expect(onChange).toBeCalledTimes(0);
     expect(onProgressChange).toBeCalledTimes(0);
 
+    jest.resetAllMocks();
+
     element.updatePosition(scroll);
     expect(onChange).toBeCalledTimes(0);
     expect(onProgressChange).toBeCalledTimes(0);
+
+    jest.resetAllMocks();
 
     scroll.setScroll(0, 500);
     element.updatePosition(scroll);
@@ -132,11 +136,15 @@ describe('Expect the Element class', () => {
     expect(onChange).toBeCalledTimes(1);
     expect(onProgressChange).toBeCalledTimes(1);
 
+    jest.resetAllMocks();
+
     scroll.setScroll(0, 0);
     element.updatePosition(scroll);
     expect(onExit).toBeCalledTimes(1);
-    expect(onChange).toBeCalledTimes(2);
-    expect(onProgressChange).toBeCalledTimes(2);
+    expect(onChange).toBeCalledTimes(1);
+    expect(onProgressChange).toBeCalledTimes(1);
+
+    jest.resetAllMocks();
   });
 
   describe('when updating scroll position', () => {
@@ -149,7 +157,7 @@ describe('Expect the Element class', () => {
     });
     describe('when the element is initially out of view', () => {
       describe('when the element scrolls into view from above', () => {
-        test('then is calls onEnter', () => {
+        test('then it calls onEnter', () => {
           const el = createElementMock(
             { offsetWidth: 100, offsetHeight: 100 },
             {
@@ -175,7 +183,7 @@ describe('Expect the Element class', () => {
         });
       });
       describe('when the element scrolls into view from below', () => {
-        test('then is calls onEnter', () => {
+        test('then it calls onEnter', () => {
           const el = createElementMock(
             { offsetWidth: 100, offsetHeight: 100 },
             {
@@ -201,7 +209,7 @@ describe('Expect the Element class', () => {
         });
       });
       describe('when the element scrolls completely past the view in one scroll tick', () => {
-        test.skip('then is calls onEnter and onExit', () => {
+        test('then it calls onEnter and onExit', () => {
           const el = createElementMock(
             { offsetWidth: 100, offsetHeight: 100 },
             {
@@ -224,6 +232,8 @@ describe('Expect the Element class', () => {
           element.setCachedAttributes(view, scroll);
           element.updatePosition(scroll);
           scroll.setScroll(0, 2000);
+          element.updatePosition(scroll);
+          element.updatePosition(scroll);
           element.updatePosition(scroll);
           expect(onEnter).toBeCalledTimes(1);
           expect(onExit).toBeCalledTimes(1);

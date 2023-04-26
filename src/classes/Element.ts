@@ -42,6 +42,8 @@ export class Element {
   id: number;
   effects: ParallaxStartEndEffects;
   isInView: boolean | null;
+  needsFinalUpdate: boolean;
+  hasEnterAndExited: boolean;
   progress: number;
   /* Optionally set if translate effect must be scaled */
   scaledEffects?: ParallaxStartEndEffects;
@@ -58,6 +60,8 @@ export class Element {
     this.id = createId();
     this.effects = parseElementTransitionEffects(this.props, this.scrollAxis);
     this.isInView = null;
+    this.needsFinalUpdate = false;
+    this.hasEnterAndExited = false;
     this.progress = 0;
 
     this._setElementEasing(options.props.easing);
@@ -142,17 +146,19 @@ export class Element {
       if (nextIsInView) {
         this.props.onEnter && this.props.onEnter(this);
       } else if (!isFirstChange) {
-        this._setFinalProgress();
-        this._setElementStyles();
+        this.needsFinalUpdate = true;
         this.props.onExit && this.props.onExit(this);
       }
     }
-    this.isInView = nextIsInView;
-  }
 
-  _setFinalProgress() {
-    const finalProgress = clamp(Math.round(this.progress), 0, 1);
-    this._updateElementProgress(finalProgress);
+    // NOTE: Scrolled past the view and was never in view
+    if (this.hasEnterAndExited) {
+      this.props.onEnter && this.props.onEnter(this);
+      this.props.onExit && this.props.onExit(this);
+      this.hasEnterAndExited = false;
+    }
+
+    this.isInView = nextIsInView;
   }
 
   _setElementStyles() {
@@ -179,6 +185,14 @@ export class Element {
 
   updatePosition(scroll: Scroll): Element {
     if (!this.limits) return this;
+    // NOTE: if a user is scrolling quickly, theres a chance this element
+    // will never have been considered in view, and end up with the incorrect progress
+    if (
+      Math.abs(scroll.dx) > this.limits.totalX ||
+      Math.abs(scroll.dy) > this.limits.totalY
+    ) {
+      this.needsFinalUpdate = true;
+    }
 
     const isVertical = this.scrollAxis === ScrollAxis.vertical;
     const isFirstChange = this.isInView === null;
@@ -197,6 +211,23 @@ export class Element {
       const nextProgress = getProgressAmount(start, total, s, this.easing);
       this._updateElementProgress(nextProgress);
       this._setElementStyles();
+    } else if (this.needsFinalUpdate) {
+      const nextProgress = clamp(
+        Math.round(getProgressAmount(start, total, s, this.easing)),
+        0,
+        1
+      );
+
+      if (
+        (this.progress === 1 && nextProgress === 0) ||
+        (this.progress === 0 && nextProgress === 1)
+      ) {
+        this.hasEnterAndExited = true;
+      }
+
+      this._updateElementProgress(nextProgress);
+      this._setElementStyles();
+      this.needsFinalUpdate = false;
     } else if (isFirstChange) {
       // NOTE: this._updateElementProgress -- dont use this because it will trigger onChange
       this.progress = clamp(
