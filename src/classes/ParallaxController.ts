@@ -178,7 +178,7 @@ export class ParallaxController {
 
     // Only called if the last animation request has been
     // completed and there are parallax elements to update
-    if (!this._ticking && this.elements.length > 0) {
+    if (!this._ticking && this.elements?.length > 0) {
       this._ticking = true;
       // @ts-ignore
       window.requestAnimationFrame(this._updateAllElements);
