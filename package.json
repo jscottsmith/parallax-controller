@@ -1,47 +1,8 @@
 {
-  "version": "1.7.1",
-  "license": "MIT",
-  "main": "dist/index.js",
-  "typings": "dist/index.d.ts",
-  "publishConfig": {
-    "access": "public"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/jscottsmith/parallax-controller"
-  },
-  "files": [
-    "dist",
-    "src"
-  ],
-  "engines": {
-    "node": ">=12"
-  },
-  "scripts": {
-    "start": "tsdx watch",
-    "build": "tsdx build",
-    "test": "tsdx test",
-    "lint": "tsdx lint",
-    "prepare": "tsdx build",
-    "size": "size-limit",
-    "analyze": "size-limit --why",
-    "release": "np"
-  },
-  "peerDependencies": {},
-  "husky": {
-    "hooks": {
-      "pre-commit": "tsdx lint"
-    }
-  },
-  "prettier": {
-    "printWidth": 80,
-    "tabWidth": 2,
-    "semi": true,
-    "singleQuote": true,
-    "trailingComma": "es5"
-  },
+  "version": "alpha.2.0.0",
+  "author": "J Scott Smith",
   "name": "parallax-controller",
-  "description": "Core classes and controller for creating parallax scrolling effects",
+  "description": "@TODO",
   "keywords": [
     "scroll",
     "effects",
@@ -53,33 +14,49 @@
     "scale",
     "opacity"
   ],
-  "author": "J Scott Smith",
-  "module": "dist/parallax-controller.esm.js",
-  "size-limit": [
-    {
-      "path": "dist/parallax-controller.cjs.production.min.js",
-      "limit": "10 KB"
-    },
-    {
-      "path": "dist/parallax-controller.esm.js",
-      "limit": "10 KB"
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
     }
+  },
+  "files": [
+    "dist"
   ],
-  "jest": {
-    "setupFiles": [
-      "./src/setupTests.ts"
-    ]
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jscottsmith/parallax-controller"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "prepublishOnly": "npm run clean && npm run build",
+    "demo:dev": "parcel demo/index.html",
+    "demo:build": "parcel build demo/index.html",
+    "clean": "rimraf dist .parcel-cache"
+  },
+  "prettier": {
+    "printWidth": 80,
+    "tabWidth": 2,
+    "semi": true,
+    "singleQuote": true,
+    "trailingComma": "es5"
   },
   "devDependencies": {
-    "@size-limit/preset-small-lib": "^7.0.3",
-    "husky": "^7.0.4",
-    "np": "^7.6.0",
-    "size-limit": "^7.0.3",
-    "tsdx": "^0.14.1",
-    "tslib": "^2.3.1",
-    "typescript": "^4.5.2"
-  },
-  "dependencies": {
-    "bezier-easing": "^2.1.0"
+    "typescript": "^5.3.3",
+    "parcel": "^2.11.0",
+    "rimraf": "^5.0.5"
   }
 }
