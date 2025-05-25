@@ -5,10 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Parcel Vanilla App</title>
     <link rel="stylesheet" href="style.css" />
-    <script type="module" src="../../src/index.ts"></script>
+    <!-- Must import the styles.css file to ensure the keyframe animation is defined -->
+    <link rel="stylesheet" href="../../src/styles.css" />
+    <script type="module" src="index.ts"></script>
   </head>
   <body>
-    <h1>Parcel Vanilla App</h1>
-    <p>Edit <code>src/index.html</code> to get started!</p>
+    <section>
+      <div class="parallax"></div>
+      <div class="parallax"></div>
+      <div class="parallax"></div>
+      <div class="parallax"></div>
+      <div class="parallax"></div>
+    </section>
   </body>
 </html>
