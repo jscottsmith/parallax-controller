@@ -54,9 +54,13 @@
     "singleQuote": true,
     "trailingComma": "es5"
   },
+  "dependencies": {
+    "bezier-easing": "^2.1.0"
+  },
   "devDependencies": {
     "typescript": "^5.3.3",
     "parcel": "^2.11.0",
+    "prettier": "^3.5.3",
     "rimraf": "^5.0.5"
   }
 }
