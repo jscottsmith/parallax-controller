@@ -2,13 +2,13 @@ import { resetStyles } from '../helpers/elementStyles';
 import { View } from './View';
 import { Element } from './Element';
 import { testForPassiveScroll } from '../utils/testForPassiveScroll';
-import type {
-  CreateElementOptions,
-  ParallaxControllerOptions,
-  ParallaxElementConfig,
+import {
   ScrollAxis,
-  ValidScrollAxis,
-  ViewElement,
+  type CreateElementOptions,
+  type ParallaxControllerOptions,
+  type ParallaxElementConfig,
+  type ValidScrollAxis,
+  type ViewElement,
 } from '../types';
 
 /**
@@ -75,19 +75,19 @@ export class ParallaxController {
 
     if (this.disabled) return;
 
-    this._addListeners(this.viewEl);
+    this._addListeners();
     this._addResizeObserver();
     this._setViewSize();
   }
 
-  _addListeners = (el: ViewElement) => {
+  _addListeners = () => {
     window.addEventListener('resize', this._handleUpdateCache, false);
     window.addEventListener('blur', this._handleUpdateCache, false);
     window.addEventListener('focus', this._handleUpdateCache, false);
     window.addEventListener('load', this._handleUpdateCache, false);
   };
 
-  _removeListeners = (el: ViewElement) => {
+  _removeListeners = () => {
     window.removeEventListener('resize', this._handleUpdateCache, false);
     window.removeEventListener('blur', this._handleUpdateCache, false);
     window.removeEventListener('focus', this._handleUpdateCache, false);
@@ -123,29 +123,12 @@ export class ParallaxController {
   };
 
   /**
-   * Window scroll handler sets scroll position
-   * and then calls '_updateAllElements()'.
-   */
-  // _handleScroll() {
-  //   const [nx, ny] = this._getScrollPosition();
-  //   this.scroll.setScroll(nx, ny);
-
-  //   // Only called if the last animation request has been
-  //   // completed and there are parallax elements to update
-  //   if (!this._ticking && this.elements?.length > 0) {
-  //     this._ticking = true;
-  //     // @ts-ignore
-  //     window.requestAnimationFrame(this._updateAllElements);
-  //   }
-  // }
-
-  /**
    * Window resize handler. Sets the new window inner height
    * then updates parallax element attributes and positions.
    */
   _handleUpdateCache = () => {
     this._setViewSize();
-    this._updateAllElements({ updateCache: true });
+    this._updateAllElements();
   };
 
   /**
@@ -153,12 +136,10 @@ export class ParallaxController {
    * Determines if the element is in view based on the cached
    * attributes, if so set the elements parallax styles.
    */
-  _updateAllElements = ({ updateCache }: { updateCache?: boolean } = {}) => {
+  _updateAllElements = () => {
     if (this.elements) {
       this.elements.forEach((element) => {
-        if (updateCache) {
-          element.setCachedAttributes(this.view);
-        }
+        element.setCachedAttributes(this.view);
       });
     }
   };
@@ -283,14 +264,14 @@ export class ParallaxController {
    */
   update = () => {
     this._setViewSize();
-    this._updateAllElements({ updateCache: true });
+    this._updateAllElements();
   };
 
   /**
    * Updates the scroll container of the parallax controller
    */
   updateScrollContainer = (el: HTMLElement) => {
-    this._removeListeners(this.viewEl);
+    this._removeListeners();
 
     this.viewEl = el;
     this._hasScrollContainer = !!el;
@@ -302,14 +283,14 @@ export class ParallaxController {
       scrollContainer: el,
     });
     this._setViewSize();
-    this._addListeners(this.viewEl);
-    this._updateAllElements({ updateCache: true });
+    this._addListeners();
+    this._updateAllElements();
   };
 
   disableParallaxController() {
     this.disabled = true;
     // remove listeners
-    this._removeListeners(this.viewEl);
+    this._removeListeners();
     // reset all styles
     if (this.elements) {
       this.elements.forEach((element) => resetStyles(element));
@@ -327,7 +308,7 @@ export class ParallaxController {
       );
     }
     // add back listeners
-    this._addListeners(this.viewEl);
+    this._addListeners();
     this._addResizeObserver();
     this._setViewSize();
   }
@@ -362,7 +343,7 @@ export class ParallaxController {
    * Removes all listeners and resets all styles on managed elements.
    */
   destroy = () => {
-    this._removeListeners(this.viewEl);
+    this._removeListeners();
     if (this.elements) {
       this.elements.forEach((element) => resetStyles(element));
     }
