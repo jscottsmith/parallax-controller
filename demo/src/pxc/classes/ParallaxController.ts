@@ -28,7 +28,6 @@ export class ParallaxController {
   // scroll: Scroll;
   view: View;
   _hasScrollContainer: boolean;
-  _ticking: boolean;
   _supportsPassive: boolean;
   _resizeObserver?: ResizeObserver;
 
@@ -55,7 +54,6 @@ export class ParallaxController {
   }: ParallaxControllerOptions) {
     this.disabled = disabled;
     this.scrollAxis = scrollAxis;
-    // All parallax elements to be updated
     this.elements = [];
 
     this._hasScrollContainer = !!scrollContainer;
@@ -73,10 +71,6 @@ export class ParallaxController {
       scrollContainer: this._hasScrollContainer ? scrollContainer : undefined,
     });
 
-    // Ticking
-    this._ticking = false;
-
-    // Passive support
     this._supportsPassive = testForPassiveScroll();
 
     if (this.disabled) return;
@@ -167,7 +161,6 @@ export class ParallaxController {
         }
       });
     }
-    this._ticking = false;
   };
 
   /**
