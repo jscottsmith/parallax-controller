@@ -79,10 +79,6 @@ export class ParallaxController {
     // Passive support
     this._supportsPassive = testForPassiveScroll();
 
-    // Bind methods to class
-    this._bindAllMethods();
-
-    // If this is initialized disabled, don't do anything below.
     if (this.disabled) return;
 
     this._addListeners(this.viewEl);
@@ -90,53 +86,20 @@ export class ParallaxController {
     this._setViewSize();
   }
 
-  _bindAllMethods() {
-    [
-      '_addListeners',
-      '_removeListeners',
-      '_getScrollPosition',
-      // '_handleScroll',
-      '_handleUpdateCache',
-      '_updateAllElements',
-      // '_updateElementPosition',
-      '_setViewSize',
-      '_addResizeObserver',
-      '_checkIfViewHasChanged',
-      '_getViewParams',
-      'getElements',
-      'createElement',
-      'removeElementById',
-      'resetElementStyles',
-      'updateElementPropsById',
-      'update',
-      'updateScrollContainer',
-      'destroy',
-    ].forEach((method: string) => {
-      // @ts-expect-error
-      this[method] = this[method].bind(this);
-    });
-  }
-
-  _addListeners(el: ViewElement) {
-    // el.addEventListener(
-    //   'scroll',
-    //   this._handleScroll,
-    //   this._supportsPassive ? { passive: true } : false
-    // );
+  _addListeners = (el: ViewElement) => {
     window.addEventListener('resize', this._handleUpdateCache, false);
     window.addEventListener('blur', this._handleUpdateCache, false);
     window.addEventListener('focus', this._handleUpdateCache, false);
     window.addEventListener('load', this._handleUpdateCache, false);
-  }
+  };
 
-  _removeListeners(el: ViewElement) {
-    // el.removeEventListener('scroll', this._handleScroll, false);
+  _removeListeners = (el: ViewElement) => {
     window.removeEventListener('resize', this._handleUpdateCache, false);
     window.removeEventListener('blur', this._handleUpdateCache, false);
     window.removeEventListener('focus', this._handleUpdateCache, false);
     window.removeEventListener('load', this._handleUpdateCache, false);
     this._resizeObserver?.disconnect();
-  }
+  };
 
   _addResizeObserver() {
     try {
@@ -152,9 +115,7 @@ export class ParallaxController {
     }
   }
 
-  _getScrollPosition() {
-    // Save current scroll
-    // Supports IE 9 and up.
+  _getScrollPosition = () => {
     const nx = this._hasScrollContainer
       ? // @ts-expect-error
         this.viewEl.scrollLeft
@@ -165,7 +126,7 @@ export class ParallaxController {
       : window.pageYOffset;
 
     return [nx, ny];
-  }
+  };
 
   /**
    * Window scroll handler sets scroll position
@@ -188,48 +149,36 @@ export class ParallaxController {
    * Window resize handler. Sets the new window inner height
    * then updates parallax element attributes and positions.
    */
-  _handleUpdateCache() {
+  _handleUpdateCache = () => {
     this._setViewSize();
     this._updateAllElements({ updateCache: true });
-  }
+  };
 
   /**
    * Update element positions.
    * Determines if the element is in view based on the cached
    * attributes, if so set the elements parallax styles.
    */
-  _updateAllElements({ updateCache }: { updateCache?: boolean } = {}) {
+  _updateAllElements = ({ updateCache }: { updateCache?: boolean } = {}) => {
     if (this.elements) {
       this.elements.forEach((element) => {
         if (updateCache) {
           element.setCachedAttributes(this.view);
         }
-        // this._updateElementPosition(element);
       });
     }
-    // reset ticking so more animations can be called
     this._ticking = false;
-  }
-
-  /**
-   * Update element positions.
-   * Determines if the element is in view based on the cached
-   * attributes, if so set the elements parallax styles.
-   */
-  // _updateElementPosition(element: Element) {
-  //   if (element.props.disabled || this.disabled) return;
-  //   element.updatePosition(this.scroll);
-  // }
+  };
 
   /**
    * Gets the params to set in the View from the scroll container or the window
    */
-  _getViewParams(): {
+  _getViewParams = (): {
     width: number;
     height: number;
     scrollHeight: number;
     scrollWidth: number;
-  } {
+  } => {
     if (this._hasScrollContainer) {
       // @ts-expect-error
       const width = this.viewEl.offsetWidth;
@@ -254,22 +203,22 @@ export class ParallaxController {
     const scrollWidth = html.scrollWidth;
 
     return { width, height, scrollHeight, scrollWidth };
-  }
+  };
 
   /**
    * Cache the view attributes
    */
-  _setViewSize() {
+  _setViewSize = () => {
     return this.view.setSize(this._getViewParams());
-  }
+  };
 
   /**
    * Checks if any of the cached attributes of the view have changed.
    * @returns boolean
    */
-  _checkIfViewHasChanged() {
+  _checkIfViewHasChanged = () => {
     return this.view.hasChanged(this._getViewParams());
-  }
+  };
 
   /**
    * -------------------------------------------------------
@@ -280,14 +229,14 @@ export class ParallaxController {
   /**
    * Returns all the parallax elements in the controller
    */
-  getElements(): Element[] {
+  getElements = (): Element[] => {
     return this.elements;
-  }
+  };
 
   /**
    * Creates and returns new parallax element with provided options to be managed by the controller.
    */
-  createElement(options: CreateElementOptions): Element {
+  createElement = (options: CreateElementOptions): Element => {
     const newElement = new Element({
       ...options,
       view: this.view,
@@ -299,30 +248,24 @@ export class ParallaxController {
       ? [...this.elements, newElement]
       : [newElement];
 
-    // no need to update positions
-    // this._updateElementPosition(newElement);
-
-    // NOTE: This checks if the view has changed then update the controller and all elements if it has
-    // This shouldn't always be necessary with a resize observer watching the view element
-    // but there seems to be cases where the resize observer does not catch and update.
     if (this._checkIfViewHasChanged()) {
       this.update();
     }
     return newElement;
-  }
+  };
 
   /**
    * Remove an element by id
    */
-  removeElementById(id: number) {
+  removeElementById = (id: number) => {
     if (!this.elements) return;
     this.elements = this.elements.filter((el) => el.id !== id);
-  }
+  };
 
   /**
    * Updates an existing parallax element object with new options.
    */
-  updateElementPropsById(id: number, props: ParallaxElementConfig): void {
+  updateElementPropsById = (id: number, props: ParallaxElementConfig): void => {
     if (this.elements) {
       this.elements = this.elements.map((el) => {
         if (el.id === id) {
@@ -333,32 +276,27 @@ export class ParallaxController {
     }
 
     this.update();
-  }
+  };
 
   /**
    * Remove a target elements parallax styles
    */
-  resetElementStyles(element: Element) {
+  resetElementStyles = (element: Element) => {
     resetStyles(element);
-  }
+  };
 
   /**
    * Updates all cached attributes on parallax elements.
    */
-  update() {
-    // Save the latest scroll position because window.scroll
-    // may be called and the handle scroll event may not be called.
-    // const [nx, ny] = this._getScrollPosition();
-    // this.scroll.setScroll(nx, ny);
-
+  update = () => {
     this._setViewSize();
     this._updateAllElements({ updateCache: true });
-  }
+  };
+
   /**
    * Updates the scroll container of the parallax controller
    */
-  updateScrollContainer(el: HTMLElement) {
-    // remove existing listeners with current el first
+  updateScrollContainer = (el: HTMLElement) => {
     this._removeListeners(this.viewEl);
 
     this.viewEl = el;
@@ -373,7 +311,7 @@ export class ParallaxController {
     this._setViewSize();
     this._addListeners(this.viewEl);
     this._updateAllElements({ updateCache: true });
-  }
+  };
 
   disableParallaxController() {
     this.disabled = true;
@@ -430,12 +368,12 @@ export class ParallaxController {
   /**
    * Removes all listeners and resets all styles on managed elements.
    */
-  destroy() {
+  destroy = () => {
     this._removeListeners(this.viewEl);
     if (this.elements) {
       this.elements.forEach((element) => resetStyles(element));
     }
     // @ts-expect-error
     this.elements = undefined;
-  }
+  };
 }
