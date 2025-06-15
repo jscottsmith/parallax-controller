@@ -10,6 +10,7 @@ parallaxElements.forEach((element, i) => {
     el: element as HTMLElement,
     props: {
       speed,
+      rotate: ['0deg', '180deg'],
     },
   });
 });
