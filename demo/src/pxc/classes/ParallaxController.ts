@@ -139,7 +139,7 @@ export class ParallaxController {
   _updateAllElements = () => {
     if (this.elements) {
       this.elements.forEach((element) => {
-        element.setCachedAttributes(this.view);
+        element.updateElement(this.view);
       });
     }
   };

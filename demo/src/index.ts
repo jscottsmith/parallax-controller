@@ -5,7 +5,7 @@ const parallaxController = new ParallaxController({ scrollAxis: 'vertical' });
 const parallaxElements = document.querySelectorAll('.parallax');
 
 parallaxElements.forEach((element, i) => {
-  const speed = 40 - i * 20;
+  const speed = 10 - i * 5;
   parallaxController.createElement({
     el: element as HTMLElement,
     props: {
