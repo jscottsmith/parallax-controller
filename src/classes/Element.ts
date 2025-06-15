@@ -182,12 +182,26 @@ export class Element {
     }
   }
 
+  private setRotate() {
+    if (this.effects.rotate) {
+      this.el.style.setProperty(
+        '--parallax-rotate-start',
+        `${this.effects.rotate.start}${this.effects.rotate.unit}`
+      );
+      this.el.style.setProperty(
+        '--parallax-rotate-end',
+        `${this.effects.rotate.end}${this.effects.rotate.unit}`
+      );
+    }
+  }
+
   private setElementStyles() {
     this.setAnimationRange();
     this.setAnimationName();
     this.setAnimationTimeline();
     this.setTranslateY();
     this.setTranslateX();
+    this.setRotate();
   }
 
   updateProps(nextProps: ParallaxElementConfig) {

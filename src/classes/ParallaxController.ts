@@ -195,7 +195,6 @@ export class ParallaxController {
       scrollAxis: this.scrollAxis,
       disabledParallaxController: this.disabled,
     });
-    newElement.setCachedAttributes(this.view);
     this.elements = this.elements
       ? [...this.elements, newElement]
       : [newElement];
