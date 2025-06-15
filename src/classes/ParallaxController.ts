@@ -139,7 +139,7 @@ export class ParallaxController {
   _updateAllElements = () => {
     if (this.elements) {
       this.elements.forEach((element) => {
-        element.setCachedAttributes(this.view);
+        element.updateElement(this.view);
       });
     }
   };
@@ -154,13 +154,9 @@ export class ParallaxController {
     scrollWidth: number;
   } => {
     if (this._hasScrollContainer) {
-      // @ts-expect-error
       const width = this.viewEl.offsetWidth;
-      // @ts-expect-error
       const height = this.viewEl.offsetHeight;
-      // @ts-expect-error
       const scrollHeight = this.viewEl.scrollHeight;
-      // @ts-expect-error
       const scrollWidth = this.viewEl.scrollWidth;
       return this.view.setSize({
         width,

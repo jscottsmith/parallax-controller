@@ -75,7 +75,7 @@ export class Element {
     );
 
     this._setElementEasing(options.props.easing);
-    this.setElementStyles(this.el, this.scaledEffects);
+    this.setElementStyles();
 
     // setWillChangeStyles(options.el, this.effects);
   }
@@ -192,15 +192,12 @@ export class Element {
     }
   }
 
-  private setElementStyles(
-    element: HTMLElement,
-    effects: ParallaxStartEndEffects
-  ) {
-    this.setAnimationRange(element);
-    this.setAnimationName(element);
-    this.setAnimationTimeline(element, effects);
-    this.setTranslateY(element, effects);
-    this.setTranslateX(element, effects);
+  private setElementStyles() {
+    this.setAnimationRange(this.el);
+    this.setAnimationName(this.el);
+    this.setAnimationTimeline(this.el, this.scaledEffects);
+    this.setTranslateY(this.el, this.scaledEffects);
+    this.setTranslateX(this.el, this.scaledEffects);
   }
 
   updateProps(nextProps: ParallaxElementConfig) {
@@ -211,7 +208,7 @@ export class Element {
     return this;
   }
 
-  setCachedAttributes(view: View): Element {
+  updateElement(view: View): Element {
     // NOTE: Must reset styles before getting the rect, as it might impact the natural position
     // resetStyles(this);
 
@@ -231,8 +228,15 @@ export class Element {
       this.props.shouldAlwaysCompleteAnimation
     );
 
+    this.scaledEffects = scaleTranslateEffectsForSlowerScroll(
+      this.effects,
+      this.limits
+    );
+
     // Undo the reset -- place it back at current position with styles
     // this._setElementStyles();
+
+    this.setElementStyles();
 
     return this;
   }
