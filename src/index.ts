@@ -25,8 +25,6 @@ export {
   resetStyles,
   parseElementTransitionEffects,
   scaleEffectByProgress,
-  isElementInView,
-  getProgressAmount,
   createId,
   parseValueAndUnit,
   scaleBetween,

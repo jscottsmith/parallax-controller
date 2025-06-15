@@ -1,4 +1,3 @@
-import { resetStyles } from '../helpers/elementStyles';
 import { View } from './View';
 import { Element } from './Element';
 import { testForPassiveScroll } from '../utils/testForPassiveScroll';
@@ -59,10 +58,6 @@ export class ParallaxController {
     this._hasScrollContainer = !!scrollContainer;
     this.viewEl = scrollContainer ?? window;
 
-    // Scroll and View
-    // const [x, y] = this._getScrollPosition();
-    // this.scroll = new Scroll(x, y);
-
     this.view = new View({
       width: 0,
       height: 0,
@@ -109,19 +104,6 @@ export class ParallaxController {
     }
   }
 
-  _getScrollPosition = () => {
-    const nx = this._hasScrollContainer
-      ? // @ts-expect-error
-        this.viewEl.scrollLeft
-      : window.pageXOffset;
-    const ny = this._hasScrollContainer
-      ? // @ts-expect-error
-        this.viewEl.scrollTop
-      : window.pageYOffset;
-
-    return [nx, ny];
-  };
-
   /**
    * Window resize handler. Sets the new window inner height
    * then updates parallax element attributes and positions.
@@ -154,13 +136,9 @@ export class ParallaxController {
     scrollWidth: number;
   } => {
     if (this._hasScrollContainer) {
-      // @ts-expect-error
       const width = this.viewEl.offsetWidth;
-      // @ts-expect-error
       const height = this.viewEl.offsetHeight;
-      // @ts-expect-error
       const scrollHeight = this.viewEl.scrollHeight;
-      // @ts-expect-error
       const scrollWidth = this.viewEl.scrollWidth;
       return this.view.setSize({
         width,
@@ -345,7 +323,7 @@ export class ParallaxController {
   destroy = () => {
     this._removeListeners();
     if (this.elements) {
-      this.elements.forEach((element) => resetStyles(element));
+      this.elements.forEach((element) => element.destroy());
     }
     // @ts-expect-error
     this.elements = undefined;
