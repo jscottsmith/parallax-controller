@@ -13,7 +13,6 @@ import { View } from './View';
 import { Limits } from './Limits';
 import { parseElementTransitionEffects } from '../helpers/parseElementTransitionEffects';
 import { createEasingFunction } from '../helpers/createEasingFunction';
-import { createLimitsForRelativeElements } from '../helpers/createLimitsForRelativeElements';
 import { createLimitsWithTranslationsForRelativeElements } from '../helpers/createLimitsWithTranslationsForRelativeElements';
 import { scaleTranslateEffectsForSlowerScroll } from '../helpers/scaleTranslateEffectsForSlowerScroll';
 import { getShouldScaleTranslateEffects } from '../helpers/getShouldScaleTranslateEffects';
@@ -80,13 +79,13 @@ export class Element {
     // setWillChangeStyles(options.el, this.effects);
   }
 
-  private setAnimationName(element: HTMLElement) {
-    element.style.animationName = 'parallaxEffects';
-    element.style.animationTimingFunction = 'linear';
-    element.style.animationFillMode = 'both';
+  private setAnimationName() {
+    this.el.style.animationName = 'parallaxEffects';
+    this.el.style.animationTimingFunction = 'linear';
+    this.el.style.animationFillMode = 'both';
   }
 
-  private setAnimationRange(element: HTMLElement) {
+  private setAnimationRange() {
     // animation-range: entry 0% exit 100%;
     // element.style.animationRangeStart = '0%';
 
@@ -107,24 +106,21 @@ export class Element {
       console.log('top', top, 'bottom', bottom);
 
       if (topBeginsInView) {
-        element.style.setProperty('animation-range-start', `entry ${top}%`);
-        element.style.setProperty('animation-range-end', `exit 100%`);
+        this.el.style.setProperty('animation-range-start', `entry ${top}%`);
+        this.el.style.setProperty('animation-range-end', `exit 100%`);
       } else if (bottomEndsInView) {
-        element.style.setProperty('animation-range-start', `entry 0%`);
-        element.style.setProperty('animation-range-end', `exit ${bottom}%`);
+        this.el.style.setProperty('animation-range-start', `entry 0%`);
+        this.el.style.setProperty('animation-range-end', `exit ${bottom}%`);
       }
     } else {
-      element.style.setProperty('animation-range', 'entry 0% exit 100%');
+      this.el.style.setProperty('animation-range', 'entry 0% exit 100%');
     }
 
     // set range based on shouldAlwaysCompleteAnimation
     // element.style.setProperty('animation-range', 'entry 0% exit 100%');
   }
 
-  private setAnimationTimeline(
-    element: HTMLElement,
-    effects: ParallaxStartEndEffects
-  ) {
+  private setAnimationTimeline() {
     const shouldScaleTranslateEffects = getShouldScaleTranslateEffects(
       this.props,
       this.effects,
@@ -150,54 +146,48 @@ export class Element {
       const yEnd = Math.min(this.scaledEffects?.translateY?.start || 0, 0);
       const yUnit = this.scaledEffects?.translateY?.unit;
 
-      element.style.setProperty(
+      this.el.style.setProperty(
         'animation-timeline',
         `view(block ${yStart}${yUnit} ${yEnd}${yUnit})`
       );
     } else {
       // console.log('TODO: set timeline view default', this.props);
-      element.style.setProperty('animation-timeline', 'view()');
+      this.el.style.setProperty('animation-timeline', 'view()');
     }
   }
 
-  private setTranslateY(
-    element: HTMLElement,
-    effects: ParallaxStartEndEffects
-  ) {
-    if (effects.translateY) {
-      element.style.setProperty(
+  private setTranslateY() {
+    if (this.effects.translateY) {
+      this.el.style.setProperty(
         '--parallax-translate-start-y',
-        `${effects.translateY.start}${effects.translateY.unit}`
+        `${this.effects.translateY.start}${this.effects.translateY.unit}`
       );
-      element.style.setProperty(
+      this.el.style.setProperty(
         '--parallax-translate-end-y',
-        `${effects.translateY.end}${effects.translateY.unit}`
+        `${this.effects.translateY.end}${this.effects.translateY.unit}`
       );
     }
   }
 
-  private setTranslateX(
-    element: HTMLElement,
-    effects: ParallaxStartEndEffects
-  ) {
-    if (effects.translateX) {
-      element.style.setProperty(
+  private setTranslateX() {
+    if (this.effects.translateX) {
+      this.el.style.setProperty(
         '--parallax-translate-start-x',
-        `${effects.translateX.start}${effects.translateX.unit}`
+        `${this.effects.translateX.start}${this.effects.translateX.unit}`
       );
-      element.style.setProperty(
+      this.el.style.setProperty(
         '--parallax-translate-end-x',
-        `${effects.translateX.end}${effects.translateX.unit}`
+        `${this.effects.translateX.end}${this.effects.translateX.unit}`
       );
     }
   }
 
   private setElementStyles() {
-    this.setAnimationRange(this.el);
-    this.setAnimationName(this.el);
-    this.setAnimationTimeline(this.el, this.scaledEffects);
-    this.setTranslateY(this.el, this.scaledEffects);
-    this.setTranslateX(this.el, this.scaledEffects);
+    this.setAnimationRange();
+    this.setAnimationName();
+    this.setAnimationTimeline();
+    this.setTranslateY();
+    this.setTranslateX();
   }
 
   updateProps(nextProps: ParallaxElementConfig) {
@@ -249,5 +239,9 @@ export class Element {
     this.scrollAxis = options.scrollAxis;
     this.disabledParallaxController =
       options.disabledParallaxController || false;
+  }
+
+  destroy() {
+    console.log('TODO: destroy element', this.el);
   }
 }

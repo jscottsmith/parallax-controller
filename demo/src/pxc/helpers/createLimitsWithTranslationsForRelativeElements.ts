@@ -84,8 +84,6 @@ export function createLimitsWithTranslationsForRelativeElements(
 
   // NOTE: please refactor and isolate this :(
   if (shouldAlwaysCompleteAnimation) {
-    console.log('shouldAlwaysCompleteAnimation', view);
-
     const topBeginsInView = rect.offsetTop < view.height;
     const leftBeginsInView = rect.offsetLeft < view.width;
     const bottomEndsInView =

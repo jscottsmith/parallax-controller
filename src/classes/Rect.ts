@@ -1,5 +1,5 @@
 import { View } from './View';
-import { RootMarginShape } from '../types';
+import type { RootMarginShape } from '../types';
 
 export class Rect {
   height: number;
