@@ -36,10 +36,10 @@ export function createLimitsWithTranslationsForRelativeElements(
     getStartEndValueInPx(translateY, rect.height);
 
   // default starting values
-  let startY = rect.top - view.height;
-  let startX = rect.left - view.width;
-  let endY = rect.bottom;
-  let endX = rect.right;
+  let startY = rect.offsetTop - view.height;
+  let startX = rect.offsetLeft - view.width;
+  let endY = rect.offsetBottom;
+  let endX = rect.offsetRight;
 
   let startMultiplierY = 1;
   let endMultiplierY = 1;
@@ -84,10 +84,13 @@ export function createLimitsWithTranslationsForRelativeElements(
 
   // NOTE: please refactor and isolate this :(
   if (shouldAlwaysCompleteAnimation) {
-    const topBeginsInView = rect.top < view.height;
-    const leftBeginsInView = rect.left < view.width;
-    const bottomEndsInView = rect.bottom > view.scrollHeight - view.height;
-    const rightEndsInView = rect.right > view.scrollWidth - view.height;
+    console.log('shouldAlwaysCompleteAnimation', view);
+
+    const topBeginsInView = rect.offsetTop < view.height;
+    const leftBeginsInView = rect.offsetLeft < view.width;
+    const bottomEndsInView =
+      rect.offsetBottom > view.scrollHeight - view.height;
+    const rightEndsInView = rect.offsetRight > view.scrollWidth - view.height;
 
     if (topBeginsInView && bottomEndsInView) {
       startMultiplierY = 1;
@@ -103,7 +106,7 @@ export function createLimitsWithTranslationsForRelativeElements(
     }
 
     if (!topBeginsInView && bottomEndsInView) {
-      startY = rect.top - view.height;
+      startY = rect.offsetTop - view.height;
       endY = view.scrollHeight - view.height;
       const totalDist = endY - startY;
       startMultiplierY = getTranslateScalar(
@@ -117,7 +120,7 @@ export function createLimitsWithTranslationsForRelativeElements(
       }
     }
     if (!leftBeginsInView && rightEndsInView) {
-      startX = rect.left - view.width;
+      startX = rect.offsetLeft - view.width;
       endX = view.scrollWidth - view.width;
       const totalDist = endX - startX;
       startMultiplierX = getTranslateScalar(
@@ -133,7 +136,7 @@ export function createLimitsWithTranslationsForRelativeElements(
 
     if (topBeginsInView && !bottomEndsInView) {
       startY = 0;
-      endY = rect.bottom;
+      endY = rect.offsetBottom;
       const totalDist = endY - startY;
       startMultiplierY = 1;
       endMultiplierY = getTranslateScalar(
@@ -147,7 +150,7 @@ export function createLimitsWithTranslationsForRelativeElements(
     }
     if (leftBeginsInView && !rightEndsInView) {
       startX = 0;
-      endX = rect.right;
+      endX = rect.offsetRight;
       const totalDist = endX - startX;
       startMultiplierX = 1;
       endMultiplierX = getTranslateScalar(

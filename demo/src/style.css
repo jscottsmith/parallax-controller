@@ -1,5 +1,6 @@
 html {
   /* color-scheme: light dark; */
+  position: relative;
   font-family: system-ui;
   display: flex;
   align-items: center;
@@ -7,10 +8,27 @@ html {
   height: 300vh;
 
   background-repeat: repeat;
-  background-image: linear-gradient(45deg, #eee 25%, transparent 25%, transparent 75%, #eee 75%, #eee),
-      linear-gradient(45deg, #eee 25%, transparent 25%, transparent 75%, #eee 75%, #eee);
+  background-image:
+    linear-gradient(
+      45deg,
+      #eee 25%,
+      transparent 25%,
+      transparent 75%,
+      #eee 75%,
+      #eee
+    ),
+    linear-gradient(
+      45deg,
+      #eee 25%,
+      transparent 25%,
+      transparent 75%,
+      #eee 75%,
+      #eee
+    );
   background-size: 60px 60px;
-  background-position: 0 0, 30px 30px;
+  background-position:
+    0 0,
+    30px 30px;
 }
 
 section {
@@ -22,4 +40,21 @@ section {
     height: 100px;
     background-color: peru;
   }
+}
+
+.top-test {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100px;
+  height: 100vh;
+  background-color: palevioletred;
+}
+.bottom-test {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100px;
+  height: 100vh;
+  background-color: rebeccapurple;
 }
