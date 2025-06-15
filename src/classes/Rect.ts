@@ -8,6 +8,10 @@ export class Rect {
   right: number;
   top: number;
   bottom: number;
+  offsetTop: number;
+  offsetLeft: number;
+  offsetBottom: number;
+  offsetRight: number;
 
   constructor(options: {
     el: HTMLElement;
@@ -29,6 +33,10 @@ export class Rect {
     }
     this.height = options.el.offsetHeight;
     this.width = options.el.offsetWidth;
+    this.offsetTop = options.el.offsetTop;
+    this.offsetLeft = options.el.offsetLeft;
+    this.offsetBottom = options.el.offsetHeight + this.offsetTop;
+    this.offsetRight = options.el.offsetWidth + this.offsetLeft;
     this.left = rect.left;
     this.right = rect.right;
     this.top = rect.top;

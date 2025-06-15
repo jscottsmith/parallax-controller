@@ -89,7 +89,36 @@ export class Element {
   private setAnimationRange(element: HTMLElement) {
     // animation-range: entry 0% exit 100%;
     // element.style.animationRangeStart = '0%';
-    element.style.setProperty('animation-range', 'entry 0% exit 100%');
+
+    if (this.props.shouldAlwaysCompleteAnimation) {
+      const topBeginsInView = this.rect.offsetTop < this.view.height;
+      const leftBeginsInView = this.rect.offsetLeft < this.view.width;
+      const bottomEndsInView =
+        this.rect.offsetBottom > this.view.scrollHeight - this.view.height;
+      const rightEndsInView =
+        this.rect.right > this.view.scrollWidth - this.view.height;
+
+      const top =
+        ((this.view.height - this.rect.offsetTop) / this.view.height) * 100;
+      const bottom =
+        ((this.view.scrollHeight - this.rect.offsetBottom) / this.view.height) *
+        100;
+
+      console.log('top', top, 'bottom', bottom);
+
+      if (topBeginsInView) {
+        element.style.setProperty('animation-range-start', `entry ${top}%`);
+        element.style.setProperty('animation-range-end', `exit 100%`);
+      } else if (bottomEndsInView) {
+        element.style.setProperty('animation-range-start', `entry 0%`);
+        element.style.setProperty('animation-range-end', `exit ${bottom}%`);
+      }
+    } else {
+      element.style.setProperty('animation-range', 'entry 0% exit 100%');
+    }
+
+    // set range based on shouldAlwaysCompleteAnimation
+    // element.style.setProperty('animation-range', 'entry 0% exit 100%');
   }
 
   private setAnimationTimeline(
@@ -117,8 +146,6 @@ export class Element {
       // Undo the reset -- place it back at current position with styles
       // this._setElementStyles();
     } else if (shouldScaleTranslateEffects && this.rect) {
-      console.log('Scaled effects', this.scaledEffects);
-
       const yStart = Math.max(this.scaledEffects?.translateY?.end || 0, 0) * -1;
       const yEnd = Math.min(this.scaledEffects?.translateY?.start || 0, 0);
       const yUnit = this.scaledEffects?.translateY?.unit;
@@ -153,16 +180,16 @@ export class Element {
     element: HTMLElement,
     effects: ParallaxStartEndEffects
   ) {
-    // if (config.translateX) {
-    //   element.style.setProperty(
-    //     '--parallax-translate-start-x',
-    //     config.translateX[0]
-    //   );
-    //   element.style.setProperty(
-    //     '--parallax-translate-end-x',
-    //     config.translateX[1]
-    //   );
-    // }
+    if (effects.translateX) {
+      element.style.setProperty(
+        '--parallax-translate-start-x',
+        `${effects.translateX.start}${effects.translateX.unit}`
+      );
+      element.style.setProperty(
+        '--parallax-translate-end-x',
+        `${effects.translateX.end}${effects.translateX.unit}`
+      );
+    }
   }
 
   private setElementStyles(
@@ -195,6 +222,14 @@ export class Element {
     });
 
     this.view = view;
+
+    this.limits = createLimitsWithTranslationsForRelativeElements(
+      this.rect,
+      this.view,
+      this.effects,
+      this.scrollAxis,
+      this.props.shouldAlwaysCompleteAnimation
+    );
 
     // Undo the reset -- place it back at current position with styles
     // this._setElementStyles();
