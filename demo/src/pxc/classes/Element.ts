@@ -72,8 +72,24 @@ export class Element {
     );
 
     this.setElementStyles();
+    this.addAnimationEventListeners();
+  }
 
-    // setWillChangeStyles(options.el, this.effects);
+  private addAnimationEventListeners() {
+    if (this.props.onEnter) {
+      this.el.addEventListener('animationstart', (e) => {
+        this.props.onEnter?.(this);
+      });
+    }
+
+    if (this.props.onExit) {
+      this.el.addEventListener('animationend', (e) => {
+        this.props.onExit?.(this);
+      });
+    }
+    if (this.props.onChange) {
+      // todo: how to track progress of a CSS animation?
+    }
   }
 
   private setAnimationName() {
