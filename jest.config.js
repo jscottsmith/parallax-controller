@@ -26,4 +26,6 @@ export default {
   coverageReporters: ['text', 'lcov', 'html'],
   setupFilesAfterEnv: ['<rootDir>/src/setupTests.ts'],
   moduleFileExtensions: ['ts', 'js', 'json'],
+  forceExit: true,
+  detectOpenHandles: true,
 };
