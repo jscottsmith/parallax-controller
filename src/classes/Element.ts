@@ -1,4 +1,3 @@
-import bezier from 'bezier-easing';
 import type {
   CreateElementOptions,
   ParallaxElementConfig,
@@ -38,7 +37,6 @@ export class Element {
   /* Optionally set if translate effect must be scaled */
   rect: Rect;
   limits: Limits;
-  easing?: bezier.EasingFunction;
 
   constructor(options: ElementConstructorOptions) {
     this.el = options.el;

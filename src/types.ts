@@ -1,4 +1,3 @@
-import { EasingFunction } from 'bezier-easing';
 import { Element } from './classes/Element';
 
 export type ParallaxStartEndEffects = {
@@ -70,7 +69,7 @@ export type ParsedValueEffect = {
   start: number;
   end: number;
   unit: AllValidUnits;
-  easing?: EasingFunction;
+  easing?: string;
 };
 
 export type ViewElement = HTMLElement | Window;
