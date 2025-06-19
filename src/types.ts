@@ -1,6 +1,5 @@
 import { EasingFunction } from 'bezier-easing';
 import { Element } from './classes/Element';
-import type { View } from './classes/View';
 
 export type ParallaxStartEndEffects = {
   translateX?: ParsedValueEffect;

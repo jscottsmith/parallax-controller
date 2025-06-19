@@ -11,7 +11,6 @@ import { scaleEffectByProgress } from './helpers/scaleEffectByProgress';
 import { createId } from './utils/createId';
 import { parseValueAndUnit } from './utils/parseValueAndUnit';
 import { scaleBetween } from './utils/scaleBetween';
-import { testForPassiveScroll } from './utils/testForPassiveScroll';
 
 export * from './types';
 
@@ -28,5 +27,4 @@ export {
   createId,
   parseValueAndUnit,
   scaleBetween,
-  testForPassiveScroll,
 };

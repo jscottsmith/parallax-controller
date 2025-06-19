@@ -1,9 +1,9 @@
 import {
   ScaleUnits,
-  ParsedValueShape,
+  type ParsedValueShape,
   RotationUnits,
   Units,
-  AllValidUnits,
+  type AllValidUnits,
 } from '../types';
 
 export const VALID_UNITS = [
