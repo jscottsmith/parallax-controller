@@ -39,6 +39,11 @@ section {
     width: 100px;
     height: 100px;
     background-color: peru;
+    transition: background-color 0.5s ease-in-out;
+
+    &.active {
+      background-color: red;
+    }
   }
 }
 

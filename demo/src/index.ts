@@ -10,7 +10,14 @@ parallaxElements.forEach((element, i) => {
     el: element as HTMLElement,
     props: {
       speed,
+      onEnter: (element) => {
+        element.el.classList.add('active');
+      },
+      onExit: (element) => {
+        element.el.classList.remove('active');
+      },
       // rotate: ['0deg', '180deg'],
+      // easing: 'cubic-bezier(1.000, -0.005, 1.000, 0.035)',
     },
   });
 });
