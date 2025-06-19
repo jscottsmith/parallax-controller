@@ -221,13 +221,6 @@ export class ParallaxController {
   };
 
   /**
-   * Remove a target elements parallax styles
-   */
-  resetElementStyles = (element: Element) => {
-    resetStyles(element);
-  };
-
-  /**
    * Updates all cached attributes on parallax elements.
    */
   update = () => {
@@ -261,7 +254,7 @@ export class ParallaxController {
     this._removeListeners();
     // reset all styles
     if (this.elements) {
-      this.elements.forEach((element) => resetStyles(element));
+      this.elements.forEach((element) => element.disable());
     }
   }
 
@@ -279,32 +272,6 @@ export class ParallaxController {
     this._addListeners();
     this._addResizeObserver();
     this._setViewSize();
-  }
-
-  /**
-   * Disable all parallax elements
-   */
-  disableAllElements() {
-    console.warn('deprecated: use disableParallaxController() instead');
-    if (this.elements) {
-      this.elements = this.elements.map((el) => {
-        return el.updateProps({ disabled: true });
-      });
-    }
-    this.update();
-  }
-
-  /**
-   * Enable all parallax elements
-   */
-  enableAllElements() {
-    console.warn('deprecated: use enableParallaxController() instead');
-    if (this.elements) {
-      this.elements = this.elements.map((el) => {
-        return el.updateProps({ disabled: false });
-      });
-    }
-    this.update();
   }
 
   /**

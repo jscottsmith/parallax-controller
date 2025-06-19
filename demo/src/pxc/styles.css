@@ -18,26 +18,24 @@
  * --parallax-opacity-end
  */
 
-@keyframes parallaxEffects {
-  from {
-    translate: var(--parallax-translate-start-x, 0)
-      var(--parallax-translate-start-y, 0);
-    rotate: var(--parallax-rotate-start, 0);
-    scale: var(--parallax-scale-start, 1);
-    opacity: var(--parallax-opacity-start, 1);
-  }
-  to {
-    translate: var(--parallax-translate-end-x, 0)
-      var(--parallax-translate-end-y, 0);
-    rotate: var(--parallax-rotate-end, 0);
-    scale: var(--parallax-scale-end, 1);
-    opacity: var(--parallax-opacity-end, 1);
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes parallaxEffects {
+    from {
+      translate: var(--parallax-translate-start-x, 0)
+        var(--parallax-translate-start-y, 0);
+      rotate: var(--parallax-rotate-start, 0);
+      scale: var(--parallax-scale-start, 1);
+      opacity: var(--parallax-opacity-start, 1);
+    }
+    to {
+      translate: var(--parallax-translate-end-x, 0)
+        var(--parallax-translate-end-y, 0);
+      rotate: var(--parallax-rotate-end, 0);
+      scale: var(--parallax-scale-end, 1);
+      opacity: var(--parallax-opacity-end, 1);
+    }
   }
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  @supports (animation-timeline: scroll()) {
-    .pc__el {
-    }
-  }
+@supports (animation-timeline: view()) {
 }
