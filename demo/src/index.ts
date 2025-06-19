@@ -25,10 +25,10 @@ parallaxElements.forEach((element, i) => {
 const disableButton = document.querySelector('#disable');
 disableButton?.addEventListener('click', () => {
   if (parallaxController.disabled) {
-    parallaxController.enableParallaxController();
+    parallaxController.enable();
     disableButton.textContent = 'Disable';
   } else {
-    parallaxController.disableParallaxController();
+    parallaxController.disable();
     disableButton.textContent = 'Enable';
   }
 });

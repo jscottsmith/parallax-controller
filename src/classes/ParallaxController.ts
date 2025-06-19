@@ -248,7 +248,7 @@ export class ParallaxController {
     this._updateAllElements();
   };
 
-  disableParallaxController() {
+  disable() {
     this.disabled = true;
     // remove listeners
     this._removeListeners();
@@ -258,7 +258,7 @@ export class ParallaxController {
     }
   }
 
-  enableParallaxController() {
+  enable() {
     this.disabled = false;
     if (this.elements) {
       this.elements.forEach((element) =>
