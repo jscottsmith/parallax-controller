@@ -1,6 +1,5 @@
 import { View } from './View';
 import { Element } from './Element';
-import { testForPassiveScroll } from '../utils/testForPassiveScroll';
 import {
   ScrollAxis,
   type CreateElementOptions,
@@ -65,8 +64,6 @@ export class ParallaxController {
       scrollHeight: 0,
       scrollContainer: this._hasScrollContainer ? scrollContainer : undefined,
     });
-
-    this._supportsPassive = testForPassiveScroll();
 
     if (this.disabled) return;
 
