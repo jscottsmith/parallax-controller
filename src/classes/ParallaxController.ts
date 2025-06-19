@@ -76,17 +76,17 @@ export class ParallaxController {
   }
 
   _addListeners = () => {
-    window.addEventListener('resize', this._handleUpdateCache, false);
-    window.addEventListener('blur', this._handleUpdateCache, false);
-    window.addEventListener('focus', this._handleUpdateCache, false);
-    window.addEventListener('load', this._handleUpdateCache, false);
+    window.addEventListener('resize', this.update, false);
+    window.addEventListener('blur', this.update, false);
+    window.addEventListener('focus', this.update, false);
+    window.addEventListener('load', this.update, false);
   };
 
   _removeListeners = () => {
-    window.removeEventListener('resize', this._handleUpdateCache, false);
-    window.removeEventListener('blur', this._handleUpdateCache, false);
-    window.removeEventListener('focus', this._handleUpdateCache, false);
-    window.removeEventListener('load', this._handleUpdateCache, false);
+    window.removeEventListener('resize', this.update, false);
+    window.removeEventListener('blur', this.update, false);
+    window.removeEventListener('focus', this.update, false);
+    window.removeEventListener('load', this.update, false);
     this._resizeObserver?.disconnect();
   };
 
@@ -103,15 +103,6 @@ export class ParallaxController {
       );
     }
   }
-
-  /**
-   * Window resize handler. Sets the new window inner height
-   * then updates parallax element attributes and positions.
-   */
-  _handleUpdateCache = () => {
-    this._setViewSize();
-    this._updateAllElements();
-  };
 
   /**
    * Update element positions.
