@@ -45,7 +45,10 @@
     "prepublishOnly": "npm run clean && npm run build",
     "demo:dev": "parcel demo/index.html",
     "demo:build": "parcel build demo/index.html",
-    "clean": "rimraf dist .parcel-cache"
+    "clean": "rimraf dist .parcel-cache",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "test:watch": "node --experimental-vm-modules node_modules/jest/bin/jest.js --watch",
+    "test:coverage": "node --experimental-vm-modules node_modules/jest/bin/jest.js --coverage"
   },
   "prettier": {
     "printWidth": 80,
@@ -61,6 +64,11 @@
     "typescript": "^5.3.3",
     "parcel": "^2.11.0",
     "prettier": "^3.5.3",
-    "rimraf": "^5.0.5"
+    "rimraf": "^5.0.5",
+    "@types/jest": "^29.5.12",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.2",
+    "jsdom": "^24.0.0",
+    "jest-environment-jsdom": "^29.7.0"
   }
 }
