@@ -5,12 +5,12 @@ const parallaxController = new ParallaxController({ scrollAxis: 'vertical' });
 const parallaxElements = document.querySelectorAll('.parallax');
 
 parallaxElements.forEach((element, i) => {
-  const speed = 10 - i * 5;
+  const speed = (40 / (parallaxElements.length - 1)) * i - 20;
   parallaxController.createElement({
     el: element as HTMLElement,
     props: {
       speed,
-      rotate: ['0deg', '180deg'],
+      // rotate: ['0deg', '180deg'],
     },
   });
 });
