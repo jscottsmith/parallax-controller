@@ -10,11 +10,9 @@ describe('Expect the View class', () => {
       scrollHeight: 3000,
       scrollContainer: div,
     });
-    expect(view).toMatchObject({
-      width: 100,
-      height: 150,
-      scrollContainer: div,
-    });
+    expect(view.width).toBe(100);
+    expect(view.height).toBe(150);
+    expect(view.scrollContainer).toBe(div);
   });
 
   it('to set size return the instance', () => {
@@ -32,13 +30,11 @@ describe('Expect the View class', () => {
       scrollWidth: 400,
       scrollHeight: 4000,
     });
-    expect(instance).toMatchObject({
-      width: 400,
-      height: 250,
-      scrollWidth: 400,
-      scrollHeight: 4000,
-      scrollContainer: div,
-    });
+    expect(instance.width).toBe(400);
+    expect(instance.height).toBe(250);
+    expect(instance.scrollWidth).toBe(400);
+    expect(instance.scrollHeight).toBe(4000);
+    expect(instance.scrollContainer).toBe(div);
     expect(instance).toBeInstanceOf(View);
   });
 
