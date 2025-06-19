@@ -157,14 +157,14 @@ export class Element {
   }
 
   private setTranslateY() {
-    if (this.effects.translateY) {
+    if (this.scaledEffects.translateY) {
       this.el.style.setProperty(
         '--parallax-translate-start-y',
-        `${this.effects.translateY.start}${this.effects.translateY.unit}`
+        `${this.scaledEffects.translateY.start}${this.scaledEffects.translateY.unit}`
       );
       this.el.style.setProperty(
         '--parallax-translate-end-y',
-        `${this.effects.translateY.end}${this.effects.translateY.unit}`
+        `${this.scaledEffects.translateY.end}${this.scaledEffects.translateY.unit}`
       );
     }
   }
