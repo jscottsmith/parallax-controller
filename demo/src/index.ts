@@ -22,20 +22,31 @@ parallaxElements.forEach((element, i) => {
   });
 });
 
-const topTest = document.querySelector('.top-test');
-parallaxController.createElement({
-  el: topTest as HTMLElement,
-  props: {
-    translateX: ['0px', '100px'],
-    shouldAlwaysCompleteAnimation: true,
-  },
+const disableButton = document.querySelector('#disable');
+disableButton?.addEventListener('click', () => {
+  if (parallaxController.disabled) {
+    parallaxController.enableParallaxController();
+    disableButton.textContent = 'Disable';
+  } else {
+    parallaxController.disableParallaxController();
+    disableButton.textContent = 'Enable';
+  }
 });
 
-const bottomTest = document.querySelector('.bottom-test');
-parallaxController.createElement({
-  el: bottomTest as HTMLElement,
-  props: {
-    translateX: ['100px', '0px'],
-    shouldAlwaysCompleteAnimation: true,
-  },
-});
+// const topTest = document.querySelector('.top-test');
+// parallaxController.createElement({
+//   el: topTest as HTMLElement,
+//   props: {
+//     translateX: ['0px', '100px'],
+//     shouldAlwaysCompleteAnimation: true,
+//   },
+// });
+
+// const bottomTest = document.querySelector('.bottom-test');
+// parallaxController.createElement({
+//   el: bottomTest as HTMLElement,
+//   props: {
+//     translateX: ['100px', '0px'],
+//     shouldAlwaysCompleteAnimation: true,
+//   },
+// });

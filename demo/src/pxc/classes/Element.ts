@@ -28,7 +28,7 @@ export class Element {
   el: HTMLElement;
   props: ParallaxElementConfig;
   scrollAxis: ValidScrollAxis;
-  disabledParallaxController: boolean;
+  disabled: boolean;
   id: number;
   effects: ParallaxStartEndEffects;
   scaledEffects: ParallaxStartEndEffects;
@@ -45,8 +45,7 @@ export class Element {
     this.view = options.view;
     this.props = options.props;
     this.scrollAxis = options.scrollAxis;
-    this.disabledParallaxController =
-      options.disabledParallaxController || false;
+    this.disabled = options.disabledParallaxController || false;
     this.id = createId();
     this.effects = parseElementTransitionEffects(this.props, this.scrollAxis);
     // this.isInView = null;
@@ -96,6 +95,12 @@ export class Element {
     this.el.style.animationName = 'parallaxEffects';
     this.el.style.animationTimingFunction = 'linear';
     this.el.style.animationFillMode = 'both';
+  }
+
+  private unsetAnimationName() {
+    this.el.style.animationName = undefined;
+    this.el.style.animationTimingFunction = undefined;
+    this.el.style.animationFillMode = undefined;
   }
 
   private setAnimationRange() {
@@ -264,9 +269,18 @@ export class Element {
 
   updateElementOptions(options: ParallaxControllerConstructorOptions) {
     this.scrollAxis = options.scrollAxis;
-    this.disabledParallaxController =
-      options.disabledParallaxController || false;
+    this.disabled = options.disabledParallaxController || false;
   }
+
+  disable = () => {
+    this.disabled = true;
+    this.unsetAnimationName();
+  };
+
+  enable = () => {
+    this.disabled = false;
+    this.setAnimationName();
+  };
 
   destroy() {
     console.log('TODO: destroy element', this.el);
