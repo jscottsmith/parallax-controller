@@ -7,10 +7,6 @@ settings:
 importers:
 
   .:
-    dependencies:
-      bezier-easing:
-        specifier: ^2.1.0
-        version: 2.1.0
     devDependencies:
       '@types/jest':
         specifier: ^29.5.12
@@ -1007,9 +1003,6 @@ packages:
 
   base-x@3.0.11:
     resolution: {integrity: sha512-xz7wQ8xDhdyP7tQxwdteLYeFfS68tSMNCZ/Y37WJ4bhGfKPpqEIlmIyueQHqOyoPhE6xNUqjzRr8ra0eF9VRvA==}
-
-  bezier-easing@2.1.0:
-    resolution: {integrity: sha512-gbIqZ/eslnUFC1tjEvtz0sgx+xTK20wDnYMIA27VA04R7w6xxXQPZDbibjA9DTWZRA2CXtwHykkVzlCaAJAZig==}
 
   brace-expansion@1.1.12:
     resolution: {integrity: sha512-9T9UjW3r0UW5c1Q7GTwllptXwhvYmEzFhzMfZ9H7FQWt+uZePjZPjBP/W1ZEyZ1twGWom5/56TF4lPcqjnDHcg==}
@@ -3685,8 +3678,6 @@ snapshots:
   base-x@3.0.11:
     dependencies:
       safe-buffer: 5.2.1
-
-  bezier-easing@2.1.0: {}
 
   brace-expansion@1.1.12:
     dependencies:
