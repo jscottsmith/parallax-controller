@@ -5,14 +5,12 @@ import type {
   ParallaxStartEndEffects,
   // ScrollAxis,
   ValidScrollAxis,
-  EasingParam,
 } from '../types';
 import { createId } from '../utils/createId';
 import { Rect } from './Rect';
 import { View } from './View';
 import { Limits } from './Limits';
 import { parseElementTransitionEffects } from '../helpers/parseElementTransitionEffects';
-import { createEasingFunction } from '../helpers/createEasingFunction';
 import { createLimitsWithTranslationsForRelativeElements } from '../helpers/createLimitsWithTranslationsForRelativeElements';
 import { scaleTranslateEffectsForSlowerScroll } from '../helpers/scaleTranslateEffectsForSlowerScroll';
 import { getShouldScaleTranslateEffects } from '../helpers/getShouldScaleTranslateEffects';
@@ -73,7 +71,6 @@ export class Element {
       this.limits
     );
 
-    this._setElementEasing(options.props.easing);
     this.setElementStyles();
 
     // setWillChangeStyles(options.el, this.effects);
@@ -195,6 +192,12 @@ export class Element {
     }
   }
 
+  private setEasing() {
+    if (this.props.easing) {
+      this.el.style.setProperty('animation-timing-function', this.props.easing);
+    }
+  }
+
   private setElementStyles() {
     this.setAnimationRange();
     this.setAnimationName();
@@ -202,16 +205,17 @@ export class Element {
     this.setTranslateY();
     this.setTranslateX();
     this.setRotate();
+    this.setEasing();
   }
 
   updateProps(nextProps: ParallaxElementConfig) {
     this.props = { ...this.props, ...nextProps };
     this.effects = parseElementTransitionEffects(nextProps, this.scrollAxis);
-    this._setElementEasing(nextProps.easing);
 
     return this;
   }
 
+  // update view?
   updateElement(view: View): Element {
     // NOTE: Must reset styles before getting the rect, as it might impact the natural position
     // resetStyles(this);
@@ -237,16 +241,9 @@ export class Element {
       this.limits
     );
 
-    // Undo the reset -- place it back at current position with styles
-    // this._setElementStyles();
-
     this.setElementStyles();
 
     return this;
-  }
-
-  _setElementEasing(easing?: EasingParam): void {
-    this.easing = createEasingFunction(easing);
   }
 
   updateElementOptions(options: ParallaxControllerConstructorOptions) {
