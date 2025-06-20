@@ -1,10 +1,10 @@
-import { CSSEffect, ScrollAxis, ValidScrollAxis } from '..';
+import { type CSSEffect, ScrollAxis, type ValidScrollAxis } from '..';
 import {
-  ParsedValueEffect,
   ValidCSSEffects,
-  ParallaxElementConfig,
-  ParallaxStartEndEffects,
-  AllValidUnits,
+  type ParsedValueEffect,
+  type ParallaxElementConfig,
+  type ParallaxStartEndEffects,
+  type AllValidUnits,
 } from '../types';
 import { parseValueAndUnit } from '../utils/parseValueAndUnit';
 
