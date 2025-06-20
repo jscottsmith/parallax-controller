@@ -1,11 +1,13 @@
-import { type CSSEffect, ScrollAxis, type ValidScrollAxis } from '..';
 import {
-  ValidCSSEffects,
   type ParsedValueEffect,
   type ParallaxElementConfig,
   type ParallaxStartEndEffects,
   type AllValidUnits,
+  type CSSEffect,
+  ScrollAxis,
+  type ValidScrollAxis,
 } from '../types';
+import { ValidCSSEffects } from '../constants';
 import { parseValueAndUnit } from '../utils/parseValueAndUnit';
 
 export const PARALLAX_EFFECTS = Object.values(ValidCSSEffects);

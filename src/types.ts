@@ -1,5 +1,3 @@
-import { Element } from './classes/Element';
-
 export type ParallaxStartEndEffects = {
   translateX?: ParsedValueEffect;
   translateY?: ParsedValueEffect;
@@ -13,21 +11,6 @@ export type ParallaxStartEndEffects = {
   scaleZ?: ParsedValueEffect;
   opacity?: ParsedValueEffect;
 };
-
-export enum ValidCSSEffects {
-  'speed' = 'speed',
-  'translateX' = 'translateX',
-  'translateY' = 'translateY',
-  'rotate' = 'rotate',
-  'rotateX' = 'rotateX',
-  'rotateY' = 'rotateY',
-  'rotateZ' = 'rotateZ',
-  'scale' = 'scale',
-  'scaleX' = 'scaleX',
-  'scaleY' = 'scaleY',
-  'scaleZ' = 'scaleZ',
-  'opacity' = 'opacity',
-}
 
 export enum Units {
   'px' = 'px',
@@ -110,9 +93,9 @@ export type ParallaxElementConfig = {
   endScroll?: number;
   targetElement?: HTMLElement;
 
-  onEnter?: (element: Element) => any;
-  onExit?: (element: Element) => any;
-  onChange?: (element: Element) => any;
+  onEnter?: (element: any) => any;
+  onExit?: (element: any) => any;
+  onChange?: (element: any) => any;
   onProgressChange?: (progress: number) => any;
 };
 

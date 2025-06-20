@@ -1,4 +1,4 @@
-import { ScrollAxis } from '..';
+import { ScrollAxis } from '../types';
 import { getShouldScaleTranslateEffects } from './getShouldScaleTranslateEffects';
 
 describe('given getShouldScaleTranslateEffects()', () => {

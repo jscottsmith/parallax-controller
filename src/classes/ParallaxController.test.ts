@@ -2,7 +2,8 @@ import { ParallaxController } from './ParallaxController';
 import { Element } from './Element';
 import { Rect } from './Rect';
 import { Limits } from './Limits';
-import { CSSEffect, ScrollAxis } from '../types';
+import type { CSSEffect } from '../types';
+import { ScrollAxis } from '../types';
 
 const addEventListener = window.addEventListener;
 const removeEventListener = window.removeEventListener;

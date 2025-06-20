@@ -1,4 +1,4 @@
-import { ParsedValueEffect } from '..';
+import type { ParsedValueEffect } from '../types';
 
 /**
  * Return the start and end pixel values for an elements translations
