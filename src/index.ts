@@ -5,7 +5,6 @@ import { Rect } from './classes/Rect';
 import { View } from './classes/View';
 
 import { parseElementTransitionEffects } from './helpers/parseElementTransitionEffects';
-import { scaleEffectByProgress } from './helpers/scaleEffectByProgress';
 
 import { createId } from './utils/createId';
 import { parseValueAndUnit } from './utils/parseValueAndUnit';
@@ -20,7 +19,6 @@ export {
   Rect,
   View,
   parseElementTransitionEffects,
-  scaleEffectByProgress,
   createId,
   parseValueAndUnit,
   scaleBetween,

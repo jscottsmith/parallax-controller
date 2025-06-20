@@ -1,6 +1,8 @@
-import { ParallaxController } from './pxc';
+import { ParallaxController } from '../../dist';
 
-const parallaxController = new ParallaxController({ scrollAxis: 'vertical' });
+const parallaxController = new ParallaxController({
+  scrollAxis: 'vertical',
+});
 
 const parallaxElements = document.querySelectorAll('.parallax');
 

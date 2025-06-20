@@ -42,6 +42,18 @@ importers:
         specifier: ^5.3.3
         version: 5.8.3
 
+  demo:
+    devDependencies:
+      '@parcel/transformer-typescript-tsc':
+        specifier: ^2.14.0
+        version: 2.15.2(@parcel/core@2.15.2(@swc/helpers@0.5.17))(typescript@5.8.3)
+      parcel:
+        specifier: ^2.14.0
+        version: 2.15.2(@swc/helpers@0.5.17)
+      typescript:
+        specifier: ^5.3.3
+        version: 5.8.3
+
 packages:
 
   '@ampproject/remapping@2.3.0':
@@ -829,6 +841,18 @@ packages:
   '@parcel/transformer-svg@2.15.2':
     resolution: {integrity: sha512-R5Q0JgDtywSmojvqqa6TDmXDbKCfBBgu4tR0mzo3VicEObmiatRT49BFWHbdenfTf5tKpRplfH88leMPuDVVAg==}
     engines: {node: '>= 16.0.0', parcel: ^2.15.2}
+
+  '@parcel/transformer-typescript-tsc@2.15.2':
+    resolution: {integrity: sha512-YsTtFZkH+la27eKmwNDK1X99KFlBWLRe09Qzo8r2uQ9SeGw8yLhA2OdPCioYFnCjG6nVmtYk1tRei0nyORZtYg==}
+    engines: {node: '>= 16.0.0', parcel: ^2.15.2}
+    peerDependencies:
+      typescript: '>=3.0.0'
+
+  '@parcel/ts-utils@2.15.2':
+    resolution: {integrity: sha512-xdehXMsxjs56+vGamD3vKAO+e8cbUlxUOFPCVz6nuvQ9KfQ+PgpLQwPuPvvGdDkj75YbzCJks19C9lvpIg251g==}
+    engines: {node: '>= 16.0.0'}
+    peerDependencies:
+      typescript: '>=3.0.0'
 
   '@parcel/types-internal@2.15.2':
     resolution: {integrity: sha512-nmMpYeG4le49nvr8FsJYGEwhCZxcrm89tvkX8xGod1yXcShEZNWVVY9ezZLKxMrVMdBveqNUW8IZCij5iFDqdQ==}
@@ -3850,6 +3874,21 @@ snapshots:
     transitivePeerDependencies:
       - '@parcel/core'
       - napi-wasm
+
+  '@parcel/transformer-typescript-tsc@2.15.2(@parcel/core@2.15.2(@swc/helpers@0.5.17))(typescript@5.8.3)':
+    dependencies:
+      '@parcel/plugin': 2.15.2(@parcel/core@2.15.2(@swc/helpers@0.5.17))
+      '@parcel/source-map': 2.1.1
+      '@parcel/ts-utils': 2.15.2(typescript@5.8.3)
+      typescript: 5.8.3
+    transitivePeerDependencies:
+      - '@parcel/core'
+      - napi-wasm
+
+  '@parcel/ts-utils@2.15.2(typescript@5.8.3)':
+    dependencies:
+      nullthrows: 1.1.1
+      typescript: 5.8.3
 
   '@parcel/types-internal@2.15.2':
     dependencies:
