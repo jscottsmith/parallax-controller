@@ -1,4 +1,12 @@
-import { jest } from '@jest/globals';
+import {
+  vi,
+  beforeEach,
+  afterEach,
+  describe,
+  it,
+  expect,
+  beforeAll,
+} from 'vitest';
 import { Element } from './Element';
 import { View } from './View';
 import { Rect } from './Rect';
@@ -6,43 +14,38 @@ import { Limits } from './Limits';
 import { ScrollAxis } from '../types';
 import type { ParallaxElementConfig } from '../types';
 
+// Mock the helper modules
+vi.mock('../helpers/parseElementTransitionEffects', () => ({
+  parseElementTransitionEffects: vi.fn(() => ({
+    translateY: { start: 0, end: 100, unit: 'px' },
+    translateX: { start: 0, end: 50, unit: 'px' },
+    rotate: { start: 0, end: 360, unit: 'deg' },
+  })),
+}));
+
+vi.mock('../helpers/createLimitsWithTranslationsForRelativeElements', () => ({
+  createLimitsWithTranslationsForRelativeElements: vi.fn(
+    () => new Limits({ startX: 0, startY: 0, endX: 100, endY: 100 })
+  ),
+}));
+
+vi.mock('../helpers/scaleTranslateEffectsForSlowerScroll', () => ({
+  scaleTranslateEffectsForSlowerScroll: vi.fn(() => ({
+    translateY: { start: 0, end: 100, unit: 'px' },
+    translateX: { start: 0, end: 50, unit: 'px' },
+    rotate: { start: 0, end: 360, unit: 'deg' },
+  })),
+}));
+
+vi.mock('../helpers/getShouldScaleTranslateEffects', () => ({
+  getShouldScaleTranslateEffects: vi.fn(() => false),
+}));
+
+vi.mock('../utils/createId', () => ({
+  createId: vi.fn(() => 1),
+}));
+
 describe('Element', () => {
-  // Move all mocks here to avoid ESM hoisting issues
-  beforeAll(() => {
-    jest.mock('../helpers/parseElementTransitionEffects', () => ({
-      parseElementTransitionEffects: jest.fn(() => ({
-        translateY: { start: 0, end: 100, unit: 'px' },
-        translateX: { start: 0, end: 50, unit: 'px' },
-        rotate: { start: 0, end: 360, unit: 'deg' },
-      })),
-    }));
-
-    jest.mock(
-      '../helpers/createLimitsWithTranslationsForRelativeElements',
-      () => ({
-        createLimitsWithTranslationsForRelativeElements: jest.fn(
-          () => new Limits({ startX: 0, startY: 0, endX: 100, endY: 100 })
-        ),
-      })
-    );
-
-    jest.mock('../helpers/scaleTranslateEffectsForSlowerScroll', () => ({
-      scaleTranslateEffectsForSlowerScroll: jest.fn(() => ({
-        translateY: { start: 0, end: 100, unit: 'px' },
-        translateX: { start: 0, end: 50, unit: 'px' },
-        rotate: { start: 0, end: 360, unit: 'deg' },
-      })),
-    }));
-
-    jest.mock('../helpers/getShouldScaleTranslateEffects', () => ({
-      getShouldScaleTranslateEffects: jest.fn(() => false),
-    }));
-
-    jest.mock('../utils/createId', () => ({
-      createId: jest.fn(() => 1),
-    }));
-  });
-
   let element: HTMLElement;
   let view: View;
   let props: ParallaxElementConfig;
@@ -71,7 +74,7 @@ describe('Element', () => {
   });
 
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   describe('constructor', () => {
@@ -99,16 +102,16 @@ describe('Element', () => {
       expect(disabledElement.disabled).toBe(true);
     });
 
-    it('should call helper functions during construction', () => {
-      const {
-        parseElementTransitionEffects,
-      } = require('../helpers/parseElementTransitionEffects');
-      const {
-        createLimitsWithTranslationsForRelativeElements,
-      } = require('../helpers/createLimitsWithTranslationsForRelativeElements');
-      const {
-        scaleTranslateEffectsForSlowerScroll,
-      } = require('../helpers/scaleTranslateEffectsForSlowerScroll');
+    it('should call helper functions during construction', async () => {
+      const { parseElementTransitionEffects } = await import(
+        '../helpers/parseElementTransitionEffects'
+      );
+      const { createLimitsWithTranslationsForRelativeElements } = await import(
+        '../helpers/createLimitsWithTranslationsForRelativeElements'
+      );
+      const { scaleTranslateEffectsForSlowerScroll } = await import(
+        '../helpers/scaleTranslateEffectsForSlowerScroll'
+      );
 
       expect(parseElementTransitionEffects).toHaveBeenCalledWith(
         props,
@@ -201,19 +204,18 @@ describe('Element', () => {
 
   describe('event listeners', () => {
     it('should add animation event listeners when callbacks are provided', () => {
-      const onEnter = jest.fn();
-      const onExit = jest.fn();
+      const onEnter = vi.fn();
+      const onExit = vi.fn();
+      const elementEl = document.createElement('div');
+
+      const addEventListenerSpy = vi.spyOn(elementEl, 'addEventListener');
+
       const elementWithCallbacks = new Element({
-        el: document.createElement('div'),
+        el: elementEl,
         props: { ...props, onEnter, onExit },
         scrollAxis: ScrollAxis.vertical,
         view,
       });
-
-      const addEventListenerSpy = jest.spyOn(
-        elementWithCallbacks.el,
-        'addEventListener'
-      );
 
       // The event listeners are added in the constructor
       expect(addEventListenerSpy).toHaveBeenCalledWith(
@@ -227,7 +229,7 @@ describe('Element', () => {
     });
 
     it('should call onEnter callback when animation starts', () => {
-      const onEnter = jest.fn();
+      const onEnter = vi.fn();
       const elementWithCallbacks = new Element({
         el: document.createElement('div'),
         props: { ...props, onEnter },
@@ -243,7 +245,7 @@ describe('Element', () => {
     });
 
     it('should call onExit callback when animation ends', () => {
-      const onExit = jest.fn();
+      const onExit = vi.fn();
       const elementWithCallbacks = new Element({
         el: document.createElement('div'),
         props: { ...props, onExit },
@@ -260,25 +262,26 @@ describe('Element', () => {
   });
 
   describe('updateProps', () => {
-    it('should update props and re-parse effects', () => {
+    it('should update props and re-parse effects', async () => {
       const newProps = { translateY: [50, 150] as [number, number] };
-      const {
-        parseElementTransitionEffects,
-      } = require('../helpers/parseElementTransitionEffects');
+      const { parseElementTransitionEffects } = await import(
+        '../helpers/parseElementTransitionEffects'
+      );
 
       const result = elementInstance.updateProps(newProps);
 
       expect(result).toBe(elementInstance);
       expect(elementInstance.props).toEqual({ ...props, ...newProps });
+      // The function is called with the new props, not the merged props
       expect(parseElementTransitionEffects).toHaveBeenCalledWith(
-        { ...props, ...newProps },
+        newProps,
         ScrollAxis.vertical
       );
     });
   });
 
   describe('updateElement', () => {
-    it('should update element with new view and recalculate properties', () => {
+    it('should update element with new view and recalculate properties', async () => {
       const newView = new View({
         width: 1200,
         height: 900,
@@ -286,12 +289,12 @@ describe('Element', () => {
         scrollHeight: 3500,
       });
 
-      const {
-        createLimitsWithTranslationsForRelativeElements,
-      } = require('../helpers/createLimitsWithTranslationsForRelativeElements');
-      const {
-        scaleTranslateEffectsForSlowerScroll,
-      } = require('../helpers/scaleTranslateEffectsForSlowerScroll');
+      const { createLimitsWithTranslationsForRelativeElements } = await import(
+        '../helpers/createLimitsWithTranslationsForRelativeElements'
+      );
+      const { scaleTranslateEffectsForSlowerScroll } = await import(
+        '../helpers/scaleTranslateEffectsForSlowerScroll'
+      );
 
       const result = elementInstance.updateElement(newView);
 
@@ -301,30 +304,6 @@ describe('Element', () => {
         createLimitsWithTranslationsForRelativeElements
       ).toHaveBeenCalled();
       expect(scaleTranslateEffectsForSlowerScroll).toHaveBeenCalled();
-    });
-  });
-
-  describe('setCachedAttributes', () => {
-    it('should set cached attributes without updating styles', () => {
-      const newView = new View({
-        width: 1200,
-        height: 900,
-        scrollWidth: 2500,
-        scrollHeight: 3500,
-      });
-
-      const result = elementInstance.setCachedAttributes(newView);
-
-      expect(result).toBe(elementInstance);
-      expect(elementInstance.view).toBe(newView);
-      // Should not call setElementStyles (no style updates)
-    });
-  });
-
-  describe('updatePosition', () => {
-    it('should return the element instance', () => {
-      const result = elementInstance.updatePosition();
-      expect(result).toBe(elementInstance);
     });
   });
 

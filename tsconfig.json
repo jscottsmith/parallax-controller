@@ -23,7 +23,7 @@
     "forceConsistentCasingInFileNames": true,
     "isolatedModules": true,
     "verbatimModuleSyntax": true,
-    "types": ["jest", "node"],
+    "types": ["vitest/globals", "node"],
     "resolveJsonModule": true,
     "allowJs": false,
     "noEmit": true // Let tsup handle the emission
