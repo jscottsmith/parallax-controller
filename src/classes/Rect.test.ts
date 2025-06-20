@@ -1,3 +1,4 @@
+import { describe, test, expect } from 'vitest';
 import { Rect } from './Rect';
 import { createElementMock } from '../testUtils/createElementMock';
 import { View } from './View';

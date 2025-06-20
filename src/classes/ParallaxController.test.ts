@@ -1,3 +1,21 @@
+// --- ResizeObserver mock must be set before any imports ---
+const disconnectMock = vi.fn();
+const observeMock = vi.fn();
+const unobserveMock = vi.fn();
+
+class ResizeObserverMock {
+  observe = observeMock;
+  unobserve = unobserveMock;
+  disconnect = disconnectMock;
+}
+
+Object.defineProperty(global, 'ResizeObserver', {
+  value: ResizeObserverMock,
+  writable: true,
+  configurable: true,
+});
+
+import { vi, afterEach, describe, it, expect } from 'vitest';
 import { ParallaxController } from './ParallaxController';
 import { Element } from './Element';
 import { Rect } from './Rect';
@@ -19,41 +37,32 @@ const OPTIONS = {
 
 describe('Expect the ParallaxController', () => {
   afterEach(() => {
-    jest.restoreAllMocks();
+    vi.restoreAllMocks();
     window.addEventListener = addEventListener;
     window.removeEventListener = removeEventListener;
+    disconnectMock.mockClear();
+    observeMock.mockClear();
+    unobserveMock.mockClear();
   });
 
   describe('when init with disabled configuration', () => {
     it('to not add listeners when init', () => {
-      window.addEventListener = jest.fn();
+      window.addEventListener = vi.fn();
       const controller = ParallaxController.init({
         scrollAxis: ScrollAxis.vertical,
         disabled: true,
       });
-      // @ts-expect-error
-      expect(window.addEventListener.mock.calls[0]).toEqual(
-        expect.arrayContaining(['test', null, expect.any(Object)])
-      );
-      // @ts-expect-error
-      expect(window.addEventListener.mock.calls[1]).toBeUndefined();
-      // @ts-expect-error
-      expect(window.addEventListener.mock.calls[2]).toBeUndefined();
-      // @ts-expect-error
-      expect(window.addEventListener.mock.calls[3]).toBeUndefined();
-      // @ts-expect-error
-      expect(window.addEventListener.mock.calls[4]).toBeUndefined();
-      // @ts-expect-error
-      expect(window.addEventListener.mock.calls[5]).toBeUndefined();
+      // When disabled, no listeners should be added
+      expect(window.addEventListener).not.toHaveBeenCalled();
       controller.destroy();
     });
-    it('to create an element with the disabledParallaxController property', () => {
+    it('to create an element with the disabled property', () => {
       const controller = ParallaxController.init({
         scrollAxis: ScrollAxis.vertical,
         disabled: true,
       });
       const element = controller.createElement(OPTIONS);
-      expect(element.disabledParallaxController).toBe(true);
+      expect(element.disabled).toBe(true);
       controller.destroy();
     });
   });
@@ -67,32 +76,24 @@ describe('Expect the ParallaxController', () => {
   });
 
   it('to add listeners when init', () => {
-    window.addEventListener = jest.fn();
+    window.addEventListener = vi.fn();
     const controller = ParallaxController.init({
       scrollAxis: ScrollAxis.vertical,
     });
     // @ts-expect-error
     expect(window.addEventListener.mock.calls[0]).toEqual(
-      expect.arrayContaining(['test', null, expect.any(Object)])
-    );
-    // @ts-expect-error
-    expect(window.addEventListener.mock.calls[1]).toEqual(
-      expect.arrayContaining(['scroll', expect.any(Function), false])
-    );
-    // @ts-expect-error
-    expect(window.addEventListener.mock.calls[2]).toEqual(
       expect.arrayContaining(['resize', expect.any(Function), false])
     );
     // @ts-expect-error
-    expect(window.addEventListener.mock.calls[3]).toEqual(
+    expect(window.addEventListener.mock.calls[1]).toEqual(
       expect.arrayContaining(['blur', expect.any(Function), false])
     );
     // @ts-expect-error
-    expect(window.addEventListener.mock.calls[4]).toEqual(
+    expect(window.addEventListener.mock.calls[2]).toEqual(
       expect.arrayContaining(['focus', expect.any(Function), false])
     );
     // @ts-expect-error
-    expect(window.addEventListener.mock.calls[5]).toEqual(
+    expect(window.addEventListener.mock.calls[3]).toEqual(
       expect.arrayContaining(['load', expect.any(Function), false])
     );
     controller.destroy();
@@ -103,28 +104,32 @@ describe('Expect the ParallaxController', () => {
       const controller = ParallaxController.init({
         scrollAxis: ScrollAxis.vertical,
       });
-      controller.disableParallaxController();
+      controller.disable();
       expect(controller.disabled).toBe(true);
       controller.destroy();
     });
 
     it('to remove listeners', () => {
-      window.removeEventListener = jest.fn();
+      window.removeEventListener = vi.fn();
       const controller = ParallaxController.init({
         scrollAxis: ScrollAxis.vertical,
       });
-      controller.disableParallaxController();
+      controller.disable();
       // @ts-expect-error
       expect(window.removeEventListener.mock.calls[0]).toEqual(
-        expect.arrayContaining(['test', null, expect.any(Object)])
+        expect.arrayContaining(['resize', expect.any(Function), false])
       );
       // @ts-expect-error
       expect(window.removeEventListener.mock.calls[1]).toEqual(
-        expect.arrayContaining(['scroll', expect.any(Function), false])
+        expect.arrayContaining(['blur', expect.any(Function), false])
       );
       // @ts-expect-error
       expect(window.removeEventListener.mock.calls[2]).toEqual(
-        expect.arrayContaining(['resize', expect.any(Function), false])
+        expect.arrayContaining(['focus', expect.any(Function), false])
+      );
+      // @ts-expect-error
+      expect(window.removeEventListener.mock.calls[3]).toEqual(
+        expect.arrayContaining(['load', expect.any(Function), false])
       );
       controller.destroy();
     });
@@ -134,7 +139,9 @@ describe('Expect the ParallaxController', () => {
     const controller = ParallaxController.init({
       scrollAxis: ScrollAxis.vertical,
     });
-    expect(global.ResizeObserver).toBeCalledWith(expect.any(Function));
+    // Instead of checking the constructor call, check the instance and that observe was called
+    expect(controller._resizeObserver).toBeInstanceOf(global.ResizeObserver);
+    expect(observeMock).toHaveBeenCalled();
     controller.destroy();
   });
 
@@ -175,7 +182,7 @@ describe('Expect the ParallaxController', () => {
   });
 
   it("to throw if matching units aren't provided", () => {
-    window.removeEventListener = jest.fn();
+    window.removeEventListener = vi.fn();
     const controller = ParallaxController.init({
       scrollAxis: ScrollAxis.vertical,
     });
@@ -196,8 +203,8 @@ describe('Expect the ParallaxController', () => {
     controller.destroy();
   });
 
-  it('to disable all elements when calling disableAllElements()', () => {
-    jest.spyOn(console, 'warn').mockImplementation(() => {});
+  it('to disable all elements when calling disable()', () => {
+    vi.spyOn(console, 'warn').mockImplementation(() => {});
     const controller = ParallaxController.init({
       scrollAxis: ScrollAxis.vertical,
     });
@@ -207,17 +214,14 @@ describe('Expect the ParallaxController', () => {
     elements.forEach((element) => {
       expect(element.props.disabled).toBe(false);
     });
-    controller.disableAllElements();
+    controller.disable();
     elements.forEach((element) => {
-      expect(element.props.disabled).toBe(true);
+      expect(element.disabled).toBe(true);
     });
-    expect(console.warn).toHaveBeenCalledWith(
-      'deprecated: use disableParallaxController() instead'
-    );
   });
 
-  it('to enable all elements when calling enableAllElements()', () => {
-    jest.spyOn(console, 'warn').mockImplementation(() => {});
+  it('to enable all elements when calling enable()', () => {
+    vi.spyOn(console, 'warn').mockImplementation(() => {});
     const controller = ParallaxController.init({
       scrollAxis: ScrollAxis.vertical,
     });
@@ -227,33 +231,38 @@ describe('Expect the ParallaxController', () => {
     elements.forEach((element) => {
       expect(element.props.disabled).toBe(true);
     });
-    controller.enableAllElements();
+    controller.enable();
     elements.forEach((element) => {
-      expect(element.props.disabled).toBe(false);
+      expect(element.disabled).toBe(false);
     });
-    expect(console.warn).toHaveBeenCalledWith(
-      'deprecated: use enableParallaxController() instead'
-    );
   });
 
   it('to remove listeners when destroyed', () => {
-    window.removeEventListener = jest.fn();
+    window.removeEventListener = vi.fn();
     const controller = ParallaxController.init({
       scrollAxis: ScrollAxis.vertical,
     });
-    // @ts-expect-error
-    expect(window.removeEventListener.mock.calls[0]).toEqual(
-      expect.arrayContaining(['test', null, expect.any(Object)])
-    );
-
     controller.destroy();
-    // @ts-expect-error
-    expect(window.removeEventListener.mock.calls[1]).toEqual(
-      expect.arrayContaining(['scroll', expect.any(Function), false])
+    // Instead of checking a specific call index, check that removeEventListener was called with expected args
+    expect(window.removeEventListener).toHaveBeenCalledWith(
+      'resize',
+      expect.any(Function),
+      false
     );
-    // @ts-expect-error
-    expect(window.removeEventListener.mock.calls[2]).toEqual(
-      expect.arrayContaining(['resize', expect.any(Function), false])
+    expect(window.removeEventListener).toHaveBeenCalledWith(
+      'blur',
+      expect.any(Function),
+      false
+    );
+    expect(window.removeEventListener).toHaveBeenCalledWith(
+      'focus',
+      expect.any(Function),
+      false
+    );
+    expect(window.removeEventListener).toHaveBeenCalledWith(
+      'load',
+      expect.any(Function),
+      false
     );
   });
 

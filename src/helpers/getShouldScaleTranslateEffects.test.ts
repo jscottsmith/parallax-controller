@@ -1,3 +1,4 @@
+import { describe, test, expect } from 'vitest';
 import { ScrollAxis } from '../types';
 import { getShouldScaleTranslateEffects } from './getShouldScaleTranslateEffects';
 
