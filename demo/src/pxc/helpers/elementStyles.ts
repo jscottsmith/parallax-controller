@@ -1,10 +1,10 @@
 import { Element } from '../classes/Element';
-import { ParallaxStartEndEffects, ValidCSSEffects } from '../types';
+import { type ParallaxStartEndEffects, ValidCSSEffects } from '../types';
 import { scaleEffectByProgress } from './scaleEffectByProgress';
 
 // Exclude opacity from transforms
 const TRANSFORM_EFFECTS = Object.values(ValidCSSEffects).filter(
-  v => v !== 'opacity'
+  (v) => v !== 'opacity'
 );
 
 export function setWillChangeStyles(
