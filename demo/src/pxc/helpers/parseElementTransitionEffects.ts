@@ -7,7 +7,6 @@ import {
   AllValidUnits,
 } from '../types';
 import { parseValueAndUnit } from '../utils/parseValueAndUnit';
-import { createEasingFunction } from './createEasingFunction';
 
 export const PARALLAX_EFFECTS = Object.values(ValidCSSEffects);
 
@@ -74,13 +73,11 @@ export function parseElementTransitionEffects(
         const startParsed = parseValueAndUnit(value?.[0], defaultValue);
         const endParsed = parseValueAndUnit(value?.[1], defaultValue);
 
-        const easing = createEasingFunction(value?.[2]);
-
         parsedEffects[key] = {
           start: startParsed.value,
           end: endParsed.value,
           unit: startParsed.unit,
-          easing,
+          easing: value?.[2],
         };
 
         if (startParsed.unit !== endParsed.unit) {
