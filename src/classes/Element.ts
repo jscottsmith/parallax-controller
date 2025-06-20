@@ -39,7 +39,6 @@ export class Element {
   limits: Limits;
 
   constructor(options: ElementConstructorOptions) {
-    console.log('Element constructor', options);
     this.el = options.el;
     this.view = options.view;
     this.props = options.props;
