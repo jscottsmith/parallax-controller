@@ -1,4 +1,19 @@
-import { ValidEasingPresets } from './types';
+import type { ValidEasingPresets } from './types';
+
+export enum ValidCSSEffects {
+  'speed' = 'speed',
+  'translateX' = 'translateX',
+  'translateY' = 'translateY',
+  'rotate' = 'rotate',
+  'rotateX' = 'rotateX',
+  'rotateY' = 'rotateY',
+  'rotateZ' = 'rotateZ',
+  'scale' = 'scale',
+  'scaleX' = 'scaleX',
+  'scaleY' = 'scaleY',
+  'scaleZ' = 'scaleZ',
+  'opacity' = 'opacity',
+}
 
 export type EasingPreset = { [key in ValidEasingPresets]: number[] };
 

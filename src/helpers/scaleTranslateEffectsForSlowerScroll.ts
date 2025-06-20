@@ -1,4 +1,4 @@
-import { ParsedValueEffect, ParallaxStartEndEffects } from '../types';
+import { type ParsedValueEffect, type ParallaxStartEndEffects } from '../types';
 import { Limits } from '../classes/Limits';
 
 export function scaleTranslateEffectsForSlowerScroll(

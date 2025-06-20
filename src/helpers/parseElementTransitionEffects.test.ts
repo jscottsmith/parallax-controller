@@ -2,8 +2,8 @@ import {
   PARALLAX_EFFECTS,
   parseElementTransitionEffects,
 } from './parseElementTransitionEffects';
-import { CSSEffect, ScaleOpacityEffect } from '../types';
-import { ScrollAxis } from '..';
+import type { CSSEffect, ScaleOpacityEffect } from '../types';
+import { ScrollAxis } from '../types';
 
 describe('parseElementTransitionEffects', () => {
   it('returns the offset properties to an element with defaults', () => {

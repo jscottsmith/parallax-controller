@@ -1,4 +1,4 @@
-import { ParsedValueEffect } from '..';
+import type { ParsedValueEffect } from '../types';
 import { getStartEndValueInPx } from './getStartEndValueInPx';
 
 describe('getStartEndValueInPx', () => {

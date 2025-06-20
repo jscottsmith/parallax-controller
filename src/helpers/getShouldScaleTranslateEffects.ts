@@ -1,5 +1,8 @@
-import { ScrollAxis, ValidScrollAxis } from '../types';
-import { ParallaxElementConfig, ParallaxStartEndEffects } from '../types';
+import { ScrollAxis, type ValidScrollAxis } from '../types';
+import {
+  type ParallaxElementConfig,
+  type ParallaxStartEndEffects,
+} from '../types';
 
 export function getShouldScaleTranslateEffects(
   props: ParallaxElementConfig,

@@ -1,4 +1,4 @@
-import type { ParsedValueEffect } from '..';
+import type { ParsedValueEffect } from '../types';
 import type { AllValidUnits } from '../types';
 import { scaleBetween } from '../utils/scaleBetween';
 import { createEasingFunction } from '../utils/createEasingFunction';
