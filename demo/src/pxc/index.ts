@@ -4,7 +4,6 @@ import { ParallaxController } from './classes/ParallaxController';
 import { Rect } from './classes/Rect';
 import { View } from './classes/View';
 
-import { setElementStyles, resetStyles } from './helpers/elementStyles';
 import { parseElementTransitionEffects } from './helpers/parseElementTransitionEffects';
 import { scaleEffectByProgress } from './helpers/scaleEffectByProgress';
 
@@ -20,8 +19,6 @@ export {
   ParallaxController,
   Rect,
   View,
-  setElementStyles,
-  resetStyles,
   parseElementTransitionEffects,
   scaleEffectByProgress,
   createId,
