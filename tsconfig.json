@@ -3,10 +3,12 @@
   "include": ["src", "src/**/*.test.ts", "src/**/*.spec.ts"],
   "compilerOptions": {
     "target": "ES2022",
-    "module": "ES2022",
+    "module": "ESNext",
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "moduleResolution": "bundler",
+    "allowImportingTsExtensions": false,
     "declaration": true,
+    "declarationMap": true,
     "sourceMap": true,
     "outDir": "./dist",
     "rootDir": "src",
@@ -16,10 +18,15 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "isolatedModules": true,
     "verbatimModuleSyntax": true,
-    "types": ["jest", "node"]
-  }
+    "types": ["jest", "node"],
+    "resolveJsonModule": true,
+    "allowJs": false,
+    "noEmit": true // Let tsup handle the emission
+  },
+  "exclude": ["node_modules", "dist", "demo", "**/*.test.ts", "**/*.spec.ts"]
 }
