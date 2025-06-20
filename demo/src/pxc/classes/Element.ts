@@ -96,9 +96,9 @@ export class Element {
   }
 
   private unsetAnimationName() {
-    this.el.style.animationName = undefined;
-    this.el.style.animationTimingFunction = undefined;
-    this.el.style.animationFillMode = undefined;
+    this.el.style.animationName = '';
+    this.el.style.animationTimingFunction = '';
+    this.el.style.animationFillMode = '';
   }
 
   private setAnimationRange() {
@@ -118,8 +118,6 @@ export class Element {
       const bottom =
         ((this.view.scrollHeight - this.rect.offsetBottom) / this.view.height) *
         100;
-
-      console.log('top', top, 'bottom', bottom);
 
       if (topBeginsInView) {
         this.el.style.setProperty('animation-range-start', `entry ${top}%`);
@@ -147,14 +145,13 @@ export class Element {
       typeof this.props.startScroll === 'number' &&
       typeof this.props.endScroll === 'number'
     ) {
-      console.log('TODO: set timeline to start and end scroll', this.props);
+      // TODO: Implement timeline for start and end scroll
       // this.limits = new Limits({
       //   startX: this.props.startScroll,
       //   startY: this.props.startScroll,
       //   endX: this.props.endScroll,
       //   endY: this.props.endScroll,
       // });
-
       // Undo the reset -- place it back at current position with styles
       // this._setElementStyles();
     } else if (shouldScaleTranslateEffects && this.rect) {
@@ -167,7 +164,6 @@ export class Element {
         `view(block ${yStart}${yUnit} ${yEnd}${yUnit})`
       );
     } else {
-      // console.log('TODO: set timeline view default', this.props);
       this.el.style.setProperty('animation-timeline', 'view()');
     }
   }
@@ -281,6 +277,6 @@ export class Element {
   };
 
   destroy() {
-    console.log('TODO: destroy element', this.el);
+    // TODO: Implement element destruction
   }
 }
