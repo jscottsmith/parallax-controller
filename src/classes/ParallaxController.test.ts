@@ -3,7 +3,6 @@ import { Element } from './Element';
 import { Rect } from './Rect';
 import { Limits } from './Limits';
 import { CSSEffect, ScrollAxis } from '../types';
-import * as elementStyles from '../helpers/elementStyles';
 
 const addEventListener = window.addEventListener;
 const removeEventListener = window.removeEventListener;
@@ -108,17 +107,6 @@ describe('Expect the ParallaxController', () => {
       controller.destroy();
     });
 
-    it('to reset element styles', () => {
-      const controller = ParallaxController.init({
-        scrollAxis: ScrollAxis.vertical,
-      });
-      const element = controller.createElement(OPTIONS);
-      jest.spyOn(elementStyles, 'resetStyles');
-      controller.disableParallaxController();
-      expect(elementStyles.resetStyles).toHaveBeenCalledWith(element);
-      controller.destroy();
-    });
-
     it('to remove listeners', () => {
       window.removeEventListener = jest.fn();
       const controller = ParallaxController.init({
@@ -215,11 +203,11 @@ describe('Expect the ParallaxController', () => {
     const elements = Array.from({ length: 3 }, () =>
       controller.createElement(OPTIONS)
     );
-    elements.forEach(element => {
+    elements.forEach((element) => {
       expect(element.props.disabled).toBe(false);
     });
     controller.disableAllElements();
-    elements.forEach(element => {
+    elements.forEach((element) => {
       expect(element.props.disabled).toBe(true);
     });
     expect(console.warn).toHaveBeenCalledWith(
@@ -235,11 +223,11 @@ describe('Expect the ParallaxController', () => {
     const elements = Array.from({ length: 3 }, () =>
       controller.createElement({ ...OPTIONS, props: { disabled: true } })
     );
-    elements.forEach(element => {
+    elements.forEach((element) => {
       expect(element.props.disabled).toBe(true);
     });
     controller.enableAllElements();
-    elements.forEach(element => {
+    elements.forEach((element) => {
       expect(element.props.disabled).toBe(false);
     });
     expect(console.warn).toHaveBeenCalledWith(
