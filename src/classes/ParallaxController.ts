@@ -26,7 +26,6 @@ export class ParallaxController {
   // scroll: Scroll;
   view: View;
   _hasScrollContainer: boolean;
-  _supportsPassive: boolean;
   _resizeObserver?: ResizeObserver;
 
   /**
@@ -123,7 +122,7 @@ export class ParallaxController {
     scrollHeight: number;
     scrollWidth: number;
   } => {
-    if (this._hasScrollContainer) {
+    if (this._hasScrollContainer && this.viewEl instanceof HTMLElement) {
       const width = this.viewEl.offsetWidth;
       const height = this.viewEl.offsetHeight;
       const scrollHeight = this.viewEl.scrollHeight;

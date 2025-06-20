@@ -74,13 +74,13 @@ export class Element {
 
   private addAnimationEventListeners() {
     if (this.props.onEnter) {
-      this.el.addEventListener('animationstart', (e) => {
+      this.el.addEventListener('animationstart', () => {
         this.props.onEnter?.(this);
       });
     }
 
     if (this.props.onExit) {
-      this.el.addEventListener('animationend', (e) => {
+      this.el.addEventListener('animationend', () => {
         this.props.onExit?.(this);
       });
     }
@@ -107,11 +107,11 @@ export class Element {
 
     if (this.props.shouldAlwaysCompleteAnimation) {
       const topBeginsInView = this.rect.offsetTop < this.view.height;
-      const leftBeginsInView = this.rect.offsetLeft < this.view.width;
+      // const leftBeginsInView = this.rect.offsetLeft < this.view.width;
       const bottomEndsInView =
         this.rect.offsetBottom > this.view.scrollHeight - this.view.height;
-      const rightEndsInView =
-        this.rect.right > this.view.scrollWidth - this.view.height;
+      // const rightEndsInView =
+      //   this.rect.right > this.view.scrollWidth - this.view.height;
 
       const top =
         ((this.view.height - this.rect.offsetTop) / this.view.height) * 100;
