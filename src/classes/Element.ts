@@ -256,11 +256,6 @@ export class Element {
     return this;
   }
 
-  updateElementOptions(options: ParallaxControllerConstructorOptions) {
-    this.scrollAxis = options.scrollAxis;
-    this.disabled = options.disabledParallaxController || false;
-  }
-
   disable = () => {
     this.disabled = true;
     this.unsetAnimationName();

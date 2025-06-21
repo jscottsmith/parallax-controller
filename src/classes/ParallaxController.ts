@@ -257,12 +257,7 @@ export class ParallaxController {
   enable() {
     this.disabled = false;
     if (this.elements) {
-      this.elements.forEach((element) =>
-        element.updateElementOptions({
-          disabledParallaxController: false,
-          scrollAxis: this.scrollAxis,
-        })
-      );
+      this.elements.forEach((element) => element.enable());
     }
     // add back listeners
     this._addListeners();

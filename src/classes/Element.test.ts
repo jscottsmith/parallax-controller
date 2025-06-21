@@ -415,18 +415,6 @@ describe('Element', () => {
     });
   });
 
-  describe('updateElementOptions', () => {
-    it('should update scroll axis and disabled state', () => {
-      elementInstance.updateElementOptions({
-        scrollAxis: ScrollAxis.horizontal,
-        disabledParallaxController: true,
-      });
-
-      expect(elementInstance.scrollAxis).toBe(ScrollAxis.horizontal);
-      expect(elementInstance.disabled).toBe(true);
-    });
-  });
-
   describe('disable and enable', () => {
     it('should disable the element and remove animation', () => {
       elementInstance.disable();
