@@ -2,7 +2,6 @@ import type {
   CreateElementOptions,
   ParallaxElementConfig,
   ParallaxStartEndEffects,
-  // ScrollAxis,
   ValidScrollAxis,
 } from '../types';
 import { createId } from '../utils/createId';
@@ -38,6 +37,7 @@ export class Element {
   rect!: Rect;
   limits!: Limits;
   scaledEffects!: ParallaxStartEndEffects;
+  shouldScaleTranslateEffects!: boolean;
 
   constructor(options: ElementConstructorOptions) {
     this.el = options.el;
@@ -72,6 +72,12 @@ export class Element {
     this.scaledEffects = scaleTranslateEffectsForSlowerScroll(
       this.translations,
       this.limits
+    );
+
+    this.shouldScaleTranslateEffects = getShouldScaleTranslateEffects(
+      this.props,
+      this.translations,
+      this.scrollAxis
     );
   }
 
@@ -138,12 +144,6 @@ export class Element {
   }
 
   private setAnimationTimeline() {
-    const shouldScaleTranslateEffects = getShouldScaleTranslateEffects(
-      this.props,
-      this.translations,
-      this.scrollAxis
-    );
-
     if (
       typeof this.props.startScroll === 'number' &&
       typeof this.props.endScroll === 'number'
@@ -157,7 +157,7 @@ export class Element {
       // });
       // Undo the reset -- place it back at current position with styles
       // this._setElementStyles();
-    } else if (shouldScaleTranslateEffects && this.rect) {
+    } else if (this.shouldScaleTranslateEffects && this.rect) {
       const yStart = Math.max(this.scaledEffects?.translateY?.end || 0, 0) * -1;
       const yEnd = Math.min(this.scaledEffects?.translateY?.start || 0, 0);
       const yUnit = this.scaledEffects?.translateY?.unit;
