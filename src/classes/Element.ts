@@ -111,10 +111,16 @@ export class Element {
   }
 
   private setAnimationRange() {
-    // animation-range: entry 0% exit 100%;
-    // element.style.animationRangeStart = '0%';
-
-    if (this.props.shouldAlwaysCompleteAnimation) {
+    if (
+      typeof this.props.startScroll === 'number' &&
+      typeof this.props.endScroll === 'number'
+    ) {
+      // uses the scroll() timeline view but sets the range in pixels
+      this.el.style.setProperty(
+        'animation-range',
+        `${this.props.startScroll}px ${this.props.endScroll}px`
+      );
+    } else if (this.props.shouldAlwaysCompleteAnimation) {
       const topBeginsInView = this.rect.offsetTop < this.view.height;
       // const leftBeginsInView = this.rect.offsetLeft < this.view.width;
       const bottomEndsInView =
@@ -148,15 +154,7 @@ export class Element {
       typeof this.props.startScroll === 'number' &&
       typeof this.props.endScroll === 'number'
     ) {
-      // TODO: Implement timeline for start and end scroll
-      // this.limits = new Limits({
-      //   startX: this.props.startScroll,
-      //   startY: this.props.startScroll,
-      //   endX: this.props.endScroll,
-      //   endY: this.props.endScroll,
-      // });
-      // Undo the reset -- place it back at current position with styles
-      // this._setElementStyles();
+      this.el.style.setProperty('animation-timeline', `scroll()`);
     } else if (this.shouldScaleTranslateEffects && this.rect) {
       const yStart = Math.max(this.scaledEffects?.translateY?.end || 0, 0) * -1;
       const yEnd = Math.min(this.scaledEffects?.translateY?.start || 0, 0);
