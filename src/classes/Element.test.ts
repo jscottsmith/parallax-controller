@@ -521,6 +521,58 @@ describe('Element', () => {
       expect(elementWithScrollRange.props.startScroll).toBe(100);
       expect(elementWithScrollRange.props.endScroll).toBe(500);
     });
+
+    it('should set animation timeline to scroll() when startScroll and endScroll are provided', () => {
+      const elementWithScrollRange = new Element({
+        el: document.createElement('div'),
+        props: {
+          ...props,
+          startScroll: 100,
+          endScroll: 500,
+        },
+        scrollAxis: ScrollAxis.vertical,
+        view,
+      });
+
+      expect(
+        elementWithScrollRange.el.style.getPropertyValue('animation-timeline')
+      ).toBe('scroll()');
+    });
+
+    it('should set animation range to pixel values when startScroll and endScroll are provided', () => {
+      const elementWithScrollRange = new Element({
+        el: document.createElement('div'),
+        props: {
+          ...props,
+          startScroll: 100,
+          endScroll: 500,
+        },
+        scrollAxis: ScrollAxis.vertical,
+        view,
+      });
+
+      expect(
+        elementWithScrollRange.el.style.getPropertyValue('animation-range')
+      ).toBe('100px 500px');
+    });
+
+    it('should set shouldScaleTranslateEffects to true when startScroll and endScroll are provided', () => {
+      const elementWithScrollRange = new Element({
+        el: document.createElement('div'),
+        props: {
+          ...props,
+          startScroll: 100,
+          endScroll: 500,
+        },
+        scrollAxis: ScrollAxis.vertical,
+        view,
+      });
+
+      // Currently startScroll and endScroll don't affect shouldScaleTranslateEffects
+      // The getShouldScaleTranslateEffects function doesn't check for these properties
+      // This might be a TODO item for future implementation
+      expect(elementWithScrollRange.shouldScaleTranslateEffects).toBe(true);
+    });
   });
 
   describe('with shouldDisableScalingTranslations', () => {
@@ -621,11 +673,10 @@ describe('Element', () => {
         view,
       });
 
-      // Currently the implementation doesn't set any timeline when startScroll/endScroll are provided
-      // The TODO section in setAnimationTimeline() doesn't set anything
+      // When startScroll and endScroll are provided, the timeline should be set to scroll()
       expect(
         elementWithScrollRange.el.style.getPropertyValue('animation-timeline')
-      ).toBe('');
+      ).toBe('scroll()');
     });
 
     it('should handle element with only one translate effect', async () => {

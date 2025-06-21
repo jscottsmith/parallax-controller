@@ -35,14 +35,16 @@ disableButton?.addEventListener('click', () => {
   }
 });
 
-// const topTest = document.querySelector('.top-test');
-// parallaxController.createElement({
-//   el: topTest as HTMLElement,
-//   props: {
-//     translateX: ['0px', '100px'],
-//     shouldAlwaysCompleteAnimation: true,
-//   },
-// });
+const topTest = document.querySelector('.top-test');
+parallaxController.createElement({
+  el: topTest as HTMLElement,
+  props: {
+    translateX: ['0px', '100px'],
+    startScroll: 0,
+    endScroll: 100,
+    // shouldAlwaysCompleteAnimation: true,
+  },
+});
 
 // const bottomTest = document.querySelector('.bottom-test');
 // parallaxController.createElement({
