@@ -49,11 +49,16 @@ export class Element {
     this.translations = parseTranslationProps(this.props, this.scrollAxis);
     // this.isInView = null;
     // this.progress = 0;
+    this.setupTranslateEffects();
+    this.setElementStyles();
+    this.addAnimationEventListeners();
+  }
 
+  private setupTranslateEffects() {
     this.rect = new Rect({
       el: this.props.targetElement || this.el,
       rootMargin: this.props.rootMargin,
-      view: options.view,
+      view: this.view,
     });
 
     this.limits = createLimitsWithTranslationsForRelativeElements(
@@ -68,9 +73,6 @@ export class Element {
       this.translations,
       this.limits
     );
-
-    this.setElementStyles();
-    this.addAnimationEventListeners();
   }
 
   private addAnimationEventListeners() {
@@ -248,28 +250,9 @@ export class Element {
   updateElement(view: View): Element {
     // NOTE: Must reset styles before getting the rect, as it might impact the natural position
     // resetStyles(this);
-
-    this.rect = new Rect({
-      el: this.props.targetElement || this.el,
-      rootMargin: this.props.rootMargin,
-      view,
-    });
-
     this.view = view;
 
-    this.limits = createLimitsWithTranslationsForRelativeElements(
-      this.rect,
-      this.view,
-      this.translations,
-      this.scrollAxis,
-      this.props.shouldAlwaysCompleteAnimation
-    );
-
-    this.scaledEffects = scaleTranslateEffectsForSlowerScroll(
-      this.translations,
-      this.limits
-    );
-
+    this.setupTranslateEffects();
     this.setElementStyles();
 
     return this;
