@@ -10,64 +10,57 @@ import {
 import { ValidCSSEffects } from '../constants';
 import { parseValueAndUnit } from '../utils/parseValueAndUnit';
 
-export const PARALLAX_EFFECTS = Object.values(ValidCSSEffects);
+// Only translation effects need parsing
+export const TRANSLATION_EFFECTS = ['translateX', 'translateY'] as const;
+export const SPEED_EFFECT = 'speed' as const;
 
 export const MAP_EFFECT_TO_DEFAULT_UNIT: {
-  [key in ValidCSSEffects]: AllValidUnits;
+  [key in 'translateX' | 'translateY']: AllValidUnits;
 } = {
-  speed: 'px',
   translateX: '%',
   translateY: '%',
-  rotate: 'deg',
-  rotateX: 'deg',
-  rotateY: 'deg',
-  rotateZ: 'deg',
-  scale: '',
-  scaleX: '',
-  scaleY: '',
-  scaleZ: '',
-  opacity: '',
 };
+
 /**
- * Takes a parallax element effects and parses the properties to get the start and end values and units.
+ * Takes a parallax element effects and parses only the translation properties to get the start and end values and units.
+ * Only returns parsed translation effects.
  */
-export function parseElementTransitionEffects(
+export function parseTranslationProps(
   props: ParallaxElementConfig,
   scrollAxis: ValidScrollAxis
 ): ParallaxStartEndEffects {
-  const parsedEffects: { [key: string]: ParsedValueEffect } = {};
+  const parsedTranslations: { [key: string]: ParsedValueEffect } = {};
 
-  PARALLAX_EFFECTS.forEach((key: keyof typeof ValidCSSEffects) => {
-    const defaultValue: AllValidUnits = MAP_EFFECT_TO_DEFAULT_UNIT[key];
+  // Handle speed prop - this creates translation effects
+  if (typeof props?.speed === 'number') {
+    const value = props.speed as number;
+    const startSpeed = `${(value || 0) * 10}px`;
+    const endSpeed = `${(value || 0) * -10}px`;
 
-    // If the provided type is a number, this must be the speed prop
-    // in which case we need to construct the proper translate config
-    if (typeof props?.[key] === 'number') {
-      const value = props?.[key] as number;
-      const startSpeed = `${(value || 0) * 10}px`;
-      const endSpeed = `${(value || 0) * -10}px`;
+    const startParsed = parseValueAndUnit(startSpeed);
+    const endParsed = parseValueAndUnit(endSpeed);
 
-      const startParsed = parseValueAndUnit(startSpeed);
-      const endParsed = parseValueAndUnit(endSpeed);
+    const speedConfig = {
+      start: startParsed.value,
+      end: endParsed.value,
+      unit: startParsed.unit,
+    };
 
-      const speedConfig = {
-        start: startParsed.value,
-        end: endParsed.value,
-        unit: startParsed.unit,
-      };
-
-      // Manually set translate y value
-      if (scrollAxis === ScrollAxis.vertical) {
-        parsedEffects.translateY = speedConfig;
-      }
-
-      // Manually set translate y value
-      if (scrollAxis === ScrollAxis.horizontal) {
-        parsedEffects.translateX = speedConfig;
-      }
+    // Manually set translate y value
+    if (scrollAxis === ScrollAxis.vertical) {
+      parsedTranslations.translateY = speedConfig;
     }
 
-    // The rest are standard effect being parsed
+    // Manually set translate x value
+    if (scrollAxis === ScrollAxis.horizontal) {
+      parsedTranslations.translateX = speedConfig;
+    }
+  }
+
+  // Parse only translation effects
+  TRANSLATION_EFFECTS.forEach((key) => {
+    const defaultValue: AllValidUnits = MAP_EFFECT_TO_DEFAULT_UNIT[key];
+
     if (Array.isArray(props?.[key])) {
       const value = props?.[key] as CSSEffect;
 
@@ -75,7 +68,7 @@ export function parseElementTransitionEffects(
         const startParsed = parseValueAndUnit(value?.[0], defaultValue);
         const endParsed = parseValueAndUnit(value?.[1], defaultValue);
 
-        parsedEffects[key] = {
+        parsedTranslations[key] = {
           start: startParsed.value,
           end: endParsed.value,
           unit: startParsed.unit,
@@ -91,5 +84,5 @@ export function parseElementTransitionEffects(
     }
   });
 
-  return parsedEffects;
+  return parsedTranslations;
 }

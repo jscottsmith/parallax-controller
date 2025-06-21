@@ -1,15 +1,6 @@
 export type ParallaxStartEndEffects = {
   translateX?: ParsedValueEffect;
   translateY?: ParsedValueEffect;
-  rotate?: ParsedValueEffect;
-  rotateX?: ParsedValueEffect;
-  rotateY?: ParsedValueEffect;
-  rotateZ?: ParsedValueEffect;
-  scale?: ParsedValueEffect;
-  scaleX?: ParsedValueEffect;
-  scaleY?: ParsedValueEffect;
-  scaleZ?: ParsedValueEffect;
-  opacity?: ParsedValueEffect;
 };
 
 export enum Units {

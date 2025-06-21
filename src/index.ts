@@ -4,7 +4,7 @@ import { ParallaxController } from './classes/ParallaxController';
 import { Rect } from './classes/Rect';
 import { View } from './classes/View';
 
-import { parseElementTransitionEffects } from './helpers/parseElementTransitionEffects';
+import { parseTranslationProps } from './helpers/parseElementTransitionEffects';
 
 import { createId } from './utils/createId';
 import { parseValueAndUnit } from './utils/parseValueAndUnit';
@@ -18,7 +18,7 @@ export {
   ParallaxController,
   Rect,
   View,
-  parseElementTransitionEffects,
+  parseTranslationProps,
   createId,
   parseValueAndUnit,
   scaleBetween,
