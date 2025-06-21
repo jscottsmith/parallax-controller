@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "source": "src/index.html",
   "scripts": {
-    "start": "parcel --no-cache --watch-dir ../dist",
+    "start": "parcel --port 3000 --no-cache --watch-dir ../dist",
     "build": "parcel build"
   },
   "devDependencies": {
