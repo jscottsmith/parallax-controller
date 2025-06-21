@@ -7,7 +7,6 @@ import {
   ScrollAxis,
   type ValidScrollAxis,
 } from '../types';
-import { ValidCSSEffects } from '../constants';
 import { parseValueAndUnit } from '../utils/parseValueAndUnit';
 
 // Only translation effects need parsing
