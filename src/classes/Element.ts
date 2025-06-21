@@ -195,16 +195,21 @@ export class Element {
   }
 
   private setRotate() {
-    if (this.effects.rotate) {
+    if (this.props.rotate?.length === 2) {
       this.el.style.setProperty(
         '--parallax-rotate-start',
-        `${this.effects.rotate.start}${this.effects.rotate.unit}`
+        `${this.props.rotate[0]}`
       );
       this.el.style.setProperty(
         '--parallax-rotate-end',
-        `${this.effects.rotate.end}${this.effects.rotate.unit}`
+        `${this.props.rotate[1]}`
       );
     }
+  }
+
+  private unsetRotate() {
+    this.el.style.removeProperty('--parallax-rotate-start');
+    this.el.style.removeProperty('--parallax-rotate-end');
   }
 
   private setEasing() {
@@ -221,6 +226,14 @@ export class Element {
     this.setTranslateX();
     this.setRotate();
     this.setEasing();
+  }
+
+  private unsetElementStyles() {
+    // this.unsetAnimationRange();
+    this.unsetAnimationName();
+    // this.unsetTranslateY();
+    // this.unsetTranslateX();
+    this.unsetRotate();
   }
 
   updateProps(nextProps: ParallaxElementConfig) {
@@ -277,6 +290,7 @@ export class Element {
   };
 
   destroy() {
+    this.unsetElementStyles();
     // TODO: Implement element destruction
   }
 }
