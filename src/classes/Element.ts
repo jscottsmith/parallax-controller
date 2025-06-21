@@ -31,13 +31,13 @@ export class Element {
   disabled: boolean;
   id: number;
   translations: ParallaxStartEndEffects;
-  scaledEffects: ParallaxStartEndEffects;
   // isInView: boolean | null;
   // progress: number;
   view: View;
   /* Optionally set if translate effect must be scaled */
-  rect: Rect;
-  limits: Limits;
+  rect!: Rect;
+  limits!: Limits;
+  scaledEffects!: ParallaxStartEndEffects;
 
   constructor(options: ElementConstructorOptions) {
     this.el = options.el;
