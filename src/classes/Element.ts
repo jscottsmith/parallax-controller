@@ -9,7 +9,7 @@ import { createId } from '../utils/createId';
 import { Rect } from './Rect';
 import { View } from './View';
 import { Limits } from './Limits';
-import { parseElementTransitionEffects } from '../helpers/parseElementTransitionEffects';
+import { parseTranslationProps } from '../helpers/parseElementTransitionEffects';
 import { createLimitsWithTranslationsForRelativeElements } from '../helpers/createLimitsWithTranslationsForRelativeElements';
 import { scaleTranslateEffectsForSlowerScroll } from '../helpers/scaleTranslateEffectsForSlowerScroll';
 import { getShouldScaleTranslateEffects } from '../helpers/getShouldScaleTranslateEffects';
@@ -29,7 +29,7 @@ export class Element {
   scrollAxis: ValidScrollAxis;
   disabled: boolean;
   id: number;
-  effects: ParallaxStartEndEffects;
+  translations: ParallaxStartEndEffects;
   scaledEffects: ParallaxStartEndEffects;
   // isInView: boolean | null;
   // progress: number;
@@ -45,7 +45,7 @@ export class Element {
     this.scrollAxis = options.scrollAxis;
     this.disabled = options.disabledParallaxController || false;
     this.id = createId();
-    this.effects = parseElementTransitionEffects(this.props, this.scrollAxis);
+    this.translations = parseTranslationProps(this.props, this.scrollAxis);
     // this.isInView = null;
     // this.progress = 0;
 
@@ -58,13 +58,13 @@ export class Element {
     this.limits = createLimitsWithTranslationsForRelativeElements(
       this.rect,
       this.view,
-      this.effects,
+      this.translations,
       this.scrollAxis,
       this.props.shouldAlwaysCompleteAnimation
     );
 
     this.scaledEffects = scaleTranslateEffectsForSlowerScroll(
-      this.effects,
+      this.translations,
       this.limits
     );
 
@@ -137,7 +137,7 @@ export class Element {
   private setAnimationTimeline() {
     const shouldScaleTranslateEffects = getShouldScaleTranslateEffects(
       this.props,
-      this.effects,
+      this.translations,
       this.scrollAxis
     );
 
@@ -182,14 +182,14 @@ export class Element {
   }
 
   private setTranslateX() {
-    if (this.effects.translateX) {
+    if (this.translations.translateX) {
       this.el.style.setProperty(
         '--parallax-translate-start-x',
-        `${this.effects.translateX.start}${this.effects.translateX.unit}`
+        `${this.translations.translateX.start}${this.translations.translateX.unit}`
       );
       this.el.style.setProperty(
         '--parallax-translate-end-x',
-        `${this.effects.translateX.end}${this.effects.translateX.unit}`
+        `${this.translations.translateX.end}${this.translations.translateX.unit}`
       );
     }
   }
@@ -238,7 +238,7 @@ export class Element {
 
   updateProps(nextProps: ParallaxElementConfig) {
     this.props = { ...this.props, ...nextProps };
-    this.effects = parseElementTransitionEffects(nextProps, this.scrollAxis);
+    this.translations = parseTranslationProps(nextProps, this.scrollAxis);
 
     return this;
   }
@@ -259,13 +259,13 @@ export class Element {
     this.limits = createLimitsWithTranslationsForRelativeElements(
       this.rect,
       this.view,
-      this.effects,
+      this.translations,
       this.scrollAxis,
       this.props.shouldAlwaysCompleteAnimation
     );
 
     this.scaledEffects = scaleTranslateEffectsForSlowerScroll(
-      this.effects,
+      this.translations,
       this.limits
     );
 

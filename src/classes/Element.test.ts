@@ -16,10 +16,17 @@ import type { ParallaxElementConfig } from '../types';
 
 // Mock the helper modules
 vi.mock('../helpers/parseElementTransitionEffects', () => ({
-  parseElementTransitionEffects: vi.fn(() => ({
-    translateY: { start: 0, end: 100, unit: 'px' },
-    translateX: { start: 0, end: 50, unit: 'px' },
-    rotate: { start: 0, end: 360, unit: 'deg' },
+  parseTranslationProps: vi.fn(() => ({
+    translateY: {
+      start: 0,
+      end: 100,
+      unit: 'px',
+    },
+    translateX: {
+      start: 0,
+      end: 50,
+      unit: 'px',
+    },
   })),
 }));
 
@@ -88,7 +95,7 @@ describe('Element', () => {
       expect(elementInstance.view).toBe(view);
       expect(elementInstance.rect).toBeInstanceOf(Rect);
       expect(elementInstance.limits).toBeInstanceOf(Limits);
-      expect(elementInstance.effects).toBeDefined();
+      expect(elementInstance.translations).toBeDefined();
       expect(elementInstance.scaledEffects).toBeDefined();
     });
 
@@ -105,7 +112,7 @@ describe('Element', () => {
     });
 
     it('should call helper functions during construction', async () => {
-      const { parseElementTransitionEffects } = await import(
+      const { parseTranslationProps } = await import(
         '../helpers/parseElementTransitionEffects'
       );
       const { createLimitsWithTranslationsForRelativeElements } = await import(
@@ -115,7 +122,7 @@ describe('Element', () => {
         '../helpers/scaleTranslateEffectsForSlowerScroll'
       );
 
-      expect(parseElementTransitionEffects).toHaveBeenCalledWith(
+      expect(parseTranslationProps).toHaveBeenCalledWith(
         props,
         ScrollAxis.vertical
       );
@@ -315,7 +322,7 @@ describe('Element', () => {
   describe('updateProps', () => {
     it('should update props and re-parse effects', async () => {
       const newProps = { translateY: [50, 150] as [number, number] };
-      const { parseElementTransitionEffects } = await import(
+      const { parseTranslationProps } = await import(
         '../helpers/parseElementTransitionEffects'
       );
 
@@ -324,7 +331,7 @@ describe('Element', () => {
       expect(result).toBe(elementInstance);
       expect(elementInstance.props).toEqual({ ...props, ...newProps });
       // The function is called with the new props, not the merged props
-      expect(parseElementTransitionEffects).toHaveBeenCalledWith(
+      expect(parseTranslationProps).toHaveBeenCalledWith(
         newProps,
         ScrollAxis.vertical
       );
@@ -336,24 +343,21 @@ describe('Element', () => {
         rotate: [90, 270] as [number, number],
       };
 
-      // Mock the parseElementTransitionEffects to return new effects
-      const { parseElementTransitionEffects } = await import(
+      // Mock parseTranslationProps to return new effects
+      const { parseTranslationProps } = await import(
         '../helpers/parseElementTransitionEffects'
       );
-      vi.mocked(parseElementTransitionEffects).mockReturnValue({
+      vi.mocked(parseTranslationProps).mockReturnValue({
         translateY: { start: 50, end: 150, unit: 'px' as const },
         translateX: { start: 0, end: 50, unit: 'px' as const },
-        rotate: { start: 90, end: 270, unit: 'deg' as const },
       });
 
       elementInstance.updateProps(newProps);
 
       // Note: The current implementation doesn't call setElementStyles after updateProps
       // This test documents the current behavior, but it might be a bug
-      expect(elementInstance.effects.translateY?.start).toBe(50);
-      expect(elementInstance.effects.translateY?.end).toBe(150);
-      expect(elementInstance.effects.rotate?.start).toBe(90);
-      expect(elementInstance.effects.rotate?.end).toBe(270);
+      expect(elementInstance.translations.translateY?.start).toBe(50);
+      expect(elementInstance.translations.translateY?.end).toBe(150);
     });
   });
 
@@ -539,21 +543,17 @@ describe('Element', () => {
         rotate: [0, 360] as [number, number],
       };
 
-      // Mock parseElementTransitionEffects to return no translate effects
-      const { parseElementTransitionEffects } = await import(
+      // Mock parseTranslationProps to return no translate effects
+      const { parseTranslationProps } = await import(
         '../helpers/parseElementTransitionEffects'
       );
-      vi.mocked(parseElementTransitionEffects).mockReturnValue({
-        rotate: { start: 0, end: 360, unit: 'deg' as const },
-      });
+      vi.mocked(parseTranslationProps).mockReturnValue({});
 
       // Mock scaleTranslateEffectsForSlowerScroll to return no translate effects
       const { scaleTranslateEffectsForSlowerScroll } = await import(
         '../helpers/scaleTranslateEffectsForSlowerScroll'
       );
-      vi.mocked(scaleTranslateEffectsForSlowerScroll).mockReturnValue({
-        rotate: { start: 0, end: 360, unit: 'deg' as const },
-      });
+      vi.mocked(scaleTranslateEffectsForSlowerScroll).mockReturnValue({});
 
       const elementWithoutTranslate = new Element({
         el: document.createElement('div'),
@@ -608,11 +608,11 @@ describe('Element', () => {
         translateY: [0, 100] as [number, number],
       };
 
-      // Mock parseElementTransitionEffects to return only translateY
-      const { parseElementTransitionEffects } = await import(
+      // Mock parseTranslationProps to return only translateY
+      const { parseTranslationProps } = await import(
         '../helpers/parseElementTransitionEffects'
       );
-      vi.mocked(parseElementTransitionEffects).mockReturnValue({
+      vi.mocked(parseTranslationProps).mockReturnValue({
         translateY: { start: 0, end: 100, unit: 'px' as const },
       });
 
