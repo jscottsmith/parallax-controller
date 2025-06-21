@@ -13,6 +13,7 @@ import { parseTranslationProps } from '../helpers/parseElementTransitionEffects'
 import { createLimitsWithTranslationsForRelativeElements } from '../helpers/createLimitsWithTranslationsForRelativeElements';
 import { scaleTranslateEffectsForSlowerScroll } from '../helpers/scaleTranslateEffectsForSlowerScroll';
 import { getShouldScaleTranslateEffects } from '../helpers/getShouldScaleTranslateEffects';
+import { CSSVariables } from '../constants';
 
 type ParallaxControllerConstructorOptions = {
   scrollAxis: ValidScrollAxis;
@@ -171,11 +172,11 @@ export class Element {
   private setTranslateY() {
     if (this.scaledEffects.translateY) {
       this.el.style.setProperty(
-        '--parallax-translate-start-y',
+        CSSVariables.translateStartY,
         `${this.scaledEffects.translateY.start}${this.scaledEffects.translateY.unit}`
       );
       this.el.style.setProperty(
-        '--parallax-translate-end-y',
+        CSSVariables.translateEndY,
         `${this.scaledEffects.translateY.end}${this.scaledEffects.translateY.unit}`
       );
     }
@@ -184,11 +185,11 @@ export class Element {
   private setTranslateX() {
     if (this.translations.translateX) {
       this.el.style.setProperty(
-        '--parallax-translate-start-x',
+        CSSVariables.translateStartX,
         `${this.translations.translateX.start}${this.translations.translateX.unit}`
       );
       this.el.style.setProperty(
-        '--parallax-translate-end-x',
+        CSSVariables.translateEndX,
         `${this.translations.translateX.end}${this.translations.translateX.unit}`
       );
     }
@@ -197,19 +198,19 @@ export class Element {
   private setRotate() {
     if (this.props.rotate?.length === 2) {
       this.el.style.setProperty(
-        '--parallax-rotate-start',
+        CSSVariables.rotateStart,
         `${this.props.rotate[0]}`
       );
       this.el.style.setProperty(
-        '--parallax-rotate-end',
+        CSSVariables.rotateEnd,
         `${this.props.rotate[1]}`
       );
     }
   }
 
   private unsetRotate() {
-    this.el.style.removeProperty('--parallax-rotate-start');
-    this.el.style.removeProperty('--parallax-rotate-end');
+    this.el.style.removeProperty(CSSVariables.rotateStart);
+    this.el.style.removeProperty(CSSVariables.rotateEnd);
   }
 
   private setEasing() {

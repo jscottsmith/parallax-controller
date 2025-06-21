@@ -13,6 +13,7 @@ import { Rect } from './Rect';
 import { Limits } from './Limits';
 import { ScrollAxis } from '../types';
 import type { ParallaxElementConfig } from '../types';
+import { CSSVariables } from '../constants';
 
 // Mock the helper modules
 vi.mock('../helpers/parseElementTransitionEffects', () => ({
@@ -223,25 +224,25 @@ describe('Element', () => {
       // The implementation uses scaledEffects for translateY and effects for translateX
       // The scaledEffects are modified by scaleTranslateEffectsForSlowerScroll
       // Based on the test failure, the actual values are different from the mock defaults
-      expect(
-        element.style.getPropertyValue('--parallax-translate-start-y')
-      ).toBe('-50px'); // This is the actual value being set
-      expect(element.style.getPropertyValue('--parallax-translate-end-y')).toBe(
+      expect(element.style.getPropertyValue(CSSVariables.translateStartY)).toBe(
+        '-50px'
+      ); // This is the actual value being set
+      expect(element.style.getPropertyValue(CSSVariables.translateEndY)).toBe(
         '100px'
       );
-      expect(
-        element.style.getPropertyValue('--parallax-translate-start-x')
-      ).toBe('0px');
-      expect(element.style.getPropertyValue('--parallax-translate-end-x')).toBe(
+      expect(element.style.getPropertyValue(CSSVariables.translateStartX)).toBe(
+        '0px'
+      );
+      expect(element.style.getPropertyValue(CSSVariables.translateEndX)).toBe(
         '50px'
       );
     });
 
     it('should set CSS custom properties for rotate effects', () => {
-      expect(element.style.getPropertyValue('--parallax-rotate-start')).toBe(
+      expect(element.style.getPropertyValue(CSSVariables.rotateStart)).toBe(
         '0'
       );
-      expect(element.style.getPropertyValue('--parallax-rotate-end')).toBe(
+      expect(element.style.getPropertyValue(CSSVariables.rotateEnd)).toBe(
         '360'
       );
     });
@@ -431,8 +432,8 @@ describe('Element', () => {
 
       elementInstance.destroy();
 
-      expect(removePropertySpy).toHaveBeenCalledWith('--parallax-rotate-start');
-      expect(removePropertySpy).toHaveBeenCalledWith('--parallax-rotate-end');
+      expect(removePropertySpy).toHaveBeenCalledWith(CSSVariables.rotateStart);
+      expect(removePropertySpy).toHaveBeenCalledWith(CSSVariables.rotateEnd);
     });
   });
 
@@ -529,12 +530,10 @@ describe('Element', () => {
       });
 
       expect(
-        elementWithoutRotate.el.style.getPropertyValue(
-          '--parallax-rotate-start'
-        )
+        elementWithoutRotate.el.style.getPropertyValue(CSSVariables.rotateStart)
       ).toBe('');
       expect(
-        elementWithoutRotate.el.style.getPropertyValue('--parallax-rotate-end')
+        elementWithoutRotate.el.style.getPropertyValue(CSSVariables.rotateEnd)
       ).toBe('');
     });
 
@@ -564,22 +563,22 @@ describe('Element', () => {
 
       expect(
         elementWithoutTranslate.el.style.getPropertyValue(
-          '--parallax-translate-start-y'
+          CSSVariables.translateStartY
         )
       ).toBe('');
       expect(
         elementWithoutTranslate.el.style.getPropertyValue(
-          '--parallax-translate-end-y'
+          CSSVariables.translateEndY
         )
       ).toBe('');
       expect(
         elementWithoutTranslate.el.style.getPropertyValue(
-          '--parallax-translate-start-x'
+          CSSVariables.translateStartX
         )
       ).toBe('');
       expect(
         elementWithoutTranslate.el.style.getPropertyValue(
-          '--parallax-translate-end-x'
+          CSSVariables.translateEndX
         )
       ).toBe('');
     });
@@ -633,22 +632,22 @@ describe('Element', () => {
 
       expect(
         elementWithOnlyTranslateY.el.style.getPropertyValue(
-          '--parallax-translate-start-y'
+          CSSVariables.translateStartY
         )
       ).toBe('0px');
       expect(
         elementWithOnlyTranslateY.el.style.getPropertyValue(
-          '--parallax-translate-end-y'
+          CSSVariables.translateEndY
         )
       ).toBe('100px');
       expect(
         elementWithOnlyTranslateY.el.style.getPropertyValue(
-          '--parallax-translate-start-x'
+          CSSVariables.translateStartX
         )
       ).toBe('');
       expect(
         elementWithOnlyTranslateY.el.style.getPropertyValue(
-          '--parallax-translate-end-x'
+          CSSVariables.translateEndX
         )
       ).toBe('');
     });
