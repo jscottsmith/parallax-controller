@@ -18,7 +18,7 @@ parallaxElements.forEach((element, i) => {
       onExit: (element) => {
         element.el.classList.remove('active');
       },
-      rotate: ['0deg', '180deg'],
+      rotate: ['0turn', '1turn'],
       // easing: 'cubic-bezier(1.000, -0.005, 1.000, 0.035)',
     },
   });

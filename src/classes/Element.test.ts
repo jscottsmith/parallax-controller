@@ -45,10 +45,6 @@ vi.mock('../helpers/scaleTranslateEffectsForSlowerScroll', () => ({
   })),
 }));
 
-vi.mock('../helpers/getShouldScaleTranslateEffects', () => ({
-  getShouldScaleTranslateEffects: vi.fn(() => false),
-}));
-
 vi.mock('../utils/createId', () => ({
   createId: vi.fn(() => 1),
 }));
@@ -132,6 +128,52 @@ describe('Element', () => {
       ).toHaveBeenCalled();
       expect(scaleTranslateEffectsForSlowerScroll).toHaveBeenCalled();
     });
+
+    it('should set shouldScaleTranslateEffects property correctly', () => {
+      // With the current props (translateY and translateX arrays) and vertical scroll axis,
+      // shouldScaleTranslateEffects should be true because there's a translateY effect
+      // and the scroll axis is vertical
+      expect(elementInstance.shouldScaleTranslateEffects).toBe(true);
+    });
+
+    it('should set shouldScaleTranslateEffects to false when scaling is disabled', () => {
+      const elementWithScalingDisabled = new Element({
+        el: document.createElement('div'),
+        props: { ...props, shouldDisableScalingTranslations: true },
+        scrollAxis: ScrollAxis.vertical,
+        view,
+      });
+
+      expect(elementWithScalingDisabled.shouldScaleTranslateEffects).toBe(
+        false
+      );
+    });
+
+    it('should set shouldScaleTranslateEffects to false when rootMargin is provided', () => {
+      const elementWithRootMargin = new Element({
+        el: document.createElement('div'),
+        props: {
+          ...props,
+          rootMargin: { top: 10, bottom: 10, left: 10, right: 10 },
+        },
+        scrollAxis: ScrollAxis.vertical,
+        view,
+      });
+
+      expect(elementWithRootMargin.shouldScaleTranslateEffects).toBe(false);
+    });
+
+    it('should set shouldScaleTranslateEffects to false when targetElement is provided', () => {
+      const targetElement = document.createElement('div');
+      const elementWithTarget = new Element({
+        el: document.createElement('div'),
+        props: { ...props, targetElement },
+        scrollAxis: ScrollAxis.vertical,
+        view,
+      });
+
+      expect(elementWithTarget.shouldScaleTranslateEffects).toBe(false);
+    });
   });
 
   describe('style setting', () => {
@@ -182,32 +224,15 @@ describe('Element', () => {
     });
 
     it('should set animation timeline', () => {
-      expect(element.style.getPropertyValue('animation-timeline')).toBe(
-        'view()'
+      // Since shouldScaleTranslateEffects is true by default (translateY effect with vertical scroll),
+      // the timeline should contain view(block with the scaled values
+      expect(element.style.getPropertyValue('animation-timeline')).toContain(
+        'view(block'
       );
     });
 
-    it('should set animation timeline with scaled translate effects', async () => {
-      const { getShouldScaleTranslateEffects } = await import(
-        '../helpers/getShouldScaleTranslateEffects'
-      );
-
-      // Mock to return true for scaling
-      vi.mocked(getShouldScaleTranslateEffects).mockReturnValue(true);
-
-      // Mock scaled effects with translateY
-      const mockScaledEffects = {
-        translateY: { start: -50, end: 100, unit: 'px' as const },
-      };
-
-      // Mock the scaleTranslateEffectsForSlowerScroll to return our mock scaled effects
-      const { scaleTranslateEffectsForSlowerScroll } = await import(
-        '../helpers/scaleTranslateEffectsForSlowerScroll'
-      );
-      vi.mocked(scaleTranslateEffectsForSlowerScroll).mockReturnValue(
-        mockScaledEffects
-      );
-
+    it('should set animation timeline with scaled translate effects', () => {
+      // Create an element that should have scaling enabled (no rootMargin, targetElement, or shouldDisableScalingTranslations)
       const elementWithScaling = new Element({
         el: document.createElement('div'),
         props: { ...props, shouldDisableScalingTranslations: false },
@@ -215,6 +240,7 @@ describe('Element', () => {
         view,
       });
 
+      // Since shouldScaleTranslateEffects should be true, the timeline should contain view(block
       expect(
         elementWithScaling.el.style.getPropertyValue('animation-timeline')
       ).toContain('view(block');
@@ -223,10 +249,10 @@ describe('Element', () => {
     it('should set CSS custom properties for translate effects', () => {
       // The implementation uses scaledEffects for translateY and effects for translateX
       // The scaledEffects are modified by scaleTranslateEffectsForSlowerScroll
-      // Based on the test failure, the actual values are different from the mock defaults
+      // Based on the mock in scaleTranslateEffectsForSlowerScroll, the values should be:
       expect(element.style.getPropertyValue(CSSVariables.translateStartY)).toBe(
-        '-50px'
-      ); // This is the actual value being set
+        '0px'
+      );
       expect(element.style.getPropertyValue(CSSVariables.translateEndY)).toBe(
         '100px'
       );
