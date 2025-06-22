@@ -6,26 +6,8 @@ export type ParallaxStartEndEffects = {
 export enum Units {
   'px' = 'px',
   '%' = '%',
-  'vh' = 'vh',
-  'vw' = 'vw',
 }
-export type ValidUnits = keyof typeof Units;
-
-export enum RotationUnits {
-  'deg' = 'deg',
-  'turn' = 'turn',
-  'rad' = 'rad',
-}
-
-export enum ScaleUnits {
-  '' = '',
-}
-
-export type ValidScaleUnits = keyof typeof ScaleUnits;
-
-export type ValidRotationUnits = keyof typeof RotationUnits;
-
-export type AllValidUnits = ValidUnits | ValidRotationUnits | ValidScaleUnits;
+export type ValidTranslationUnits = keyof typeof Units;
 
 export enum ScrollAxis {
   'vertical' = 'vertical',
@@ -36,13 +18,13 @@ export type ValidScrollAxis = keyof typeof ScrollAxis;
 
 export type ParsedValueShape = {
   value: number;
-  unit: AllValidUnits;
+  unit: ValidTranslationUnits;
 };
 
 export type ParsedValueEffect = {
   start: number;
   end: number;
-  unit: AllValidUnits;
+  unit: ValidTranslationUnits;
   easing?: string;
 };
 
