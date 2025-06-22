@@ -8,7 +8,6 @@ import { parseTranslationProps } from './helpers/parseElementTransitionEffects';
 
 import { createId } from './utils/createId';
 import { parseValueAndUnit } from './utils/parseValueAndUnit';
-import { scaleBetween } from './utils/scaleBetween';
 
 export * from './types';
 
@@ -21,5 +20,4 @@ export {
   parseTranslationProps,
   createId,
   parseValueAndUnit,
-  scaleBetween,
 };
