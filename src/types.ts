@@ -95,41 +95,6 @@ export type CreateElementOptions = {
   props: ParallaxElementConfig;
 };
 
-export type EasingParams = [number, number, number, number];
-
-export enum EasingPreset {
-  ease = 'ease',
-  easeIn = 'easeIn',
-  easeOut = 'easeOut',
-  easeInOut = 'easeInOut',
-  easeInQuad = 'easeInQuad',
-  easeInCubic = 'easeInCubic',
-  easeInQuart = 'easeInQuart',
-  easeInQuint = 'easeInQuint',
-  easeInSine = 'easeInSine',
-  easeInExpo = 'easeInExpo',
-  easeInCirc = 'easeInCirc',
-  easeOutQuad = 'easeOutQuad',
-  easeOutCubic = 'easeOutCubic',
-  easeOutQuart = 'easeOutQuart',
-  easeOutQuint = 'easeOutQuint',
-  easeOutSine = 'easeOutSine',
-  easeOutExpo = 'easeOutExpo',
-  easeOutCirc = 'easeOutCirc',
-  easeInOutQuad = 'easeInOutQuad',
-  easeInOutCubic = 'easeInOutCubic',
-  easeInOutQuart = 'easeInOutQuart',
-  easeInOutQuint = 'easeInOutQuint',
-  easeInOutSine = 'easeInOutSine',
-  easeInOutExpo = 'easeInOutExpo',
-  easeInOutCirc = 'easeInOutCirc',
-  easeInBack = 'easeInBack',
-  easeOutBack = 'easeOutBack',
-  easeInOutBack = 'easeInOutBack',
-}
-
-export type ValidEasingPresets = keyof typeof EasingPreset;
-
 export type RootMarginShape = {
   top: number;
   bottom: number;
