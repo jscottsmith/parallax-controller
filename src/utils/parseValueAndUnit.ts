@@ -1,21 +1,10 @@
 import {
-  ScaleUnits,
   type ParsedValueShape,
-  RotationUnits,
   Units,
-  type AllValidUnits,
+  type ValidTranslationUnits,
 } from '../types';
 
-export const VALID_UNITS = [
-  ScaleUnits[''],
-  Units.px,
-  Units['%'],
-  Units['vh'],
-  Units['vw'],
-  RotationUnits.deg,
-  RotationUnits.turn,
-  RotationUnits.rad,
-];
+export const VALID_UNITS = [Units.px, Units['%']];
 
 /**
  * Determines the unit of a string and parses the value
@@ -23,7 +12,7 @@ export const VALID_UNITS = [
 
 export function parseValueAndUnit(
   str?: string | number,
-  defaultUnit: AllValidUnits = Units['%']
+  defaultUnit: ValidTranslationUnits = Units['%']
 ): ParsedValueShape {
   let out: ParsedValueShape = { value: 0, unit: defaultUnit };
 
