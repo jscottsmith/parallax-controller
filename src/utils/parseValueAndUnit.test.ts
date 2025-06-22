@@ -1,3 +1,4 @@
+import { describe, test, expect } from 'vitest';
 import { parseValueAndUnit } from './parseValueAndUnit';
 
 describe('Parse a string to get the value and unit in either pixels or percent', () => {

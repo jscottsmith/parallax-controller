@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest';
 import { parseTranslationProps } from './parseElementTransitionEffects';
 import type { CSSEffect } from '../types';
 import { ScrollAxis } from '../types';

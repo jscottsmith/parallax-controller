@@ -1,3 +1,4 @@
+import { describe, test, expect } from 'vitest';
 import type { ParsedValueEffect } from '../types';
 import { getStartEndValueInPx } from './getStartEndValueInPx';
 
