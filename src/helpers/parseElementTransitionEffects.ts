@@ -2,7 +2,7 @@ import {
   type ParsedValueEffect,
   type ParallaxElementConfig,
   type ParallaxStartEndEffects,
-  type AllValidUnits,
+  type ValidTranslationUnits,
   type CSSEffect,
   ScrollAxis,
   type ValidScrollAxis,
@@ -14,7 +14,7 @@ export const TRANSLATION_EFFECTS = ['translateX', 'translateY'] as const;
 export const SPEED_EFFECT = 'speed' as const;
 
 export const MAP_EFFECT_TO_DEFAULT_UNIT: {
-  [key in 'translateX' | 'translateY']: AllValidUnits;
+  [key in 'translateX' | 'translateY']: ValidTranslationUnits;
 } = {
   translateX: '%',
   translateY: '%',
@@ -58,7 +58,7 @@ export function parseTranslationProps(
 
   // Parse only translation effects
   TRANSLATION_EFFECTS.forEach((key) => {
-    const defaultValue: AllValidUnits = MAP_EFFECT_TO_DEFAULT_UNIT[key];
+    const defaultValue: ValidTranslationUnits = MAP_EFFECT_TO_DEFAULT_UNIT[key];
 
     if (Array.isArray(props?.[key])) {
       const value = props?.[key] as CSSEffect;
