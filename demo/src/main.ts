@@ -1,4 +1,4 @@
-import { ParallaxController } from '../../dist';
+import { ParallaxController } from '../../src';
 
 const parallaxController = new ParallaxController({
   scrollAxis: 'vertical',
@@ -7,7 +7,9 @@ const parallaxController = new ParallaxController({
 const parallaxElements = document.querySelectorAll('.parallax');
 
 parallaxElements.forEach((element, i) => {
-  const speed = (40 / (parallaxElements.length - 1)) * i - 20;
+  const h = Math.floor(parallaxElements.length / 2);
+  const n = i - h;
+  const speed = n * 10;
   parallaxController.createElement({
     el: element as HTMLElement,
     props: {
@@ -18,7 +20,7 @@ parallaxElements.forEach((element, i) => {
       onExit: (element) => {
         element.el.classList.remove('active');
       },
-      rotate: ['0turn', '1turn'],
+      // rotate: ['0turn', '1turn'],
       // easing: 'cubic-bezier(1.000, -0.005, 1.000, 0.035)',
     },
   });
@@ -35,16 +37,16 @@ disableButton?.addEventListener('click', () => {
   }
 });
 
-const topTest = document.querySelector('.top-test');
-parallaxController.createElement({
-  el: topTest as HTMLElement,
-  props: {
-    translateX: ['0px', '100px'],
-    startScroll: 0,
-    endScroll: 100,
-    // shouldAlwaysCompleteAnimation: true,
-  },
-});
+// const topTest = document.querySelector('.top-test');
+// parallaxController.createElement({
+//   el: topTest as HTMLElement,
+//   props: {
+//     translateX: ['0px', '100px'],
+//     startScroll: 0,
+//     endScroll: 100,
+//     // shouldAlwaysCompleteAnimation: true,
+//   },
+// });
 
 // const bottomTest = document.querySelector('.bottom-test');
 // parallaxController.createElement({

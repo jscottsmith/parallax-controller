@@ -1,0 +1,35 @@
+html {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 300vh;
+}
+
+section {
+  display: flex;
+  gap: 10px;
+}
+
+.top-test {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100px;
+  height: 100vh;
+  background-color: palevioletred;
+}
+.bottom-test {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100px;
+  height: 100vh;
+  background-color: rebeccapurple;
+}
+
+#disable {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+}
