@@ -1,9 +1,14 @@
 import { defineConfig } from 'tsup';
+import { copyFileSync } from 'fs';
+import { join } from 'path';
 
 export default defineConfig({
-  entry: ['src/index.ts', 'src/styles.css'],
+  entry: ['src/index.ts'],
   format: ['esm', 'cjs'],
-  dts: true,
+  dts: {
+    resolve: true,
+    entry: ['src/index.ts'], // Only generate DTS for TypeScript files
+  },
   splitting: false,
   sourcemap: true,
   clean: true,
@@ -13,10 +18,6 @@ export default defineConfig({
   outDir: 'dist',
   // Exclude test files and utilities from the build
   external: [],
-  // Ensure CSS files are handled properly
-  loader: {
-    '.css': 'copy',
-  },
   // Bundle configuration
   bundle: true,
   // Platform-specific settings
@@ -33,4 +34,13 @@ export default defineConfig({
   },
   // Copy CSS files to dist directory
   publicDir: false,
+  // Custom plugin to copy CSS file
+  plugins: [
+    {
+      name: 'copy-css',
+      buildEnd() {
+        copyFileSync('src/styles.css', 'dist/styles.css');
+      },
+    },
+  ],
 });
