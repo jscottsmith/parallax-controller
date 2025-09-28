@@ -1,7 +1,7 @@
 import { defineConfig } from 'tsup';
 
 export default defineConfig({
-  entry: ['src/index.ts'],
+  entry: ['src/index.ts', 'src/styles.css'],
   format: ['esm', 'cjs'],
   dts: true,
   splitting: false,
@@ -31,4 +31,6 @@ export default defineConfig({
   define: {
     'process.env.NODE_ENV': '"production"',
   },
+  // Copy CSS files to dist directory
+  publicDir: false,
 });
