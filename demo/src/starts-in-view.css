@@ -1,0 +1,12 @@
+html {
+  display: flex;
+  align-items: start;
+  justify-content: center;
+  height: 300vh;
+}
+
+section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}

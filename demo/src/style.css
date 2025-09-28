@@ -1,12 +1,19 @@
+@import url('../../src/styles.css');
+
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 html {
   /* color-scheme: light dark; */
   position: relative;
   font-family: system-ui;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 300vh;
-
   background-repeat: repeat;
   background-image:
     linear-gradient(
@@ -31,42 +38,14 @@ html {
     30px 30px;
 }
 
-section {
-  display: flex;
-  gap: 10px;
+.parallax {
+  width: 100px;
+  height: 100px;
+  background-color: peru;
+  transition: background-color 0.5s ease-in-out;
+  border-radius: 3px;
 
-  & > div {
-    width: 100px;
-    height: 100px;
-    background-color: peru;
-    transition: background-color 0.5s ease-in-out;
-
-    &.active {
-      background-color: red;
-    }
+  &.active {
+    background-color: slateblue;
   }
-}
-
-.top-test {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100px;
-  height: 100vh;
-  background-color: palevioletred;
-}
-.bottom-test {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100px;
-  height: 100vh;
-  background-color: rebeccapurple;
-}
-
-#disable {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 100;
 }
