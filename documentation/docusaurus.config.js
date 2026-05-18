@@ -70,7 +70,7 @@ const config = {
       announcementBar: {
         id: 'v2_waapi_scroll',
         content:
-          '🕹️ <a href="/docs/next/intro">Parallax Controller <strong>2.0 Beta</strong></a> uses the Web Animations API (WAAPI) for scroll-driven animations.',
+          '🕹️ <a href="/docs/v2/intro">Parallax Controller <strong>2.0 Beta</strong></a> uses the Web Animations API (WAAPI) for scroll-driven animations.',
         backgroundColor: 'var(--ifm-color-primary)',
         textColor: 'white',
         isCloseable: true,
@@ -120,20 +120,20 @@ const config = {
             items: [
               {
                 label: 'Introduction',
-                to: '/docs/intro',
+                to: '/docs/v2/intro',
               },
 
               {
-                to: '/docs/performance',
+                to: '/docs/v2/performance',
                 label: 'Performance',
               },
 
               {
-                to: '/docs/usage/basic-usage',
+                to: '/docs/v2/usage/basic-usage',
                 label: 'Usage',
               },
               {
-                to: '/docs/api/',
+                to: '/docs/v2/api/',
                 label: 'API',
               },
             ],
