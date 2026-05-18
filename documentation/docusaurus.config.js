@@ -32,9 +32,9 @@ const config = {
           lastVersion: '1.7.1',
           versions: {
             current: {
-              label: '2.0',
-              path: 'next',
-              banner: 'unreleased',
+              label: '2.0 Beta',
+              path: 'v2',
+              banner: 'none',
             },
             '1.7.1': {
               label: '1.7.1',
@@ -54,7 +54,7 @@ const config = {
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
       colorMode: {
-        defaultMode: 'system',
+        defaultMode: 'light',
         disableSwitch: false,
         respectPrefersColorScheme: true,
       },
@@ -70,7 +70,7 @@ const config = {
       announcementBar: {
         id: 'v2_waapi_scroll',
         content:
-          '🕹️ <a href="/docs/next/intro">Parallax Controller <strong>2.0</strong></a> uses the Web Animations API (WAAPI) for scroll-driven animations.',
+          '🕹️ <a href="/docs/next/intro">Parallax Controller <strong>2.0 Beta</strong></a> uses the Web Animations API (WAAPI) for scroll-driven animations.',
         backgroundColor: 'var(--ifm-color-primary)',
         textColor: 'white',
         isCloseable: true,
