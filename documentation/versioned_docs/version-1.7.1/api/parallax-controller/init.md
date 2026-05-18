@@ -1,6 +1,6 @@
 # Creating An Instance
 
-Use the `ParallaxController.init()` method to instantiate a new controller tied to a view. By default, one is created for `vertical` scrolling against the `window` (document viewport). You must call `init()` on the client; it throws if `window` is undefined (for example during SSR).
+Use the `ParallaxController.init()` method to instantiate a new controller tied to a view element. By default one will be created for `vertical` scrolling tied to the `body` scroll element.
 
 ```ts
 const instance = ParallaxController.init();
@@ -20,7 +20,7 @@ const instance = ParallaxController.init({
 
 ### Init Options
 
-The following options can be passed to `ParallaxController.init(...)`.
+The following option can be passed to `ParallaxController.init(...)`.
 
 | Option            |   Default    | Description                                                                |
 | ----------------- | :----------: | -------------------------------------------------------------------------- |

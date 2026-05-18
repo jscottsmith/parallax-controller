@@ -24,9 +24,19 @@ const config = {
       ({
         docs: {
           sidebarPath: require.resolve('./sidebars.js'),
-          // Please change this to your repo.
+          lastVersion: '1.7.1',
+          versions: {
+            current: {
+              label: '2.0',
+              path: 'next',
+              banner: 'unreleased',
+            },
+            '1.7.1': {
+              label: '1.7.1',
+            },
+          },
           editUrl:
-            'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
+            'https://github.com/jscottsmith/parallax-controller/tree/main/documentation/',
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
@@ -71,6 +81,10 @@ const config = {
             docId: 'api/index',
             position: 'left',
             label: 'API',
+          },
+          {
+            type: 'docsVersionDropdown',
+            position: 'right',
           },
           {
             href: 'https://github.com/jscottsmith/parallax-controller',
