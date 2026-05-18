@@ -1,7 +1,7 @@
 // @ts-check
 // Note: type annotations allow type checking and IDEs autocompletion
 
-const {themes} = require('prism-react-renderer');
+const { themes } = require('prism-react-renderer');
 const lightCodeTheme = themes.github;
 const darkCodeTheme = themes.dracula;
 
@@ -53,6 +53,11 @@ const config = {
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
+      colorMode: {
+        defaultMode: 'system',
+        disableSwitch: false,
+        respectPrefersColorScheme: true,
+      },
       algolia: {
         appId: 'YVJ9L8IGS3',
         // Public API key: it is safe to commit it
@@ -65,7 +70,7 @@ const config = {
       announcementBar: {
         id: 'v2_waapi_scroll',
         content:
-          '<a href="/docs/next/intro">Parallax Controller <strong>2.0</strong></a> uses the Web Animations API (WAAPI) for scroll-driven animations.',
+          '🕹️ <a href="/docs/next/intro">Parallax Controller <strong>2.0</strong></a> uses the Web Animations API (WAAPI) for scroll-driven animations.',
         backgroundColor: 'var(--ifm-color-primary)',
         textColor: 'white',
         isCloseable: true,
@@ -146,8 +151,7 @@ const config = {
               },
               {
                 label: 'Support',
-                href:
-                  'https://github.com/jscottsmith/parallax-controller/issues',
+                href: 'https://github.com/jscottsmith/parallax-controller/issues',
               },
             ],
           },
