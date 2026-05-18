@@ -57,6 +57,14 @@ const config = {
         externalUrlRegex: 'external\\.com|domain\\.com',
         searchParameters: {},
       },
+      announcementBar: {
+        id: 'v2_waapi_scroll',
+        content:
+          '<a href="/docs/next/intro">Parallax Controller <strong>2.0</strong></a> uses the Web Animations API (WAAPI) for scroll-driven animations.',
+        backgroundColor: 'var(--ifm-color-primary)',
+        textColor: 'white',
+        isCloseable: true,
+      },
       navbar: {
         title: 'Parallax Controller',
         logo: {
