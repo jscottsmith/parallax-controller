@@ -133,6 +133,13 @@ describe('Expect the ParallaxController', () => {
     });
   });
 
+  it('to init with no options', () => {
+    const controller = ParallaxController.init();
+    expect(controller.scrollAxis).toBe(ScrollAxis.vertical);
+    expect(controller.disabled).toBe(false);
+    controller.destroy();
+  });
+
   it('to add a resize observer', () => {
     const controller = ParallaxController.init({
       scrollAxis: ScrollAxis.vertical,
@@ -140,6 +147,21 @@ describe('Expect the ParallaxController', () => {
     // Instead of checking the constructor call, check the instance and that observe was called
     expect(controller._resizeObserver).toBeInstanceOf(global.ResizeObserver);
     expect(observeMock).toHaveBeenCalled();
+    controller.destroy();
+  });
+
+  it('reattaches resize observer when updateScrollContainer is called', () => {
+    const controller = ParallaxController.init({
+      scrollAxis: ScrollAxis.vertical,
+    });
+    const container = document.createElement('div');
+    observeMock.mockClear();
+    disconnectMock.mockClear();
+
+    controller.updateScrollContainer(container);
+
+    expect(disconnectMock).toHaveBeenCalled();
+    expect(observeMock).toHaveBeenCalledWith(container);
     controller.destroy();
   });
 

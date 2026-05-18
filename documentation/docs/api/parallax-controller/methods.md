@@ -49,7 +49,7 @@ parallaxController.resetElementStyles(element);
 
 ## updateScrollContainer()
 
-Updates the scroll container of the parallax controller.
+Updates the scroll container of the parallax controller. Rebuilds the internal view, reattaches window listeners, and re-creates the `ResizeObserver` on the new container (when the controller is not disabled).
 
 ```ts
 const el = document.getElementById('your-scroll-container');
