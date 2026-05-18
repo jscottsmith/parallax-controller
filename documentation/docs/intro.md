@@ -18,7 +18,7 @@ Core classes and controller for scroll-driven parallax effects powered by the We
 ## NPM Package
 
 ```bash
-npm install parallax-controller
+npm install parallax-controller@beta
 ```
 
 ## React Integration
