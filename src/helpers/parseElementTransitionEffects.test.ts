@@ -17,13 +17,11 @@ describe('parseTranslationProps', () => {
         start: 0,
         end: 0,
         unit: '%',
-        easing: undefined,
       },
       translateX: {
         start: 0,
         end: 0,
         unit: '%',
-        easing: undefined,
       },
     });
   });
@@ -41,13 +39,11 @@ describe('parseTranslationProps', () => {
         start: 100,
         end: -50,
         unit: 'px',
-        easing: undefined,
       },
       translateX: {
         start: 100,
         end: 300,
         unit: '%',
-        easing: undefined,
       },
     });
   });
@@ -66,13 +62,11 @@ describe('parseTranslationProps', () => {
         start: 100,
         end: -50,
         unit: 'px',
-        easing: undefined,
       },
       translateX: {
         start: 100,
         end: 300,
         unit: '%',
-        easing: undefined,
       },
     });
   });
@@ -113,6 +107,20 @@ describe('parseTranslationProps', () => {
 
   it('ignores and omits effects if no values are provided', () => {
     expect(parseTranslationProps({}, ScrollAxis.vertical)).toEqual({});
+  });
+
+  it('parses easing from the 3rd tuple entry', () => {
+    const props = {
+      translateY: [0, 100, 'ease-in'] as CSSEffect,
+    };
+    expect(parseTranslationProps(props, ScrollAxis.vertical)).toEqual({
+      translateY: {
+        start: 0,
+        end: 100,
+        unit: '%',
+        easing: 'ease-in',
+      },
+    });
   });
 
   it("to throw if matching units aren't provided for translation effects", () => {
