@@ -12,10 +12,10 @@ if (existsSync(distPath)) {
   rmSync(distPath, { recursive: true, force: true });
 }
 
-// Run tsup build
-console.log('🔨 Building with tsup...');
+// Run tsdown build
+console.log('🔨 Building with tsdown...');
 try {
-  execSync('npx tsup', { stdio: 'inherit' });
+  execSync('npx tsdown', { stdio: 'inherit' });
   console.log('✅ Build completed successfully!');
 } catch (error) {
   console.error('❌ Build failed:', error.message);
