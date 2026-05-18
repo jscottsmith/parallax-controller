@@ -33,7 +33,7 @@ parallaxController.updateElementPropsById(element.id, newProps);
 
 ## removeElementById()
 
-Removes an element from the controller by ID (does not call `destroy()` on the element).
+Removes and element by a given ID
 
 ```ts
 parallaxController.removeElementById(element.id);
@@ -41,7 +41,7 @@ parallaxController.removeElementById(element.id);
 
 ## resetElementStyles()
 
-Resets parallax styles on a managed element (the `Element` instance returned from `createElement()`, not a raw DOM node).
+Remove a target elements parallax styles
 
 ```ts
 parallaxController.resetElementStyles(element);
@@ -56,29 +56,9 @@ const el = document.getElementById('your-scroll-container');
 parallaxController.updateScrollContainer(el);
 ```
 
-## disable()
-
-Disables the controller: removes window listeners and the resize observer, and disables all managed elements.
-
-```ts
-parallaxController.disable();
-```
-
-`disableParallaxController()` is an alias for `disable()`.
-
-## enable()
-
-Re-enables the controller: restores listeners, the resize observer, view size, and all managed elements.
-
-```ts
-parallaxController.enable();
-```
-
-`enableParallaxController()` is an alias for `enable()`.
-
 ## disableParallaxController()
 
-Alias for [`disable()`](#disable).
+Disables the Parallax Controller.
 
 ```ts
 parallaxController.disableParallaxController();
@@ -86,7 +66,7 @@ parallaxController.disableParallaxController();
 
 ## enableParallaxController()
 
-Alias for [`enable()`](#enable).
+Enables the Parallax Controller.
 
 ```ts
 parallaxController.enableParallaxController();

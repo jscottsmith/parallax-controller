@@ -13,7 +13,7 @@ sidebar_position: 1
 [![Size](https://github.com/jscottsmith/parallax-controller/actions/workflows/size.yml/badge.svg)](https://github.com/jscottsmith/parallax-controller/actions/workflows/size.yml)
 [![Coverage](https://github.com/jscottsmith/parallax-controller/actions/workflows/coverage.yml/badge.svg)](https://github.com/jscottsmith/parallax-controller/actions/workflows/coverage.yml)
 
-Core classes and controller for scroll-driven parallax effects powered by the Web Animations API. Each element is driven by a `ScrollTimeline` or `ViewTimeline`—translate, rotate, scale, and opacity keyframes advance with scroll progress on the compositor, without per-frame style writes. Use explicit scroll offsets when you need a fixed window, or let view timelines tie motion to when elements enter, cross, and leave the scrollport, with layout-aware `animation-range` tuning so effects finish at the right moment.
+Core classes and controller for creating parallax scrolling effects. Designed to provide scroll based animations for elements relative to the view. Built for performance by caching important attributes that cause reflow and layout when accessing.
 
 ## NPM Package
 
