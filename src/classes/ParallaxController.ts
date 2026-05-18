@@ -36,7 +36,7 @@ export class ParallaxController {
    * Static method to instantiate the ParallaxController.
    * @returns {Class} ParallaxController
    */
-  static init(options: ParallaxControllerOptions): ParallaxController {
+  static init(options?: ParallaxControllerOptions): ParallaxController {
     const hasWindow = typeof window !== 'undefined';
 
     if (!hasWindow) {
@@ -52,7 +52,7 @@ export class ParallaxController {
     scrollAxis = ScrollAxis.vertical,
     scrollContainer,
     disabled = false,
-  }: ParallaxControllerOptions) {
+  }: ParallaxControllerOptions = {}) {
     this.disabled = disabled;
     this.scrollAxis = scrollAxis;
     this.elements = [];
@@ -322,6 +322,9 @@ export class ParallaxController {
     });
     this._setViewSize();
     this._addListeners();
+    if (!this.disabled) {
+      this._addResizeObserver();
+    }
     this._updateAllElements();
     this._syncProgressScrollSampling();
     this._flushProgressCallbacks();
