@@ -12,14 +12,6 @@ Core classes and controller for scroll-driven parallax effects powered by the We
 
 ## NPM Package
 
-Via Yarn
-
-```bash
-yarn add parallax-controller
-```
-
-or NPM
-
 ```bash
 npm install parallax-controller
 ```
@@ -33,7 +25,7 @@ npm install parallax-controller
 If you're building with React use `react-scroll-parallax`, a set of hooks and components to easily create effects and interact with the `parallax-controller`.
 
 ```bash
-yarn add react-scroll-parallax
+npm install react-scroll-parallax
 ```
 
 See the [React Scroll Parallax documentation](https://react-scroll-parallax.damnthat.tv/) for usage and demos.
