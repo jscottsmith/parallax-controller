@@ -154,7 +154,6 @@ export class Element {
    */
   private syncIntersectionObserver() {
     const wants = this.wantsIntersectionCallbacks();
-    const target = wants ? this.getProgressTarget() : null;
     const root = this.getIntersectionRoot();
 
     if (
@@ -165,6 +164,8 @@ export class Element {
       this.disconnectIntersectionObserver();
       return;
     }
+
+    const target = this.getProgressTarget();
 
     if (
       this.intersectionObserver &&
