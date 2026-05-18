@@ -33,6 +33,25 @@ export function getViewTimelineCtor(): ViewTimelineCtor | undefined {
     .ViewTimeline;
 }
 
+/** Browser constructor for `GroupEffect` (layered keyframe composition). */
+export type GroupEffectCtor = new (children: KeyframeEffect[]) => AnimationEffect;
+
+/** `Animation` constructor accepting scroll-driven options as the second argument. */
+export type ComposedAnimationCtor = new (
+  effect: AnimationEffect,
+  options?: KeyframeAnimationOptions
+) => Animation;
+
+export function getGroupEffectCtor(): GroupEffectCtor | undefined {
+  return (globalThis as unknown as { GroupEffect?: GroupEffectCtor })
+    .GroupEffect;
+}
+
+export function getComposedAnimationCtor(): ComposedAnimationCtor | undefined {
+  return (globalThis as unknown as { Animation?: ComposedAnimationCtor })
+    .Animation;
+}
+
 /** True when the browser can run scroll-linked WAAPI (`ViewTimeline` + `ScrollTimeline` + `animate`). */
 export function supportsScrollDrivenAnimations(): boolean {
   return (

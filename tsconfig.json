@@ -21,7 +21,7 @@
     "forceConsistentCasingInFileNames": true,
     "isolatedModules": true,
     "verbatimModuleSyntax": true,
-    "types": ["vitest/globals", "node"],
+    "types": ["vitest/globals"],
     "resolveJsonModule": true,
     "allowJs": false,
     "noEmit": true

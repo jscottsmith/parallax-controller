@@ -1,5 +1,9 @@
 import type { ParallaxAnimateOptions } from './parallaxAnimateOptions';
 import type { ParallaxKeyframeLayer } from './parallaxKeyframes';
+import {
+  getComposedAnimationCtor,
+  getGroupEffectCtor,
+} from './support';
 
 function toAnimationOptions(
   spec: ParallaxAnimateOptions,
@@ -39,11 +43,10 @@ export function createParallaxAnimation(
     );
   }
 
-  const GroupEffectCtor = globalThis.GroupEffect;
-  const KeyframeEffectCtor = globalThis.KeyframeEffect;
-  const AnimationCtor = globalThis.Animation;
+  const GroupEffectCtor = getGroupEffectCtor();
+  const AnimationCtor = getComposedAnimationCtor();
 
-  if (!GroupEffectCtor || !KeyframeEffectCtor || !AnimationCtor) {
+  if (!GroupEffectCtor || typeof KeyframeEffect === 'undefined' || !AnimationCtor) {
     return el.animate(
       layers[0].keyframes,
       toAnimationOptions(spec, layers[0].easing) as KeyframeAnimationOptions
@@ -60,14 +63,11 @@ export function createParallaxAnimation(
     } else if (index > 0 && layer.keyframes[0]?.transform != null) {
       options.composite = 'add';
     }
-    return new KeyframeEffectCtor(el, layer.keyframes, options);
+    return new KeyframeEffect(el, layer.keyframes, options);
   });
 
   const animationOptions = toAnimationOptions(spec, layers[0].easing);
   delete animationOptions.easing;
 
-  return new AnimationCtor(
-    new GroupEffectCtor(children),
-    animationOptions as KeyframeAnimationOptions
-  );
+  return new AnimationCtor(new GroupEffectCtor(children), animationOptions);
 }
