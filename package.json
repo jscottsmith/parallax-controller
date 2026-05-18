@@ -1,8 +1,8 @@
 {
-  "version": "2.0.0-alpha.0",
+  "version": "2.0.0-beta.0",
   "author": "J Scott Smith",
   "name": "parallax-controller",
-  "description": "@TODO",
+  "description": "Scroll-driven parallax controller: elements, layout-derived timing, and transform effects for the DOM.",
   "keywords": [
     "scroll",
     "effects",
@@ -24,8 +24,7 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
-    },
-    "./styles.css": "./dist/styles.css"
+    }
   },
   "files": [
     "dist"
@@ -41,9 +40,10 @@
     "node": ">=20"
   },
   "scripts": {
-    "build": "tsup",
-    "build:watch": "tsup --watch",
-    "dev": "tsup --watch",
+    "build": "tsdown",
+    "build:watch": "tsdown --watch",
+    "clean": "rimraf dist",
+    "dev": "tsdown --watch",
     "prepublishOnly": "npm run clean && npm run build",
     "demo:start": "pnpm run build:watch & cd demo && pnpm run start",
     "test": "vitest",
@@ -64,7 +64,7 @@
     "jsdom": "^27.0.0",
     "prettier": "^3.6.2",
     "rimraf": "^6.0.1",
-    "tsup": "^8.5.0",
+    "tsdown": "^0.22.0",
     "tsx": "^4.20.6",
     "typescript": "^5.9.2",
     "vitest": "^3.2.4"

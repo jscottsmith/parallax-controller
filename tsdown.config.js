@@ -1,0 +1,18 @@
+import { defineConfig } from 'tsdown';
+
+export default defineConfig({
+  entry: 'src/index.ts',
+  outDir: 'dist',
+  format: ['esm', 'cjs'],
+  dts: true,
+  clean: true,
+  sourcemap: true,
+  minify: false,
+  splitting: false,
+  treeshake: true,
+  target: 'es2022',
+  platform: 'browser',
+  define: {
+    'process.env.NODE_ENV': '"production"',
+  },
+});
